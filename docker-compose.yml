@@ -1,0 +1,65 @@
+version: '3.8'
+
+services:
+  innexar-website:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: innexar-website
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - NEXT_TELEMETRY_DISABLED=1
+      # Resend Configuration (recomendado)
+      - RESEND_API_KEY=${RESEND_API_KEY:-}
+      - RESEND_FROM_EMAIL=${RESEND_FROM_EMAIL:-comercial@innexar.app}
+      # Email de destino
+      - CONTACT_RECIPIENT_EMAIL=${CONTACT_RECIPIENT_EMAIL:-comercial@innexar.app}
+      # Resposta automática
+      - ENABLE_AUTO_REPLY=${ENABLE_AUTO_REPLY:-true}
+      # SMTP Mailcow Configuration
+      - SMTP_HOST=${SMTP_HOST:-mail.innexar.app}
+      - SMTP_PORT=${SMTP_PORT:-587}
+      - SMTP_SECURE=${SMTP_SECURE:-false}
+      - SMTP_USER=${SMTP_USER:-comercial@innexar.app}
+      - SMTP_PASSWORD=${SMTP_PASSWORD:-}
+      - SMTP_FROM_EMAIL=${SMTP_FROM_EMAIL:-comercial@innexar.app}
+    env_file:
+      - .env
+    networks:
+      - traefik-network
+    labels:
+      - "traefik.enable=true"
+      # Roteamento para innexar.app
+      - "traefik.http.routers.innexar.rule=Host(`innexar.app`) || Host(`www.innexar.app`)"
+      - "traefik.http.routers.innexar.entrypoints=websecure"
+      - "traefik.http.routers.innexar.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.innexar.service=innexar-service"
+      # Redirecionar www para não-www (opcional)
+      - "traefik.http.routers.innexar-www.rule=Host(`www.innexar.app`)"
+      - "traefik.http.routers.innexar-www.entrypoints=websecure"
+      - "traefik.http.routers.innexar-www.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.innexar-www.middlewares=redirect-to-non-www"
+      - "traefik.http.middlewares.redirect-to-non-www.redirectregex.regex=^https://www\\.innexar\\.app/(.*)"
+      - "traefik.http.middlewares.redirect-to-non-www.redirectregex.replacement=https://innexar.app/$${1}"
+      - "traefik.http.middlewares.redirect-to-non-www.redirectregex.permanent=true"
+      # Serviço
+      - "traefik.http.services.innexar-service.loadbalancer.server.port=3000"
+      - "traefik.http.services.innexar-service.loadbalancer.passHostHeader=true"
+      # Timeout e retry
+      - "traefik.http.middlewares.innexar-timeout.forwardauth.address="
+      - "traefik.http.middlewares.innexar-timeout.forwardauth.trustForwardHeader=true"
+      - "traefik.http.middlewares.innexar-retry.retry.attempts=3"
+      - "traefik.http.routers.innexar.middlewares=innexar-retry"
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://127.0.0.1:3000"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+networks:
+  traefik-network:
+    external: true
+
