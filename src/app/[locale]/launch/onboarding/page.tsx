@@ -18,61 +18,40 @@ import { MetaPixel } from '@/lib/meta-pixel'
 // ============ CONFIGURATION ============
 const TOTAL_STEPS = 7
 
-const steps = [
-    { id: 1, title: 'Business Info', icon: Building2, description: 'Tell us about your business' },
-    { id: 2, title: 'Location', icon: MapPin, description: 'Where do you operate?' },
-    { id: 3, title: 'Services', icon: Briefcase, description: 'What services do you offer?' },
-    { id: 4, title: 'Site Goals', icon: Target, description: 'What should your site do?' },
-    { id: 5, title: 'Design', icon: Palette, description: 'Choose your visual style' },
-    { id: 6, title: 'Details', icon: Clock, description: 'Business hours & social links' },
-    { id: 7, title: 'Testimonials', icon: Star, description: 'Customer reviews & about' },
-]
+// Steps, niches, pages etc. will be defined inside component to use translations
 
-const niches = [
-    { id: 'restaurant', label: 'Restaurant / Food', icon: Utensils },
-    { id: 'lawyer', label: 'Lawyer / Legal', icon: Scale },
-    { id: 'dentist', label: 'Dentist / Medical', icon: Stethoscope },
-    { id: 'real_estate', label: 'Real Estate', icon: Home },
-    { id: 'plumber', label: 'Plumber', icon: Wrench },
-    { id: 'electrician', label: 'Electrician', icon: Zap },
-    { id: 'landscaping', label: 'Landscaping', icon: TreeDeciduous },
-    { id: 'cleaning', label: 'Cleaning', icon: Sparkle },
-    { id: 'general', label: 'General Business', icon: Briefcase },
-    { id: 'other', label: 'Other', icon: Building2 },
-]
+// Icons mapping for niches (labels will be translated inside component)
+const nicheIcons = {
+    restaurant: Utensils,
+    lawyer: Scale,
+    dentist: Stethoscope,
+    real_estate: Home,
+    plumber: Wrench,
+    electrician: Zap,
+    landscaping: TreeDeciduous,
+    cleaning: Sparkle,
+    general: Briefcase,
+    other: Building2,
+}
 
-const pages = [
-    { id: 'home', label: 'Home', required: true },
-    { id: 'about', label: 'About Us' },
-    { id: 'services', label: 'Services' },
-    { id: 'contact', label: 'Contact', required: true },
-    { id: 'gallery', label: 'Gallery / Portfolio' },
-    { id: 'testimonials', label: 'Testimonials' },
-    { id: 'faq', label: 'FAQ' },
-    { id: 'pricing', label: 'Pricing' },
-    { id: 'team', label: 'Our Team' },
-    { id: 'blog', label: 'Blog' },
-]
+// Page options (labels will be translated)
+const pageOptions = ['home', 'about', 'services', 'contact', 'gallery', 'testimonials', 'faq', 'pricing', 'team', 'blog']
 
-const objectives = [
-    { id: 'generate_leads', label: 'Generate Leads', desc: 'Get more phone calls and inquiries', icon: Phone },
-    { id: 'show_portfolio', label: 'Show Portfolio', desc: 'Display your work and projects', icon: Image },
-    { id: 'build_trust', label: 'Build Trust', desc: 'Establish credibility online', icon: Users },
-    { id: 'inform', label: 'Inform Customers', desc: 'Share information about your business', icon: FileText },
-]
+// Objective icons
+const objectiveIcons = {
+    generate_leads: Phone,
+    show_portfolio: Image,
+    build_trust: Users,
+    inform: FileText,
+}
 
-const tones = [
-    { id: 'professional', label: 'Professional', desc: 'Corporate and trustworthy' },
-    { id: 'friendly', label: 'Friendly', desc: 'Warm and approachable' },
-    { id: 'premium', label: 'Premium', desc: 'Luxury and exclusive' },
-]
-
-const ctaOptions = [
-    { id: 'call', label: 'Call Now', icon: Phone },
-    { id: 'whatsapp', label: 'WhatsApp', icon: MessageCircle },
-    { id: 'form', label: 'Contact Form', icon: FileText },
-    { id: 'book_online', label: 'Book Online', icon: Calendar },
-]
+// CTA icons
+const ctaIcons = {
+    call: Phone,
+    whatsapp: MessageCircle,
+    form: FileText,
+    book_online: Calendar,
+}
 
 const colorPalettes = [
     { id: 'blue', primary: '#2563eb', secondary: '#1e40af', accent: '#3b82f6', name: 'Professional Blue' },
@@ -141,6 +120,24 @@ function OnboardingContent() {
     const t = useTranslations('launch')
     const searchParams = useSearchParams()
     const orderId = searchParams.get('order_id')
+
+    // Translated configuration arrays
+    const steps = [
+        { id: 1, title: t('onboarding.steps.step1'), icon: Building2, description: t('onboarding.steps.step1Desc') },
+        { id: 2, title: t('onboarding.steps.step2'), icon: MapPin, description: t('onboarding.steps.step2Desc') },
+        { id: 3, title: t('onboarding.steps.step3'), icon: Briefcase, description: t('onboarding.steps.step3Desc') },
+        { id: 4, title: t('onboarding.steps.step4'), icon: Target, description: t('onboarding.steps.step4Desc') },
+        { id: 5, title: t('onboarding.steps.step5'), icon: Palette, description: t('onboarding.steps.step5Desc') },
+        { id: 6, title: t('onboarding.steps.step6'), icon: Clock, description: t('onboarding.steps.step6Desc') },
+        { id: 7, title: t('onboarding.steps.step7'), icon: Star, description: t('onboarding.steps.step7Desc') },
+    ]
+
+    const objectives = [
+        { id: 'generate_leads', label: t('onboarding.form.objectives.leads'), icon: objectiveIcons.generate_leads },
+        { id: 'show_portfolio', label: t('onboarding.form.objectives.info'), icon: objectiveIcons.show_portfolio },
+        { id: 'build_trust', label: t('onboarding.form.objectives.credibility'), icon: objectiveIcons.build_trust },
+        { id: 'inform', label: t('onboarding.form.objectives.bookings'), icon: objectiveIcons.inform },
+    ]
 
     const [currentStep, setCurrentStep] = useState(1)
     const [isSubmitting, setIsSubmitting] = useState(false)
@@ -424,7 +421,7 @@ function OnboardingContent() {
                         transition={{ delay: 0.3 }}
                         className="text-3xl font-bold text-white mb-2"
                     >
-                        Congratulations!
+                        {t('onboarding.complete.title')}
                     </motion.h1>
 
                     <motion.p
@@ -433,7 +430,7 @@ function OnboardingContent() {
                         transition={{ delay: 0.4 }}
                         className="text-lg text-green-400 font-medium mb-4"
                     >
-                        {formData.businessName ? `${formData.businessName}'s website is on the way!` : "You're All Set!"}
+                        {t('onboarding.complete.subtitle')}
                     </motion.p>
 
                     <motion.p
@@ -442,8 +439,7 @@ function OnboardingContent() {
                         transition={{ delay: 0.5 }}
                         className="text-slate-300 mb-8"
                     >
-                        Our team has received your information and is now crafting your perfect website.
-                        You'll receive your site preview within 5 business days.
+                        {t('onboarding.complete.message')}
                     </motion.p>
 
                     <motion.div
@@ -487,7 +483,7 @@ function OnboardingContent() {
                             className="flex items-center justify-center gap-2 w-full py-4 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 rounded-xl font-bold text-white shadow-lg shadow-blue-500/25 transition-all"
                         >
                             <LayoutDashboard className="w-5 h-5" />
-                            Track Your Project
+                            {t('onboarding.complete.dashboardButton')}
                         </a>
                         <a
                             href="/"
@@ -567,33 +563,33 @@ function OnboardingContent() {
                     {currentStep === 1 && (
                         <div className="space-y-6">
                             <div>
-                                <label className="block text-sm font-medium text-slate-300 mb-2">Business Name *</label>
+                                <label className="block text-sm font-medium text-slate-300 mb-2">{t('onboarding.form.businessName')} *</label>
                                 <input
                                     type="text"
                                     value={formData.businessName}
                                     onChange={e => updateField('businessName', e.target.value)}
-                                    placeholder="e.g., Joe's Plumbing"
+                                    placeholder={t('onboarding.form.businessNamePlaceholder')}
                                     className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-blue-500"
                                 />
                             </div>
                             <div className="grid md:grid-cols-2 gap-4">
                                 <div>
-                                    <label className="block text-sm font-medium text-slate-300 mb-2">Business Email *</label>
+                                    <label className="block text-sm font-medium text-slate-300 mb-2">{t('onboarding.form.email')} *</label>
                                     <input
                                         type="email"
                                         value={formData.businessEmail}
                                         onChange={e => updateField('businessEmail', e.target.value)}
-                                        placeholder="contact@business.com"
+                                        placeholder={t('onboarding.form.emailPlaceholder')}
                                         className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-blue-500"
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-slate-300 mb-2">Phone Number *</label>
+                                    <label className="block text-sm font-medium text-slate-300 mb-2">{t('onboarding.form.phone')} *</label>
                                     <input
                                         type="tel"
                                         value={formData.businessPhone}
                                         onChange={e => updateField('businessPhone', e.target.value)}
-                                        placeholder="(555) 123-4567"
+                                        placeholder={t('onboarding.form.phonePlaceholder')}
                                         className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-blue-500"
                                     />
                                 </div>
@@ -605,15 +601,15 @@ function OnboardingContent() {
                                     onChange={e => updateField('hasWhatsapp', e.target.checked)}
                                     className="w-5 h-5 rounded border-white/20 bg-white/10"
                                 />
-                                <span className="text-slate-300">This number has WhatsApp</span>
+                                <span className="text-slate-300">{t('onboarding.form.hasWhatsApp')}</span>
                             </label>
                             <div>
-                                <label className="block text-sm font-medium text-slate-300 mb-2">Business Address (Optional)</label>
+                                <label className="block text-sm font-medium text-slate-300 mb-2">{t('onboarding.form.address')}</label>
                                 <input
                                     type="text"
                                     value={formData.businessAddress}
                                     onChange={e => updateField('businessAddress', e.target.value)}
-                                    placeholder="123 Main St, City, State"
+                                    placeholder={t('onboarding.form.addressPlaceholder')}
                                     className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-blue-500"
                                 />
                             </div>
