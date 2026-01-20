@@ -35,7 +35,7 @@ export function initMetaPixel(pixelId?: string): void {
     }
 
     // Prevent duplicate initialization
-    if (typeof window !== 'undefined' && window.fbq) {
+    if (typeof window !== 'undefined' && typeof window.fbq === 'function') {
         return
     }
 
