@@ -26,36 +26,36 @@
       "title": "Multi-Tenant Architecture",
       "description": "Secure, isolated environments for each client with shared infrastructure for optimal cost efficiency."
     },
-  "saasSelector": {
-    "hero": {
-      "badge": "Our SaaS Platforms",
-      "title": "Choose your",
-      "highlight": "SaaS solution",
-      "subtitle": "We offer two powerful SaaS solutions: the multi-tenant Innexar ERP and StructurOne, focused on construction and real estate.",
-      "cta": "Get Started"
-    },
-    "title": "Choose Innexar's SaaS platform",
-    "subtitle": "We offer two SaaS solutions: the multi-tenant Innexar ERP and StructurOne, focused on construction and real estate.",
-    "innexar": {
-      "title": "Innexar ERP",
-      "description": "Multi-tenant, rebrandable ERP SaaS for small and medium businesses with inventory, sales, financial modules and more.",
-      "points": [
-        "Multi-company and multi-user",
-        "Subdomains per client with automatic provisioning",
-        "Commercial, administrative and operational management"
-      ],
-      "cta": "View Innexar ERP details"
-    },
-    "structurone": {
-      "title": "StructurOne",
-      "description": "Specialized SaaS for developers and construction companies to manage projects, sales, investors and financials.",
-      "points": [
-        "Onboarding by country (CNPJ, EIN, etc.)",
-        "Modules for projects, investors and financials",
-        "Integrated billing with Stripe and Asaas"
-      ],
-      "cta": "View StructurOne details"
-    }
+    "saasSelector": {
+      "hero": {
+        "badge": "Our SaaS Platforms",
+        "title": "Choose your",
+        "highlight": "SaaS solution",
+        "subtitle": "We offer two powerful SaaS solutions: the multi-tenant Innexar ERP and StructurOne, focused on construction and real estate.",
+        "cta": "Get Started"
+      },
+      "title": "Choose Innexar's SaaS platform",
+      "subtitle": "We offer two SaaS solutions: the multi-tenant Innexar ERP and StructurOne, focused on construction and real estate.",
+      "innexar": {
+        "title": "Innexar ERP",
+        "description": "Multi-tenant, rebrandable ERP SaaS for small and medium businesses with inventory, sales, financial modules and more.",
+        "points": [
+          "Multi-company and multi-user",
+          "Subdomains per client with automatic provisioning",
+          "Commercial, administrative and operational management"
+        ],
+        "cta": "View Innexar ERP details"
+      },
+      "structurone": {
+        "title": "StructurOne",
+        "description": "Specialized SaaS for developers and construction companies to manage projects, sales, investors and financials.",
+        "points": [
+          "Onboarding by country (CNPJ, EIN, etc.)",
+          "Modules for projects, investors and financials",
+          "Integrated billing with Stripe and Asaas"
+        ],
+        "cta": "View StructurOne details"
+      }
     },
     "feature2": {
       "title": "Automated Provisioning",
@@ -141,80 +141,80 @@
       "uptimeSla": "99.9% Uptime SLA",
       "dailyBackups": "Daily Backups"
     },
-  "structurone": {
-    "title": "StructurOne - Construction & Real Estate Management",
-    "subtitle": "A specialized SaaS platform by Innexar for developers and construction companies to manage projects, sales, investors and financials.",
-    "hero": {
-      "badge": "SaaS focused on construction industry",
-      "watchDemo": "Watch StructurOne demo",
-      "clientDashboard": "StructurOne Dashboard",
-      "benefits": [
-        "Onboarding by country (CNPJ, EIN, etc.)",
-        "Modules for projects, investors and financials",
-        "Multi-tenant with subdomains per company",
-        "Integrated billing (Stripe & Asaas) per country/currency"
-      ],
-      "cta": "Talk to us about StructurOne",
-      "mock": {
-        "projects": "Active projects",
-        "volume": "Total GDV under management",
-        "project1": "Horizonte Tower",
-        "status1": "Under construction",
-        "project2": "Vista Business Center",
-        "status2": "Launch",
-        "project3": "Jardim Condominium",
-        "status3": "Delivered"
-      }
-    },
-    "pricing": {
-      "title": "StructurOne Plans",
-      "subtitle": "Pricing designed for construction and real estate companies of different sizes.",
-      "perMonth": "/month",
-      "selectPlan": "Start with this plan",
-      "plans": [
-        {
-          "slug": "essential",
-          "name": "Essential",
-          "price": "$39",
-          "description": "For small developers leaving spreadsheets behind and organizing up to 3 projects.",
-          "features": [
-            "Up to 3 active developments",
-            "Up to 3 users",
-            "Basic financial dashboard",
-            "Simple investor tracking",
-            "Standard PDF reports"
-          ]
-        },
-        {
-          "slug": "professional",
-          "name": "Professional",
-          "price": "$99",
-          "description": "Ideal for growing developers with a portfolio of multiple projects.",
-          "highlight": "Best seller",
-          "features": [
-            "Up to 20 active developments",
-            "Up to 20 users",
-            "Advanced dashboards (sales, funding, works)",
-            "Full investor module",
-            "Approval and governance workflows",
-            "Advanced exports (CSV / Excel)",
-            "Priority support during business hours"
-          ]
-        },
-        {
-          "slug": "enterprise",
-          "name": "Enterprise",
-          "price": "$349",
-          "description": "For groups, holdings and large developers with multiple entities.",
-          "features": [
-            "Unlimited developments",
-            "Unlimited users",
-            "Multiple entities / tenants",
-            "Custom reports and integrations",
-            "Dedicated support with SLA",
-            "Personalized onboarding and training"
-          ]
+    "structurone": {
+      "title": "StructurOne - Construction & Real Estate Management",
+      "subtitle": "A specialized SaaS platform by Innexar for developers and construction companies to manage projects, sales, investors and financials.",
+      "hero": {
+        "badge": "SaaS focused on construction industry",
+        "watchDemo": "Watch StructurOne demo",
+        "clientDashboard": "StructurOne Dashboard",
+        "benefits": [
+          "Onboarding by country (CNPJ, EIN, etc.)",
+          "Modules for projects, investors and financials",
+          "Multi-tenant with subdomains per company",
+          "Integrated billing (Stripe & Asaas) per country/currency"
+        ],
+        "cta": "Talk to us about StructurOne",
+        "mock": {
+          "projects": "Active projects",
+          "volume": "Total GDV under management",
+          "project1": "Horizonte Tower",
+          "status1": "Under construction",
+          "project2": "Vista Business Center",
+          "status2": "Launch",
+          "project3": "Jardim Condominium",
+          "status3": "Delivered"
         }
+      },
+      "pricing": {
+        "title": "StructurOne Plans",
+        "subtitle": "Pricing designed for construction and real estate companies of different sizes.",
+        "perMonth": "/month",
+        "selectPlan": "Start with this plan",
+        "plans": [
+          {
+            "slug": "essential",
+            "name": "Essential",
+            "price": "$39",
+            "description": "For small developers leaving spreadsheets behind and organizing up to 3 projects.",
+            "features": [
+              "Up to 3 active developments",
+              "Up to 3 users",
+              "Basic financial dashboard",
+              "Simple investor tracking",
+              "Standard PDF reports"
+            ]
+          },
+          {
+            "slug": "professional",
+            "name": "Professional",
+            "price": "$99",
+            "description": "Ideal for growing developers with a portfolio of multiple projects.",
+            "highlight": "Best seller",
+            "features": [
+              "Up to 20 active developments",
+              "Up to 20 users",
+              "Advanced dashboards (sales, funding, works)",
+              "Full investor module",
+              "Approval and governance workflows",
+              "Advanced exports (CSV / Excel)",
+              "Priority support during business hours"
+            ]
+          },
+          {
+            "slug": "enterprise",
+            "name": "Enterprise",
+            "price": "$349",
+            "description": "For groups, holdings and large developers with multiple entities.",
+            "features": [
+              "Unlimited developments",
+              "Unlimited users",
+              "Multiple entities / tenants",
+              "Custom reports and integrations",
+              "Dedicated support with SLA",
+              "Personalized onboarding and training"
+            ]
+          }
         ]
       }
     },
@@ -304,10 +304,22 @@
     },
     "callout": "Scale faster",
     "metrics": [
-      { "value": "120+", "label": "Digital launches delivered" },
-      { "value": "45%", "label": "Average conversion uplift" },
-      { "value": "6x", "label": "Faster release cadence" },
-      { "value": "24/7", "label": "Bilingual support & SLAs" }
+      {
+        "value": "120+",
+        "label": "Digital launches delivered"
+      },
+      {
+        "value": "45%",
+        "label": "Average conversion uplift"
+      },
+      {
+        "value": "6x",
+        "label": "Faster release cadence"
+      },
+      {
+        "value": "24/7",
+        "label": "Bilingual support & SLAs"
+      }
     ],
     "outcome": {
       "title": "Outcomes you can measure",
@@ -536,10 +548,22 @@
         "title": "Proven Track Record",
         "subtitle": "Numbers that speak to our commitment to excellence and client success",
         "stats": [
-          { "number": "500+", "label": "Projects Completed" },
-          { "number": "98%", "label": "Client Satisfaction" },
-          { "number": "250+", "label": "Happy Clients" },
-          { "number": "15+", "label": "Countries Served" }
+          {
+            "number": "500+",
+            "label": "Projects Completed"
+          },
+          {
+            "number": "98%",
+            "label": "Client Satisfaction"
+          },
+          {
+            "number": "250+",
+            "label": "Happy Clients"
+          },
+          {
+            "number": "15+",
+            "label": "Countries Served"
+          }
         ]
       },
       "testimonials": {
@@ -623,7 +647,14 @@
         "Agile methodology",
         "24/7 support"
       ],
-      "technologies": ["React", "Node.js", "Python", "TypeScript", "AWS", "Docker"]
+      "technologies": [
+        "React",
+        "Node.js",
+        "Python",
+        "TypeScript",
+        "AWS",
+        "Docker"
+      ]
     },
     "infrastructure": {
       "title": "Infrastructure & DevOps",
@@ -636,7 +667,14 @@
         "Monitoring & alerting",
         "Cost optimization"
       ],
-      "technologies": ["AWS", "Azure", "Kubernetes", "Terraform", "Jenkins", "Prometheus"]
+      "technologies": [
+        "AWS",
+        "Azure",
+        "Kubernetes",
+        "Terraform",
+        "Jenkins",
+        "Prometheus"
+      ]
     },
     "consulting": {
       "title": "Technology Consulting",
@@ -649,7 +687,14 @@
         "Change management",
         "ROI maximization"
       ],
-      "technologies": ["Enterprise Architecture", "Digital Strategy", "Process Mining", "Analytics", "AI/ML", "Blockchain"]
+      "technologies": [
+        "Enterprise Architecture",
+        "Digital Strategy",
+        "Process Mining",
+        "Analytics",
+        "AI/ML",
+        "Blockchain"
+      ]
     },
     "support": {
       "title": "Support & Maintenance",
@@ -662,7 +707,14 @@
         "Performance optimization",
         "Security updates"
       ],
-      "technologies": ["Monitoring Tools", "ITSM", "Automation", "Security Patches", "Performance Tuning", "Backup Solutions"]
+      "technologies": [
+        "Monitoring Tools",
+        "ITSM",
+        "Automation",
+        "Security Patches",
+        "Performance Tuning",
+        "Backup Solutions"
+      ]
     },
     "cta": {
       "title": "Ready to Transform Your Business?",
@@ -688,10 +740,22 @@
       "primaryCta": "Work With Us",
       "secondaryCta": "View Portfolio",
       "metrics": [
-        { "value": "5+", "label": "Years of Excellence" },
-        { "value": "50+", "label": "Projects Delivered" },
-        { "value": "100%", "label": "Client Satisfaction" },
-        { "value": "24/7", "label": "Support Available" }
+        {
+          "value": "5+",
+          "label": "Years of Excellence"
+        },
+        {
+          "value": "50+",
+          "label": "Projects Delivered"
+        },
+        {
+          "value": "100%",
+          "label": "Client Satisfaction"
+        },
+        {
+          "value": "24/7",
+          "label": "Support Available"
+        }
       ]
     },
     "title": "About Innexar",
@@ -941,7 +1005,7 @@
       {
         "title": "Product squad",
         "description": "A self-managed squad shipping incrementally with UX, engineering, QA and analytics built-in.",
-          "badge": "Monthly retainer",
+        "badge": "Monthly retainer",
         "items": [
           "Roadmap delivery with agile ceremonies",
           "Design system, codebase & automation ownership",
@@ -973,8 +1037,14 @@
     "secondaryCta": "Download the checklist",
     "secondaryLink": "#contact",
     "stats": [
-      { "value": "2-4 weeks", "label": "Average time to MVP launchpad" },
-      { "value": "99.9%", "label": "Cloud architectures uptime designed" }
+      {
+        "value": "2-4 weeks",
+        "label": "Average time to MVP launchpad"
+      },
+      {
+        "value": "99.9%",
+        "label": "Cloud architectures uptime designed"
+      }
     ],
     "footnote": "We sign NDAs, collaborate asynchronously across time zones and integrate with your tools from day one.",
     "secondaryCta": "Fill out checklist"
@@ -1106,10 +1176,22 @@
       "cta": "Get in Touch",
       "consultation": "Schedule Consultation",
       "stats": [
-        { "value": "15+", "label": "Blockchain Projects" },
-        { "value": "5+", "label": "Years Experience" },
-        { "value": "10+", "label": "Smart Contracts" },
-        { "value": "24/7", "label": "Technical Support" }
+        {
+          "value": "15+",
+          "label": "Blockchain Projects"
+        },
+        {
+          "value": "5+",
+          "label": "Years Experience"
+        },
+        {
+          "value": "10+",
+          "label": "Smart Contracts"
+        },
+        {
+          "value": "24/7",
+          "label": "Technical Support"
+        }
       ]
     },
     "services": {
@@ -1188,22 +1270,70 @@
       "title": "Technologies We Use",
       "subtitle": "We work with the leading technologies and blockchains in the market",
       "items": [
-        { "name": "Ethereum", "category": "blockchains" },
-        { "name": "Polygon", "category": "blockchains" },
-        { "name": "Binance Smart Chain", "category": "blockchains" },
-        { "name": "Solana", "category": "blockchains" },
-        { "name": "Avalanche", "category": "blockchains" },
-        { "name": "Solidity", "category": "languages" },
-        { "name": "Rust", "category": "languages" },
-        { "name": "JavaScript/TypeScript", "category": "languages" },
-        { "name": "Web3.js", "category": "frameworks" },
-        { "name": "Ethers.js", "category": "frameworks" },
-        { "name": "Hardhat", "category": "frameworks" },
-        { "name": "Truffle", "category": "frameworks" },
-        { "name": "IPFS", "category": "infrastructure" },
-        { "name": "The Graph", "category": "infrastructure" },
-        { "name": "MetaMask", "category": "tools" },
-        { "name": "Remix", "category": "tools" }
+        {
+          "name": "Ethereum",
+          "category": "blockchains"
+        },
+        {
+          "name": "Polygon",
+          "category": "blockchains"
+        },
+        {
+          "name": "Binance Smart Chain",
+          "category": "blockchains"
+        },
+        {
+          "name": "Solana",
+          "category": "blockchains"
+        },
+        {
+          "name": "Avalanche",
+          "category": "blockchains"
+        },
+        {
+          "name": "Solidity",
+          "category": "languages"
+        },
+        {
+          "name": "Rust",
+          "category": "languages"
+        },
+        {
+          "name": "JavaScript/TypeScript",
+          "category": "languages"
+        },
+        {
+          "name": "Web3.js",
+          "category": "frameworks"
+        },
+        {
+          "name": "Ethers.js",
+          "category": "frameworks"
+        },
+        {
+          "name": "Hardhat",
+          "category": "frameworks"
+        },
+        {
+          "name": "Truffle",
+          "category": "frameworks"
+        },
+        {
+          "name": "IPFS",
+          "category": "infrastructure"
+        },
+        {
+          "name": "The Graph",
+          "category": "infrastructure"
+        },
+        {
+          "name": "MetaMask",
+          "category": "tools"
+        },
+        {
+          "name": "Remix",
+          "category": "tools"
+        }
       ]
     },
     "consulting": {
@@ -1258,10 +1388,21 @@
       "emailLabel": "Email",
       "addressLabel": "Address",
       "phones": [
-        { "label": "United States", "display": "+1 407 473-6081", "href": "+14074736081" },
-        { "label": "Brazil", "display": "+55 11 5108-5266", "href": "+551151085266" }
+        {
+          "label": "United States",
+          "display": "+1 407 473-6081",
+          "href": "+14074736081"
+        },
+        {
+          "label": "Brazil",
+          "display": "+55 11 5108-5266",
+          "href": "+551151085266"
+        }
       ],
-      "addressLines": ["13013 Yardsley Ct", "Orlando, Florida 32837"]
+      "addressLines": [
+        "13013 Yardsley Ct",
+        "Orlando, Florida 32837"
+      ]
     },
     "title": "Get in Touch",
     "subtitle": "Ready to start your next project?",
@@ -1272,11 +1413,22 @@
       "emailValue": "sales@innexar.app",
       "phone": "Phone",
       "phones": [
-        { "label": "United States", "display": "+1 407 473-6081", "href": "+14074736081" },
-        { "label": "Brazil", "display": "+55 11 5108-5266", "href": "+551151085266" }
+        {
+          "label": "United States",
+          "display": "+1 407 473-6081",
+          "href": "+14074736081"
+        },
+        {
+          "label": "Brazil",
+          "display": "+55 11 5108-5266",
+          "href": "+551151085266"
+        }
       ],
       "address": "United States Office",
-      "addressLines": ["13013 Yardsley Ct", "Orlando, Florida 32837"],
+      "addressLines": [
+        "13013 Yardsley Ct",
+        "Orlando, Florida 32837"
+      ],
       "hours": {
         "title": "Business Hours",
         "weekdays": "Monday - Friday: 9:00 AM - 6:00 PM",
@@ -1308,30 +1460,90 @@
         "message": "Tell us about your project, goals, and any specific requirements..."
       },
       "projectTypes": [
-        { "value": "web", "label": "Web Development" },
-        { "value": "saas", "label": "SaaS Platform" },
-        { "value": "mobile", "label": "Mobile App" },
-        { "value": "ecommerce", "label": "E-commerce" },
-        { "value": "erp", "label": "ERP System" },
-        { "value": "integration", "label": "System Integration" },
-        { "value": "consulting", "label": "Consulting" },
-        { "value": "other", "label": "Other" }
+        {
+          "value": "web",
+          "label": "Web Development"
+        },
+        {
+          "value": "saas",
+          "label": "SaaS Platform"
+        },
+        {
+          "value": "mobile",
+          "label": "Mobile App"
+        },
+        {
+          "value": "ecommerce",
+          "label": "E-commerce"
+        },
+        {
+          "value": "erp",
+          "label": "ERP System"
+        },
+        {
+          "value": "integration",
+          "label": "System Integration"
+        },
+        {
+          "value": "consulting",
+          "label": "Consulting"
+        },
+        {
+          "value": "other",
+          "label": "Other"
+        }
       ],
       "budgetRanges": [
-        { "value": "under-10k", "label": "Under $10,000" },
-        { "value": "10k-25k", "label": "$10,000 - $25,000" },
-        { "value": "25k-50k", "label": "$25,000 - $50,000" },
-        { "value": "50k-100k", "label": "$50,000 - $100,000" },
-        { "value": "100k-250k", "label": "$100,000 - $250,000" },
-        { "value": "over-250k", "label": "Over $250,000" },
-        { "value": "discuss", "label": "Prefer to discuss" }
+        {
+          "value": "under-10k",
+          "label": "Under $10,000"
+        },
+        {
+          "value": "10k-25k",
+          "label": "$10,000 - $25,000"
+        },
+        {
+          "value": "25k-50k",
+          "label": "$25,000 - $50,000"
+        },
+        {
+          "value": "50k-100k",
+          "label": "$50,000 - $100,000"
+        },
+        {
+          "value": "100k-250k",
+          "label": "$100,000 - $250,000"
+        },
+        {
+          "value": "over-250k",
+          "label": "Over $250,000"
+        },
+        {
+          "value": "discuss",
+          "label": "Prefer to discuss"
+        }
       ],
       "timelines": [
-        { "value": "asap", "label": "As soon as possible" },
-        { "value": "1-3months", "label": "1-3 months" },
-        { "value": "3-6months", "label": "3-6 months" },
-        { "value": "6-12months", "label": "6-12 months" },
-        { "value": "planning", "label": "Just planning" }
+        {
+          "value": "asap",
+          "label": "As soon as possible"
+        },
+        {
+          "value": "1-3months",
+          "label": "1-3 months"
+        },
+        {
+          "value": "3-6months",
+          "label": "3-6 months"
+        },
+        {
+          "value": "6-12months",
+          "label": "6-12 months"
+        },
+        {
+          "value": "planning",
+          "label": "Just planning"
+        }
       ],
       "errors": {
         "nameRequired": "Name is required",
@@ -1404,9 +1616,18 @@
       "subtitle": "Discover the digital products, platforms, and systems we've built for clients across industries.",
       "cta": "Start Your Project",
       "stats": [
-        { "value": "50+", "label": "Projects Completed" },
-        { "value": "30+", "label": "Happy Clients" },
-        { "value": "5+", "label": "Years Experience" }
+        {
+          "value": "50+",
+          "label": "Projects Completed"
+        },
+        {
+          "value": "30+",
+          "label": "Happy Clients"
+        },
+        {
+          "value": "5+",
+          "label": "Years Experience"
+        }
       ]
     },
     "title": "Our Portfolio",
@@ -1426,8 +1647,16 @@
     "top": {
       "emailValue": "sales@innexar.app",
       "phones": [
-        { "label": "United States", "display": "+1 407 473-6081", "href": "+14074736081" },
-        { "label": "Brazil", "display": "+55 11 5108-5266", "href": "+551151085266" }
+        {
+          "label": "United States",
+          "display": "+1 407 473-6081",
+          "href": "+14074736081"
+        },
+        {
+          "label": "Brazil",
+          "display": "+55 11 5108-5266",
+          "href": "+551151085266"
+        }
       ],
       "cta": "Request a proposal"
     }
@@ -1467,6 +1696,234 @@
       "title": "SaaS - Software as a Service Platforms",
       "description": "Discover our SaaS platforms: Innexar ERP and StructurOne. Complete and scalable business solutions.",
       "keywords": "SaaS, software as a service, ERP, business management, SaaS platforms"
+    }
+  },
+  "launch": {
+    "hero": {
+      "badge": "Launch Special",
+      "title": "Professional Website",
+      "highlight": "in 5 Days",
+      "subtitle": "Get a stunning, conversion-optimized website for your local business. No templates. No hassle. Just results.",
+      "price": "$399",
+      "originalPrice": "$799",
+      "savings": "Save 50%",
+      "cta": "Get Started Now",
+      "guarantee": "30-day money-back guarantee"
+    },
+    "features": {
+      "title": "Everything Included",
+      "responsive": "100% Responsive",
+      "responsiveDesc": "Perfect on all devices",
+      "seo": "SEO Optimized",
+      "seoDesc": "Rank higher on Google",
+      "fast": "Lightning Fast",
+      "fastDesc": "Under 2s load time",
+      "support": "30-Day Support",
+      "supportDesc": "We're here to help"
+    },
+    "process": {
+      "title": "How It Works",
+      "step1": "Pay & Get Started",
+      "step1Desc": "Secure checkout in 2 minutes",
+      "step2": "Tell Us About Your Business",
+      "step2Desc": "Simple 7-step onboarding form",
+      "step3": "We Design & Build",
+      "step3Desc": "Our team creates your site",
+      "step4": "Review & Launch",
+      "step4Desc": "Preview, feedback, go live!"
+    },
+    "addons": {
+      "title": "Boost Your Package",
+      "logo": "Professional Logo",
+      "logoDesc": "3 unique concepts",
+      "seo": "Local SEO Pro",
+      "seoDesc": "Advanced optimization",
+      "extraPage": "Extra Page",
+      "extraPageDesc": "Additional custom page",
+      "whatsapp": "WhatsApp Widget",
+      "whatsappDesc": "Direct messaging",
+      "googleBusiness": "Google Business",
+      "googleBusinessDesc": "Complete GMB setup"
+    },
+    "testimonials": {
+      "title": "Trusted by Local Businesses",
+      "review1": "Best investment for my plumbing business. Got 3x more calls!",
+      "review1Author": "Mike Johnson",
+      "review1Business": "Johnson Plumbing",
+      "review2": "Professional, fast, and affordable. Highly recommend!",
+      "review2Author": "Sarah Martinez",
+      "review2Business": "Clean & Shine Services",
+      "review3": "My restaurant looks amazing online now. Worth every penny.",
+      "review3Author": "Carlos Rivera",
+      "review3Business": "Rivera's Kitchen"
+    },
+    "faq": {
+      "title": "Frequently Asked Questions",
+      "q1": "What's included in the base package?",
+      "a1": "5-page responsive website, mobile optimization, contact forms, SEO basics, and 30 days of post-launch support.",
+      "q2": "How long does it take?",
+      "a2": "Most sites are delivered within 5 business days after you complete the onboarding form.",
+      "q3": "What about my domain?",
+      "a3": "You purchase and own your domain. We help you connect it to your new website at no extra charge.",
+      "q4": "Is there ongoing support?",
+      "a4": "30 days of post-launch support is included. Extended support packages are available as an add-on.",
+      "q5": "How does the process work?",
+      "a5": "After payment, you fill out a simple onboarding form. Our team designs your site, sends a preview, and after your feedback, we deliver."
+    },
+    "cta": {
+      "total": "Total",
+      "checkout": "Proceed to Checkout",
+      "processing": "Processing...",
+      "secure": "Secure payment via Stripe"
+    },
+    "success": {
+      "title": "Payment Confirmed!",
+      "subtitle": "Thank you for your purchase",
+      "message": "Your professional website is on the way! Next step: complete the onboarding form.",
+      "orderSummary": "Order Summary",
+      "orderId": "Order ID",
+      "redirecting": "Redirecting to onboarding in",
+      "seconds": "seconds",
+      "continueButton": "Continue to Onboarding",
+      "dashboardLink": "Or view your project dashboard",
+      "timeline": {
+        "step1": "Payment Confirmed",
+        "step1Desc": "You're all set!",
+        "step2": "Onboarding",
+        "step2Desc": "Tell us about your business",
+        "step3": "Review",
+        "step3Desc": "Preview your site",
+        "step4": "Launch",
+        "step4Desc": "Go live!"
+      }
+    },
+    "onboarding": {
+      "title": "Let's Build Your Website",
+      "subtitle": "Tell us about your business so we can create the perfect site for you",
+      "steps": {
+        "step1": "Business Info",
+        "step1Desc": "Tell us about your business",
+        "step2": "Location & Niche",
+        "step2Desc": "Where you operate",
+        "step3": "Services",
+        "step3Desc": "What you offer",
+        "step4": "Site Goals",
+        "step4Desc": "Pages and objectives",
+        "step5": "Design",
+        "step5Desc": "Colors and style",
+        "step6": "Hours & Social",
+        "step6Desc": "Contact information",
+        "step7": "Testimonials",
+        "step7Desc": "Customer reviews"
+      },
+      "form": {
+        "businessName": "Business Name",
+        "businessNamePlaceholder": "Your Company Name",
+        "email": "Business Email",
+        "emailPlaceholder": "email@yourbusiness.com",
+        "phone": "Phone Number",
+        "phonePlaceholder": "(555) 123-4567",
+        "hasWhatsApp": "This number has WhatsApp",
+        "address": "Business Address",
+        "addressPlaceholder": "123 Main St, City, State",
+        "niche": "Business Category",
+        "selectNiche": "Select your industry...",
+        "city": "Primary City",
+        "cityPlaceholder": "City where you operate",
+        "state": "State",
+        "statePlaceholder": "ST",
+        "serviceAreas": "Service Areas",
+        "serviceAreasPlaceholder": "Add other cities you serve",
+        "addArea": "Add",
+        "services": "Services You Offer",
+        "servicesPlaceholder": "Add a service...",
+        "addService": "Add",
+        "primaryService": "Main Service",
+        "siteObjective": "Main Goal of Your Website",
+        "objectives": {
+          "leads": "Generate Leads / Calls",
+          "info": "Showcase Services",
+          "bookings": "Online Bookings",
+          "credibility": "Build Credibility"
+        },
+        "siteDescription": "Brief Description",
+        "siteDescriptionPlaceholder": "Describe your business in a few sentences...",
+        "selectPages": "Select Pages for Your Site",
+        "requiredPages": "Required",
+        "colorPalette": "Choose a Color Palette",
+        "designNotes": "Design Notes",
+        "designNotesPlaceholder": "Any specific design requests?",
+        "referenceSites": "Reference Websites",
+        "referencePlaceholder": "https://example.com",
+        "addReference": "Add",
+        "businessHours": "Business Hours",
+        "socialMedia": "Social Media Links",
+        "testimonials": "Customer Testimonials",
+        "addTestimonial": "Add Testimonial",
+        "testimonialName": "Customer Name",
+        "testimonialRole": "Role/Title",
+        "testimonialText": "Testimonial",
+        "googleReviews": "Google Reviews Link",
+        "aboutOwner": "About the Owner",
+        "aboutOwnerPlaceholder": "A brief bio for the About page...",
+        "yearsInBusiness": "Years in Business"
+      },
+      "navigation": {
+        "previous": "Previous",
+        "next": "Next Step",
+        "submit": "Submit & Launch",
+        "submitting": "Submitting..."
+      },
+      "complete": {
+        "title": "You're All Set!",
+        "subtitle": "Your onboarding is complete",
+        "message": "Our team will start working on your website right away. You'll receive updates via email.",
+        "dashboardButton": "View Project Dashboard",
+        "timeline": "Expected Timeline: 5 business days"
+      }
+    },
+    "dashboard": {
+      "title": "Your Project Dashboard",
+      "subtitle": "Track your website progress",
+      "orderDetails": "Order Details",
+      "status": "Status",
+      "statuses": {
+        "pending": "Pending",
+        "designing": "In Design",
+        "development": "In Development",
+        "review": "Ready for Review",
+        "revisions": "In Revisions",
+        "completed": "Completed",
+        "delivered": "Delivered"
+      },
+      "timeline": {
+        "title": "Project Timeline",
+        "payment": "Payment Received",
+        "onboarding": "Onboarding Complete",
+        "design": "Design Phase",
+        "development": "Development",
+        "review": "Your Review",
+        "launch": "Site Launch"
+      },
+      "orderSummary": {
+        "title": "Order Summary",
+        "basePackage": "Professional Website",
+        "addons": "Add-ons",
+        "total": "Total"
+      },
+      "actions": {
+        "title": "Quick Actions",
+        "viewPreview": "View Preview",
+        "requestChanges": "Request Changes",
+        "approveDesign": "Approve Design",
+        "contactSupport": "Contact Support"
+      },
+      "support": {
+        "title": "Need Help?",
+        "message": "Our team is here to assist you.",
+        "email": "Email Us",
+        "whatsapp": "WhatsApp"
+      }
     }
   }
 }
