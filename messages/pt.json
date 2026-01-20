@@ -1864,9 +1864,13 @@
         "siteObjective": "Objetivo Principal do Site",
         "objectives": {
           "leads": "Gerar Leads / Ligações",
+          "leadsDesc": "Receber mais ligações e consultas",
           "info": "Mostrar Serviços",
+          "infoDesc": "Exibir seu trabalho e portfólio",
           "bookings": "Agendamentos Online",
-          "credibility": "Construir Credibilidade"
+          "bookingsDesc": "Permitir agendamentos online",
+          "credibility": "Construir Credibilidade",
+          "credibilityDesc": "Estabelecer confiança com clientes"
         },
         "siteDescription": "Descrição Breve",
         "siteDescriptionPlaceholder": "Descreva seu negócio em algumas frases...",
@@ -1888,7 +1892,45 @@
         "googleReviews": "Link do Google Avaliações",
         "aboutOwner": "Sobre o Proprietário",
         "aboutOwnerPlaceholder": "Uma breve bio para a página Sobre...",
-        "yearsInBusiness": "Anos no Mercado"
+        "yearsInBusiness": "Anos no Mercado",
+        "niches": {
+          "restaurant": "Restaurante / Alimentação",
+          "lawyer": "Advogado / Jurídico",
+          "dentist": "Dentista / Saúde",
+          "realEstate": "Imobiliário",
+          "plumber": "Encanador",
+          "electrician": "Eletricista",
+          "landscaping": "Paisagismo",
+          "cleaning": "Limpeza",
+          "general": "Negócio Geral",
+          "other": "Outro"
+        },
+        "pages": {
+          "home": "Início",
+          "about": "Sobre Nós",
+          "services": "Serviços",
+          "contact": "Contato",
+          "gallery": "Galeria / Portfólio",
+          "testimonials": "Depoimentos",
+          "faq": "FAQ",
+          "pricing": "Preços",
+          "team": "Nossa Equipe",
+          "blog": "Blog"
+        },
+        "tones": {
+          "professional": "Profissional",
+          "professionalDesc": "Corporativo e confiável",
+          "friendly": "Amigável",
+          "friendlyDesc": "Caloroso e acessível",
+          "premium": "Premium",
+          "premiumDesc": "Luxuoso e exclusivo"
+        },
+        "cta": {
+          "call": "Ligar Agora",
+          "whatsapp": "WhatsApp",
+          "form": "Formulário de Contato",
+          "bookOnline": "Agendar Online"
+        }
       },
       "navigation": {
         "previous": "Anterior",

@@ -133,10 +133,53 @@ function OnboardingContent() {
     ]
 
     const objectives = [
-        { id: 'generate_leads', label: t('onboarding.form.objectives.leads'), icon: objectiveIcons.generate_leads },
-        { id: 'show_portfolio', label: t('onboarding.form.objectives.info'), icon: objectiveIcons.show_portfolio },
-        { id: 'build_trust', label: t('onboarding.form.objectives.credibility'), icon: objectiveIcons.build_trust },
-        { id: 'inform', label: t('onboarding.form.objectives.bookings'), icon: objectiveIcons.inform },
+        { id: 'generate_leads', label: t('onboarding.form.objectives.leads'), desc: t('onboarding.form.objectives.leadsDesc'), icon: objectiveIcons.generate_leads },
+        { id: 'show_portfolio', label: t('onboarding.form.objectives.info'), desc: t('onboarding.form.objectives.infoDesc'), icon: objectiveIcons.show_portfolio },
+        { id: 'build_trust', label: t('onboarding.form.objectives.credibility'), desc: t('onboarding.form.objectives.credibilityDesc'), icon: objectiveIcons.build_trust },
+        { id: 'inform', label: t('onboarding.form.objectives.bookings'), desc: t('onboarding.form.objectives.bookingsDesc'), icon: objectiveIcons.inform },
+    ]
+
+    // Translated niches
+    const niches = [
+        { id: 'restaurant', label: t('onboarding.form.niches.restaurant'), icon: nicheIcons.restaurant },
+        { id: 'lawyer', label: t('onboarding.form.niches.lawyer'), icon: nicheIcons.lawyer },
+        { id: 'dentist', label: t('onboarding.form.niches.dentist'), icon: nicheIcons.dentist },
+        { id: 'real_estate', label: t('onboarding.form.niches.realEstate'), icon: nicheIcons.real_estate },
+        { id: 'plumber', label: t('onboarding.form.niches.plumber'), icon: nicheIcons.plumber },
+        { id: 'electrician', label: t('onboarding.form.niches.electrician'), icon: nicheIcons.electrician },
+        { id: 'landscaping', label: t('onboarding.form.niches.landscaping'), icon: nicheIcons.landscaping },
+        { id: 'cleaning', label: t('onboarding.form.niches.cleaning'), icon: nicheIcons.cleaning },
+        { id: 'general', label: t('onboarding.form.niches.general'), icon: nicheIcons.general },
+        { id: 'other', label: t('onboarding.form.niches.other'), icon: nicheIcons.other },
+    ]
+
+    // Translated pages
+    const pages = [
+        { id: 'home', label: t('onboarding.form.pages.home'), required: true },
+        { id: 'about', label: t('onboarding.form.pages.about') },
+        { id: 'services', label: t('onboarding.form.pages.services') },
+        { id: 'contact', label: t('onboarding.form.pages.contact'), required: true },
+        { id: 'gallery', label: t('onboarding.form.pages.gallery') },
+        { id: 'testimonials', label: t('onboarding.form.pages.testimonials') },
+        { id: 'faq', label: t('onboarding.form.pages.faq') },
+        { id: 'pricing', label: t('onboarding.form.pages.pricing') },
+        { id: 'team', label: t('onboarding.form.pages.team') },
+        { id: 'blog', label: t('onboarding.form.pages.blog') },
+    ]
+
+    // Translated tones
+    const tones = [
+        { id: 'professional', label: t('onboarding.form.tones.professional'), desc: t('onboarding.form.tones.professionalDesc') },
+        { id: 'friendly', label: t('onboarding.form.tones.friendly'), desc: t('onboarding.form.tones.friendlyDesc') },
+        { id: 'premium', label: t('onboarding.form.tones.premium'), desc: t('onboarding.form.tones.premiumDesc') },
+    ]
+
+    // Translated CTA options
+    const ctaOptions = [
+        { id: 'call', label: t('onboarding.form.cta.call'), icon: ctaIcons.call },
+        { id: 'whatsapp', label: t('onboarding.form.cta.whatsapp'), icon: ctaIcons.whatsapp },
+        { id: 'form', label: t('onboarding.form.cta.form'), icon: ctaIcons.form },
+        { id: 'book_online', label: t('onboarding.form.cta.bookOnline'), icon: ctaIcons.book_online },
     ]
 
     const [currentStep, setCurrentStep] = useState(1)
@@ -620,7 +663,7 @@ function OnboardingContent() {
                     {currentStep === 2 && (
                         <div className="space-y-6">
                             <div>
-                                <label className="block text-sm font-medium text-slate-300 mb-3">Business Type *</label>
+                                <label className="block text-sm font-medium text-slate-300 mb-3">{t('onboarding.form.niche')} *</label>
                                 <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
                                     {niches.map(niche => {
                                         const NicheIcon = niche.icon
@@ -644,7 +687,7 @@ function OnboardingContent() {
                             </div>
                             <div className="grid md:grid-cols-2 gap-4">
                                 <div>
-                                    <label className="block text-sm font-medium text-slate-300 mb-2">Primary City *</label>
+                                    <label className="block text-sm font-medium text-slate-300 mb-2">{t('onboarding.form.city')} *</label>
                                     <input
                                         type="text"
                                         value={formData.primaryCity}
@@ -654,7 +697,7 @@ function OnboardingContent() {
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-slate-300 mb-2">State *</label>
+                                    <label className="block text-sm font-medium text-slate-300 mb-2">{t('onboarding.form.state')} *</label>
                                     <select
                                         value={formData.state}
                                         onChange={e => updateField('state', e.target.value)}
@@ -668,7 +711,7 @@ function OnboardingContent() {
                                 </div>
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-slate-300 mb-2">Other Service Areas (Optional)</label>
+                                <label className="block text-sm font-medium text-slate-300 mb-2">{t('onboarding.form.serviceAreas')}</label>
                                 <div className="flex gap-2">
                                     <input
                                         type="text"
@@ -702,7 +745,7 @@ function OnboardingContent() {
                     {currentStep === 3 && (
                         <div className="space-y-6">
                             <div>
-                                <label className="block text-sm font-medium text-slate-300 mb-2">Add Your Services (up to 15) *</label>
+                                <label className="block text-sm font-medium text-slate-300 mb-2">{t('onboarding.form.services')} *</label>
                                 <div className="flex gap-2">
                                     <input
                                         type="text"
@@ -752,7 +795,7 @@ function OnboardingContent() {
                     {currentStep === 4 && (
                         <div className="space-y-8">
                             <div>
-                                <label className="block text-sm font-medium text-slate-300 mb-3">What's the main goal of your website? *</label>
+                                <label className="block text-sm font-medium text-slate-300 mb-3">{t('onboarding.form.siteObjective')} *</label>
                                 <div className="grid md:grid-cols-2 gap-3">
                                     {objectives.map(obj => {
                                         const ObjIcon = obj.icon
@@ -780,7 +823,7 @@ function OnboardingContent() {
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-slate-300 mb-3">Select pages for your site (5 included):</label>
+                                <label className="block text-sm font-medium text-slate-300 mb-3">{t('onboarding.form.selectPages')}</label>
                                 <div className="grid grid-cols-2 md:grid-cols-5 gap-2">
                                     {pages.map(page => (
                                         <motion.button
@@ -801,7 +844,7 @@ function OnboardingContent() {
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-slate-300 mb-2">Brief Description (Optional)</label>
+                                <label className="block text-sm font-medium text-slate-300 mb-2">{t('onboarding.form.siteDescription')}</label>
                                 <textarea
                                     value={formData.siteDescription}
                                     onChange={e => updateField('siteDescription', e.target.value)}
@@ -866,7 +909,7 @@ function OnboardingContent() {
                     {currentStep === 5 && (
                         <div className="space-y-8">
                             <div>
-                                <label className="block text-sm font-medium text-slate-300 mb-3">Choose a Color Palette</label>
+                                <label className="block text-sm font-medium text-slate-300 mb-3">{t('onboarding.form.colorPalette')}</label>
                                 <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                                     {colorPalettes.filter(p => p.id !== 'custom').map(palette => (
                                         <motion.button
@@ -968,7 +1011,7 @@ function OnboardingContent() {
                     {currentStep === 6 && (
                         <div className="space-y-8">
                             <div>
-                                <label className="block text-sm font-medium text-slate-300 mb-3">Business Hours (Optional)</label>
+                                <label className="block text-sm font-medium text-slate-300 mb-3">{t('onboarding.form.businessHours')}</label>
                                 <div className="grid gap-2">
                                     {[
                                         { key: 'mon', label: 'Monday' },
@@ -994,7 +1037,7 @@ function OnboardingContent() {
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-slate-300 mb-3">Social Media Links (Optional)</label>
+                                <label className="block text-sm font-medium text-slate-300 mb-3">{t('onboarding.form.socialMedia')}</label>
                                 <div className="grid md:grid-cols-2 gap-4">
                                     <div>
                                         <label className="text-xs text-slate-400 flex items-center gap-2 mb-1"><Facebook className="w-4 h-4" /> Facebook</label>
@@ -1045,7 +1088,7 @@ function OnboardingContent() {
                     {currentStep === 7 && (
                         <div className="space-y-8">
                             <div>
-                                <label className="block text-sm font-medium text-slate-300 mb-3">Customer Testimonials (Optional)</label>
+                                <label className="block text-sm font-medium text-slate-300 mb-3">{t('onboarding.form.testimonials')}</label>
                                 <p className="text-xs text-slate-400 mb-3">Add reviews from happy customers to display on your site</p>
 
                                 <div className="bg-white/5 border border-white/10 rounded-xl p-4 space-y-3">
@@ -1098,7 +1141,7 @@ function OnboardingContent() {
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-slate-300 mb-2">Google Reviews Link (Optional)</label>
+                                <label className="block text-sm font-medium text-slate-300 mb-2">{t('onboarding.form.googleReviews')}</label>
                                 <input
                                     type="url"
                                     value={formData.googleReviewsLink}
@@ -1109,7 +1152,7 @@ function OnboardingContent() {
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-slate-300 mb-2">About You / Your Business (Optional)</label>
+                                <label className="block text-sm font-medium text-slate-300 mb-2">{t('onboarding.form.aboutOwner')}</label>
                                 <textarea
                                     value={formData.aboutOwner}
                                     onChange={e => updateField('aboutOwner', e.target.value)}
@@ -1120,7 +1163,7 @@ function OnboardingContent() {
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-slate-300 mb-2">Years in Business (Optional)</label>
+                                <label className="block text-sm font-medium text-slate-300 mb-2">{t('onboarding.form.yearsInBusiness')}</label>
                                 <input
                                     type="number"
                                     value={formData.yearsInBusiness}
@@ -1142,7 +1185,7 @@ function OnboardingContent() {
                             className={`px-6 py-3 rounded-xl font-medium flex items-center gap-2 ${currentStep === 1 ? 'opacity-50 cursor-not-allowed' : 'bg-white/10 hover:bg-white/20'
                                 }`}
                         >
-                            <ChevronLeft className="w-5 h-5" /> Back
+                            <ChevronLeft className="w-5 h-5" />{t('onboarding.navigation.previous')}
                         </motion.button>
 
                         {currentStep < TOTAL_STEPS ? (
@@ -1153,7 +1196,7 @@ function OnboardingContent() {
                                 className={`px-8 py-3 rounded-xl font-medium flex items-center gap-2 ${canProceed() ? 'bg-blue-500 hover:bg-blue-600' : 'bg-slate-700 cursor-not-allowed'
                                     }`}
                             >
-                                Continue <ChevronRight className="w-5 h-5" />
+                                {t('onboarding.navigation.next')} <ChevronRight className="w-5 h-5" />
                             </motion.button>
                         ) : (
                             <motion.button
@@ -1169,12 +1212,12 @@ function OnboardingContent() {
                                 {isSubmitting ? (
                                     <>
                                         <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                                        Submitting...
+                                        {t('onboarding.navigation.submitting')}
                                     </>
                                 ) : (
                                     <>
                                         <Rocket className="w-5 h-5" />
-                                        Complete Onboarding
+                                        {t('onboarding.navigation.submit')}
                                     </>
                                 )}
                             </motion.button>

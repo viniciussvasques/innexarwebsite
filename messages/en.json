@@ -1842,9 +1842,13 @@
         "siteObjective": "Main Goal of Your Website",
         "objectives": {
           "leads": "Generate Leads / Calls",
+          "leadsDesc": "Get more phone calls and inquiries",
           "info": "Showcase Services",
+          "infoDesc": "Display your work and portfolio",
           "bookings": "Online Bookings",
-          "credibility": "Build Credibility"
+          "bookingsDesc": "Allow customers to book online",
+          "credibility": "Build Credibility",
+          "credibilityDesc": "Establish trust with potential clients"
         },
         "siteDescription": "Brief Description",
         "siteDescriptionPlaceholder": "Describe your business in a few sentences...",
@@ -1866,7 +1870,45 @@
         "googleReviews": "Google Reviews Link",
         "aboutOwner": "About the Owner",
         "aboutOwnerPlaceholder": "A brief bio for the About page...",
-        "yearsInBusiness": "Years in Business"
+        "yearsInBusiness": "Years in Business",
+        "niches": {
+          "restaurant": "Restaurant / Food",
+          "lawyer": "Lawyer / Legal",
+          "dentist": "Dentist / Medical",
+          "realEstate": "Real Estate",
+          "plumber": "Plumber",
+          "electrician": "Electrician",
+          "landscaping": "Landscaping",
+          "cleaning": "Cleaning",
+          "general": "General Business",
+          "other": "Other"
+        },
+        "pages": {
+          "home": "Home",
+          "about": "About Us",
+          "services": "Services",
+          "contact": "Contact",
+          "gallery": "Gallery / Portfolio",
+          "testimonials": "Testimonials",
+          "faq": "FAQ",
+          "pricing": "Pricing",
+          "team": "Our Team",
+          "blog": "Blog"
+        },
+        "tones": {
+          "professional": "Professional",
+          "professionalDesc": "Corporate and trustworthy",
+          "friendly": "Friendly",
+          "friendlyDesc": "Warm and approachable",
+          "premium": "Premium",
+          "premiumDesc": "Luxury and exclusive"
+        },
+        "cta": {
+          "call": "Call Now",
+          "whatsapp": "WhatsApp",
+          "form": "Contact Form",
+          "bookOnline": "Book Online"
+        }
       },
       "navigation": {
         "previous": "Previous",
