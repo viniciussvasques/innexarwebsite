@@ -7,6 +7,7 @@ import {
     Star, Quote, ChevronRight, Zap, Palette, Search, MessageCircle,
     Users, Award, Globe, ArrowRight, Phone, Play
 } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 import { MetaPixel } from '@/lib/meta-pixel'
 
 // Add-ons data
@@ -64,6 +65,7 @@ function TypingText({ text, speed = 50 }: { text: string; speed?: number }) {
 }
 
 export default function LaunchPage() {
+    const t = useTranslations('launch')
     const [selectedAddons, setSelectedAddons] = useState<string[]>([])
     const [isLoaded, setIsLoaded] = useState(false)
     const [isCheckingOut, setIsCheckingOut] = useState(false)
@@ -216,11 +218,11 @@ export default function LaunchPage() {
                         {/* Main Headline */}
                         <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
                             <span className="bg-gradient-to-r from-white via-blue-100 to-white bg-clip-text text-transparent">
-                                Your Professional Website
+                                {t('hero.title')}
                             </span>
                             <br />
                             <span className="text-blue-400">
-                                {isLoaded && <TypingText text="Ready in 5 Days" speed={80} />}
+                                {isLoaded && <TypingText text={t('hero.highlight')} speed={80} />}
                             </span>
                         </h1>
 
@@ -231,8 +233,7 @@ export default function LaunchPage() {
                             transition={{ delay: 0.5 }}
                             className="text-xl md:text-2xl text-slate-300 mb-12 max-w-2xl mx-auto"
                         >
-                            Get a stunning, conversion-focused website built by experts.
-                            No hassle, no hidden fees, just results.
+                            {t('hero.subtitle')}
                         </motion.p>
 
                         {/* CTA Buttons */}
@@ -248,7 +249,7 @@ export default function LaunchPage() {
                                 whileTap={{ scale: 0.98 }}
                                 className="group px-8 py-4 bg-white text-slate-900 rounded-xl font-bold text-lg shadow-2xl shadow-white/10 hover:shadow-white/20 transition-all flex items-center gap-2"
                             >
-                                Get Started for $399
+                                {t('hero.cta')}
                                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                             </motion.a>
                             <motion.a
@@ -600,7 +601,7 @@ export default function LaunchPage() {
                         viewport={{ once: true }}
                         className="text-center mb-16"
                     >
-                        <h2 className="text-4xl md:text-5xl font-bold mb-4">Frequently Asked Questions</h2>
+                        <h2 className="text-4xl md:text-5xl font-bold mb-4">{t('faq.title')}</h2>
                     </motion.div>
 
                     <div className="max-w-3xl mx-auto space-y-4">
@@ -638,9 +639,9 @@ export default function LaunchPage() {
                     >
                         <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 via-transparent to-purple-500/10" />
                         <div className="relative">
-                            <h2 className="text-4xl md:text-5xl font-bold mb-4">Ready to Stand Out Online?</h2>
+                            <h2 className="text-4xl md:text-5xl font-bold mb-4">{t('hero.title')}</h2>
                             <p className="text-xl text-slate-300 mb-8">
-                                Join 200+ businesses that transformed their online presence. Your professional website is just 5 days away.
+                                {t('hero.subtitle')}
                             </p>
                             <motion.a
                                 href="#pricing"
@@ -649,7 +650,7 @@ export default function LaunchPage() {
                                 className="inline-flex items-center gap-3 bg-white text-slate-900 px-10 py-5 rounded-2xl font-bold text-lg shadow-xl shadow-white/10 hover:shadow-white/20 transition-all"
                             >
                                 <Rocket className="w-5 h-5" />
-                                Get My Website — $399
+                                {t('hero.cta')}
                             </motion.a>
                         </div>
                     </motion.div>

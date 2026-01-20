@@ -8,9 +8,11 @@ import {
     CheckCircle2, ArrowRight, Mail, Clock, Palette, Eye,
     Rocket, LayoutDashboard, Sparkles, RefreshCw
 } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 import { MetaPixel } from '@/lib/meta-pixel'
 
 function SuccessContent() {
+    const t = useTranslations('launch')
     const searchParams = useSearchParams()
     const router = useRouter()
     const sessionId = searchParams.get('session_id')
@@ -68,10 +70,10 @@ function SuccessContent() {
     }, [sessionId, router, orderDetails?.orderId])
 
     const steps = [
-        { icon: CheckCircle2, title: 'Payment Confirmed', desc: "You're all set!", done: true },
-        { icon: Palette, title: 'Onboarding', desc: 'Tell us about your business', current: true },
-        { icon: Eye, title: 'Review', desc: 'Preview your site' },
-        { icon: Rocket, title: 'Launch', desc: 'Go live!' },
+        { icon: CheckCircle2, title: t('success.timeline.step1'), desc: t('success.timeline.step1Desc'), done: true },
+        { icon: Palette, title: t('success.timeline.step2'), desc: t('success.timeline.step2Desc'), current: true },
+        { icon: Eye, title: t('success.timeline.step3'), desc: t('success.timeline.step3Desc') },
+        { icon: Rocket, title: t('success.timeline.step4'), desc: t('success.timeline.step4Desc') },
     ]
 
     return (
@@ -118,7 +120,7 @@ function SuccessContent() {
                         transition={{ delay: 0.3 }}
                         className="text-3xl font-bold text-white mb-3"
                     >
-                        Payment Successful!
+                        {t('success.title')}
                     </motion.h1>
 
                     <motion.p
@@ -127,7 +129,7 @@ function SuccessContent() {
                         transition={{ delay: 0.4 }}
                         className="text-slate-300 mb-8"
                     >
-                        Thank you for your purchase. Your website journey starts now.
+                        {t('success.message')}
                     </motion.p>
 
                     {/* Mini Timeline */}
@@ -165,7 +167,7 @@ function SuccessContent() {
                         className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-6 text-left"
                     >
                         <div className="flex justify-between text-sm mb-2">
-                            <span className="text-slate-400">Order ID</span>
+                            <span className="text-slate-400">{t('success.orderId')}</span>
                             <span className="text-white font-mono">{orderDetails?.orderId || 'Processing...'}</span>
                         </div>
                         <div className="flex justify-between text-sm mb-2">
@@ -219,7 +221,7 @@ function SuccessContent() {
                             href={`/launch/onboarding?order_id=${orderDetails?.orderId || 'new'}`}
                             className="flex items-center justify-center gap-2 w-full py-4 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 rounded-xl font-bold text-white shadow-lg shadow-blue-500/25 transition-all"
                         >
-                            Start Onboarding Now
+                            {t('success.continueButton')}
                             <ArrowRight className="w-5 h-5" />
                         </Link>
 
@@ -229,7 +231,7 @@ function SuccessContent() {
                                 className="flex items-center justify-center gap-2 w-full py-3 bg-white/5 border border-white/10 hover:border-white/20 rounded-xl font-medium text-slate-300 transition-all"
                             >
                                 <LayoutDashboard className="w-5 h-5" />
-                                View Project Dashboard
+                                {t('success.dashboardLink')}
                             </Link>
                         )}
                     </motion.div>

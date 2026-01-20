@@ -8,6 +8,7 @@ import {
     MessageSquare, FileText, Calendar, ExternalLink, ArrowRight,
     Sparkles, Shield, Phone, Mail, AlertCircle, RefreshCw
 } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 
 // Status configuration
 const statusConfig = {
@@ -90,6 +91,7 @@ interface Order {
 }
 
 function DashboardContent() {
+    const t = useTranslations('launch')
     const searchParams = useSearchParams()
     const orderId = searchParams.get('order_id')
     const email = searchParams.get('email')
@@ -207,7 +209,7 @@ function DashboardContent() {
                 >
                     <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 rounded-full text-sm mb-4">
                         <Sparkles className="w-4 h-4 text-blue-400" />
-                        <span className="text-slate-400">Project Dashboard</span>
+                        <span className="text-slate-400">{t('dashboard.title')}</span>
                     </div>
                     <h1 className="text-3xl md:text-4xl font-bold mb-2">
                         {order.onboarding?.business_name || order.customer_name}
@@ -263,7 +265,7 @@ function DashboardContent() {
                 >
                     <h3 className="text-lg font-bold mb-6 flex items-center gap-2">
                         <Calendar className="w-5 h-5 text-blue-400" />
-                        Project Timeline
+                        {t('dashboard.timeline.title')}
                     </h3>
                     <div className="relative">
                         {timeline.map((item, i) => {
@@ -280,10 +282,10 @@ function DashboardContent() {
                                             animate={{ scale: 1 }}
                                             transition={{ delay: 0.3 + i * 0.1 }}
                                             className={`w-10 h-10 rounded-full flex items-center justify-center z-10 ${isComplete
-                                                    ? 'bg-green-500'
-                                                    : isCurrent
-                                                        ? 'bg-blue-500 ring-4 ring-blue-500/30'
-                                                        : 'bg-white/10'
+                                                ? 'bg-green-500'
+                                                : isCurrent
+                                                    ? 'bg-blue-500 ring-4 ring-blue-500/30'
+                                                    : 'bg-white/10'
                                                 }`}
                                         >
                                             {isComplete ? (

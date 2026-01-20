@@ -12,6 +12,7 @@ import {
     Utensils, Scale, Stethoscope, Home, Wrench, Zap, TreeDeciduous, Sparkle,
     Send, Calendar, LayoutDashboard, PartyPopper
 } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 import { MetaPixel } from '@/lib/meta-pixel'
 
 // ============ CONFIGURATION ============
@@ -137,6 +138,7 @@ interface FormData {
 }
 
 function OnboardingContent() {
+    const t = useTranslations('launch')
     const searchParams = useSearchParams()
     const orderId = searchParams.get('order_id')
 
