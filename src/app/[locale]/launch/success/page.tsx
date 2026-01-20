@@ -175,7 +175,7 @@ function SuccessContent() {
                             <span className="text-white">{orderDetails?.customerEmail || '—'}</span>
                         </div>
                         <div className="flex justify-between text-sm pt-2 border-t border-white/10">
-                            <span className="text-slate-400">Total Paid</span>
+                            <span className="text-slate-400">{t('cta.total')}</span>
                             <span className="text-xl font-bold text-green-400">${orderDetails?.total || 399}</span>
                         </div>
                     </motion.div>
@@ -189,15 +189,15 @@ function SuccessContent() {
                     >
                         <div className="flex items-center justify-center gap-2 text-blue-300 font-semibold mb-2">
                             <Clock className="w-5 h-5" />
-                            Next Step: Complete Your Onboarding
+                            {t('onboarding.title')}
                         </div>
                         <p className="text-sm text-blue-200/70 mb-4">
-                            Tell us about your business so we can build your perfect website.
+                            {t('onboarding.subtitle')}
                         </p>
 
                         {/* Countdown */}
                         <div className="flex items-center justify-center gap-2 text-sm text-blue-300">
-                            <span>Redirecting in</span>
+                            <span>{t('success.redirecting')}</span>
                             <motion.span
                                 key={countdown}
                                 initial={{ scale: 1.5, opacity: 0 }}
@@ -206,7 +206,7 @@ function SuccessContent() {
                             >
                                 {countdown}
                             </motion.span>
-                            <span>seconds...</span>
+                            <span>{t('success.seconds')}</span>
                         </div>
                     </motion.div>
 

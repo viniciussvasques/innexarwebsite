@@ -133,12 +133,12 @@ export default function LaunchPage() {
     }
 
     const features = [
-        { icon: Zap, title: '5-Day Delivery', desc: 'Your site ready in under a week' },
-        { icon: Palette, title: 'Custom Design', desc: 'Tailored to your brand identity' },
-        { icon: Search, title: 'SEO Optimized', desc: 'Built to rank on Google' },
-        { icon: Phone, title: 'Mobile First', desc: 'Perfect on every device' },
-        { icon: Shield, title: '2 Revisions', desc: 'Fine-tune until it\'s perfect' },
-        { icon: Award, title: 'Premium Quality', desc: 'Agency-level craftsmanship' },
+        { icon: Zap, title: t('features.fast'), desc: t('features.fastDesc') },
+        { icon: Palette, title: t('features.responsive'), desc: t('features.responsiveDesc') },
+        { icon: Search, title: t('features.seo'), desc: t('features.seoDesc') },
+        { icon: Phone, title: t('features.support'), desc: t('features.supportDesc') },
+        { icon: Shield, title: t('hero.guarantee'), desc: t('features.supportDesc') },
+        { icon: Award, title: t('features.title'), desc: t('features.responsiveDesc') },
     ]
 
     const testimonials = [
@@ -258,7 +258,7 @@ export default function LaunchPage() {
                                 className="px-8 py-4 bg-white/10 border border-white/20 rounded-xl font-medium text-lg hover:bg-white/20 transition-all flex items-center gap-2"
                             >
                                 <Play className="w-5 h-5" />
-                                See Examples
+                                {t('process.step4')}
                             </motion.a>
                         </motion.div>
 
@@ -340,10 +340,10 @@ export default function LaunchPage() {
                         className="text-center mb-16"
                     >
                         <span className="inline-block px-4 py-1 bg-blue-500/20 border border-blue-400/30 rounded-full text-blue-300 text-sm mb-4">
-                            Why Choose Us
+                            {t('features.title')}
                         </span>
-                        <h2 className="text-4xl md:text-5xl font-bold mb-4">Everything You Need</h2>
-                        <p className="text-slate-400 max-w-2xl mx-auto">We handle everything from design to deployment, so you can focus on running your business.</p>
+                        <h2 className="text-4xl md:text-5xl font-bold mb-4">{t('features.title')}</h2>
+                        <p className="text-slate-400 max-w-2xl mx-auto">{t('hero.subtitle')}</p>
                     </motion.div>
 
                     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -454,10 +454,10 @@ export default function LaunchPage() {
                         className="text-center mb-16"
                     >
                         <span className="inline-block px-4 py-1 bg-green-500/20 border border-green-400/30 rounded-full text-green-300 text-sm mb-4">
-                            Simple Pricing
+                            {t('cta.total')}
                         </span>
-                        <h2 className="text-4xl md:text-5xl font-bold mb-4">One Price, Everything Included</h2>
-                        <p className="text-slate-400 max-w-2xl mx-auto">No hidden fees, no surprises. Just a professional website at a fair price.</p>
+                        <h2 className="text-4xl md:text-5xl font-bold mb-4">{t('features.title')}</h2>
+                        <p className="text-slate-400 max-w-2xl mx-auto">{t('hero.guarantee')}</p>
                     </motion.div>
 
                     <div className="max-w-4xl mx-auto">
@@ -509,7 +509,7 @@ export default function LaunchPage() {
                                 <div>
                                     <h4 className="text-lg font-semibold mb-4 flex items-center gap-2">
                                         <Plus className="w-5 h-5 text-blue-400" />
-                                        Optional Add-ons
+                                        {t('addons.title')}
                                     </h4>
                                     <div className="space-y-3">
                                         {addons.map((addon) => {
@@ -543,7 +543,7 @@ export default function LaunchPage() {
                                     {/* Total */}
                                     <div className="mt-6 pt-6 border-t border-white/10">
                                         <div className="flex items-center justify-between mb-4">
-                                            <span className="text-slate-400">Total</span>
+                                            <span className="text-slate-400">{t('cta.total')}</span>
                                             <span className="text-3xl font-bold">${totalPrice}</span>
                                         </div>
                                         <motion.button
@@ -564,12 +564,12 @@ export default function LaunchPage() {
                                             ) : (
                                                 <>
                                                     <Rocket className="w-5 h-5" />
-                                                    Get My Website
+                                                    {t('cta.checkout')}
                                                 </>
                                             )}
                                         </motion.button>
                                         <p className="text-center text-xs text-slate-400 mt-3">
-                                            Secure checkout powered by Stripe
+                                            {t('cta.secure')}
                                         </p>
                                     </div>
                                 </div>
@@ -585,7 +585,7 @@ export default function LaunchPage() {
                         >
                             <div className="inline-flex items-center gap-3 px-6 py-3 bg-green-500/10 border border-green-400/30 rounded-xl">
                                 <Shield className="w-5 h-5 text-green-400" />
-                                <span className="text-green-300 font-medium">100% Satisfaction Guarantee — Love it or get your money back</span>
+                                <span className="text-green-300 font-medium">{t('hero.guarantee')}</span>
                             </div>
                         </motion.div>
                     </div>
@@ -606,11 +606,11 @@ export default function LaunchPage() {
 
                     <div className="max-w-3xl mx-auto space-y-4">
                         {[
-                            { q: 'What if I need changes after delivery?', a: '2 revision rounds are included in every package. We want you 100% happy with your website before we consider it complete.' },
-                            { q: 'Do you handle hosting?', a: 'We deliver the site ready for deployment to your preferred hosting. We can also recommend hosting solutions if needed.' },
-                            { q: 'What about my domain?', a: 'You purchase and own your domain. We help you connect it to your new website at no extra charge.' },
-                            { q: 'Is there ongoing support?', a: '30 days of post-launch support is included. Extended support packages are available as an add-on.' },
-                            { q: 'How does the process work?', a: "After payment, you'll fill out a simple onboarding form. Our team designs your site, sends a preview, and after your feedback, we deliver." },
+                            { q: t('faq.q1'), a: t('faq.a1') },
+                            { q: t('faq.q2'), a: t('faq.a2') },
+                            { q: t('faq.q3'), a: t('faq.a3') },
+                            { q: t('faq.q4'), a: t('faq.a4') },
+                            { q: t('faq.q5'), a: t('faq.a5') },
                         ].map((faq, i) => (
                             <motion.div
                                 key={i}

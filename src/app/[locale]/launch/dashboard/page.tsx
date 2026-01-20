@@ -10,65 +10,16 @@ import {
 } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 
-// Status configuration
-const statusConfig = {
-    pending_payment: {
-        label: 'Awaiting Payment',
-        description: 'Complete your payment to start the project',
-        color: 'yellow',
-        icon: Clock,
-        step: 0,
-    },
-    paid: {
-        label: 'Payment Received',
-        description: 'Thank you! Please complete the onboarding form',
-        color: 'blue',
-        icon: CheckCircle2,
-        step: 1,
-    },
-    onboarding_pending: {
-        label: 'Onboarding Required',
-        description: 'We need your information to start building',
-        color: 'orange',
-        icon: FileText,
-        step: 1,
-    },
-    building: {
-        label: 'In Development',
-        description: 'Our team is building your website',
-        color: 'purple',
-        icon: Palette,
-        step: 2,
-    },
-    review: {
-        label: 'Ready for Review',
-        description: 'Your site preview is ready! Please review and provide feedback',
-        color: 'cyan',
-        icon: Eye,
-        step: 3,
-    },
-    delivered: {
-        label: 'Delivered',
-        description: 'Your website has been delivered. Welcome online!',
-        color: 'green',
-        icon: Rocket,
-        step: 4,
-    },
-    cancelled: {
-        label: 'Cancelled',
-        description: 'This order has been cancelled',
-        color: 'red',
-        icon: AlertCircle,
-        step: -1,
-    },
+// Status icons mapping (labels will be translated inside component)
+const statusIcons = {
+    pending_payment: { icon: Clock, color: 'yellow', step: 0 },
+    paid: { icon: CheckCircle2, color: 'blue', step: 1 },
+    onboarding_pending: { icon: FileText, color: 'orange', step: 1 },
+    building: { icon: Palette, color: 'purple', step: 2 },
+    review: { icon: Eye, color: 'cyan', step: 3 },
+    delivered: { icon: Rocket, color: 'green', step: 4 },
+    cancelled: { icon: AlertCircle, color: 'red', step: -1 },
 }
-
-const timeline = [
-    { step: 1, title: 'Order Confirmed', desc: 'Payment received & onboarding complete' },
-    { step: 2, title: 'Design & Development', desc: 'Our team is crafting your website' },
-    { step: 3, title: 'Review & Revisions', desc: 'Preview your site and request changes' },
-    { step: 4, title: 'Launch', desc: 'Your website is live!' },
-]
 
 interface Order {
     id: number
@@ -99,6 +50,28 @@ function DashboardContent() {
     const [order, setOrder] = useState<Order | null>(null)
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState<string | null>(null)
+
+    // Status labels with translations
+    const getStatusLabel = (status: string) => {
+        const labels: Record<string, { label: string; description: string }> = {
+            pending_payment: { label: t('dashboard.statuses.pending'), description: t('dashboard.subtitle') },
+            paid: { label: t('success.title'), description: t('success.message') },
+            onboarding_pending: { label: t('onboarding.title'), description: t('onboarding.subtitle') },
+            building: { label: t('dashboard.statuses.development'), description: t('dashboard.subtitle') },
+            review: { label: t('dashboard.statuses.review'), description: t('dashboard.subtitle') },
+            delivered: { label: t('dashboard.statuses.delivered'), description: t('dashboard.subtitle') },
+            cancelled: { label: t('dashboard.statuses.pending'), description: t('dashboard.subtitle') },
+        }
+        return labels[status] || labels.building
+    }
+
+    // Timeline with translations
+    const timelineSteps = [
+        { step: 1, title: t('dashboard.timeline.payment'), desc: t('dashboard.timeline.onboarding') },
+        { step: 2, title: t('dashboard.timeline.design'), desc: t('dashboard.timeline.development') },
+        { step: 3, title: t('dashboard.timeline.review'), desc: t('dashboard.actions.requestChanges') },
+        { step: 4, title: t('dashboard.timeline.launch'), desc: t('dashboard.statuses.delivered') },
+    ]
 
     useEffect(() => {
         const fetchOrder = async () => {
@@ -165,9 +138,10 @@ function DashboardContent() {
         )
     }
 
-    const status = statusConfig[order.status as keyof typeof statusConfig] || statusConfig.building
-    const StatusIcon = status.icon
-    const currentStep = status.step
+    const statusIcon = statusIcons[order.status as keyof typeof statusIcons] || statusIcons.building
+    const statusLabels = getStatusLabel(order.status)
+    const StatusIcon = statusIcon.icon
+    const currentStep = statusIcon.step
 
     const formatDate = (dateStr: string) => {
         return new Date(dateStr).toLocaleDateString('en-US', {
@@ -190,7 +164,7 @@ function DashboardContent() {
         return colors[color] || colors.blue
     }
 
-    const statusColors = getColorClasses(status.color)
+    const statusColors = getColorClasses(statusIcon.color)
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 text-white py-10 px-4 md:px-6">
@@ -230,8 +204,8 @@ function DashboardContent() {
                         </div>
                         <div className="text-center md:text-left flex-1">
                             <div className={`text-sm font-medium ${statusColors.text} mb-1`}>Current Status</div>
-                            <h2 className="text-2xl font-bold text-white mb-2">{status.label}</h2>
-                            <p className="text-slate-300">{status.description}</p>
+                            <h2 className="text-2xl font-bold text-white mb-2">{statusLabels.label}</h2>
+                            <p className="text-slate-300">{statusLabels.description}</p>
                         </div>
                         {order.status === 'onboarding_pending' && (
                             <a
@@ -268,7 +242,7 @@ function DashboardContent() {
                         {t('dashboard.timeline.title')}
                     </h3>
                     <div className="relative">
-                        {timeline.map((item, i) => {
+                        {timelineSteps.map((item, i) => {
                             const isComplete = currentStep > item.step
                             const isCurrent = currentStep === item.step
                             const isPending = currentStep < item.step
@@ -296,7 +270,7 @@ function DashboardContent() {
                                                 </span>
                                             )}
                                         </motion.div>
-                                        {i < timeline.length - 1 && (
+                                        {i < timelineSteps.length - 1 && (
                                             <div className={`w-0.5 h-full absolute top-10 ${isComplete ? 'bg-green-500' : 'bg-white/10'
                                                 }`} />
                                         )}
