@@ -7,6 +7,7 @@ import { generateMetadata as genMeta } from '@/lib/seo'
 import GoogleAnalytics from '@/components/GoogleAnalytics'
 import StructuredData from '@/components/StructuredData'
 import AIChat from '@/components/ai-chat/AIChat'
+import MetaPixelProvider from '@/components/providers/MetaPixelProvider'
 import '../globals.css'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -48,10 +49,12 @@ export default async function RootLayout({
         <Suspense fallback={null}>
           <GoogleAnalytics />
         </Suspense>
-        <NextIntlClientProvider messages={messages} locale={locale}>
-          {children}
-          <AIChat />
-        </NextIntlClientProvider>
+        <MetaPixelProvider pixelId={process.env.NEXT_PUBLIC_META_PIXEL_ID}>
+          <NextIntlClientProvider messages={messages} locale={locale}>
+            {children}
+            <AIChat />
+          </NextIntlClientProvider>
+        </MetaPixelProvider>
       </body>
     </html>
   )

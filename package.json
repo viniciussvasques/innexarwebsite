@@ -14,8 +14,10 @@
     "@emailjs/browser": "^4.4.1",
     "@heroicons/react": "^2.2.0",
     "@hookform/resolvers": "^5.2.2",
+    "@stripe/stripe-js": "^8.6.3",
+    "canvas-confetti": "^1.9.4",
     "dotenv": "^17.2.3",
-    "framer-motion": "^12.23.24",
+    "framer-motion": "^12.27.1",
     "googleapis": "^166.0.0",
     "lucide-react": "^0.552.0",
     "next": "16.0.1",
@@ -25,6 +27,7 @@
     "react-dom": "19.2.0",
     "react-hook-form": "^7.66.0",
     "resend": "^6.5.1",
+    "stripe": "^20.2.0",
     "zod": "^4.1.12"
   },
   "devDependencies": {
