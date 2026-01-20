@@ -1,10 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server'
-import Stripe from 'stripe'
-
-// Initialize Stripe - will use env variable in production
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || 'sk_test_placeholder', {
-    apiVersion: '2025-12-15.clover',
-})
 
 // Base product
 const BASE_PRODUCT = {
@@ -22,25 +16,41 @@ const ADDONS: Record<string, { name: string; price: number; description: string 
     'google-business': { name: 'Google Business Setup', price: 4900, description: 'Complete GMB optimization' },
 }
 
+// Dynamically import Stripe only at runtime
+async function getStripe() {
+    const Stripe = (await import('stripe')).default
+    const key = process.env.STRIPE_SECRET_KEY || 'sk_test_placeholder'
+    return new Stripe(key, {
+        apiVersion: '2025-12-15.clover' as const,
+    })
+}
+
 export async function POST(request: NextRequest) {
     try {
         const body = await request.json()
         const { addons = [], customerEmail } = body
 
         // Build line items
-        const lineItems: Stripe.Checkout.SessionCreateParams.LineItem[] = [
-            {
-                price_data: {
-                    currency: 'usd',
-                    product_data: {
-                        name: BASE_PRODUCT.name,
-                        description: BASE_PRODUCT.description,
+        const lineItems: Array<{
+            price_data: {
+                currency: string
+                product_data: { name: string; description: string }
+                unit_amount: number
+            }
+            quantity: number
+        }> = [
+                {
+                    price_data: {
+                        currency: 'usd',
+                        product_data: {
+                            name: BASE_PRODUCT.name,
+                            description: BASE_PRODUCT.description,
+                        },
+                        unit_amount: BASE_PRODUCT.price,
                     },
-                    unit_amount: BASE_PRODUCT.price,
+                    quantity: 1,
                 },
-                quantity: 1,
-            },
-        ]
+            ]
 
         // Add selected add-ons
         for (const addonId of addons) {
@@ -59,6 +69,8 @@ export async function POST(request: NextRequest) {
                 })
             }
         }
+
+        const stripe = await getStripe()
 
         // Create Stripe Checkout Session
         const session = await stripe.checkout.sessions.create({
@@ -104,3 +116,6 @@ export async function GET() {
         })),
     })
 }
+
+export const dynamic = 'force-dynamic'
+export const runtime = 'nodejs'
