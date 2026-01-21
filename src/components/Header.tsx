@@ -97,11 +97,11 @@ export default function Header() {
             <div className="flex lg:flex-1">
               <Link href="/" className="flex items-center group">
                 <Image
-                  src="/logo.png"
+                  src="/logo-header.png"
                   alt="Innexar"
-                  width={180}
-                  height={45}
-                  className="h-10 w-auto transition-transform duration-300 group-hover:scale-105"
+                  width={200}
+                  height={50}
+                  className="h-12 w-auto transition-transform duration-300 group-hover:scale-105"
                   priority
                 />
               </Link>

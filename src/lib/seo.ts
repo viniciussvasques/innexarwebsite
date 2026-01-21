@@ -90,7 +90,7 @@ export function generateStructuredData(
     '@type': 'Organization',
     name: 'Innexar',
     url: baseUrl,
-    logo: `${baseUrl}/logo.png`,
+    logo: `${baseUrl}/logo-header.png`,
     contactPoint: {
       '@type': 'ContactPoint',
       telephone: '+1-407-473-6081',

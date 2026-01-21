@@ -18,7 +18,7 @@ const Footer = () => {
           <div className="col-span-1 md:col-span-2">
             <div className="mb-4">
               <Image
-                src="/logo.png"
+                src="/logo-header.png"
                 alt="Innexar"
                 width={140}
                 height={32}
