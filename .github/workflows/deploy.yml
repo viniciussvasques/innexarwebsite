@@ -104,6 +104,7 @@ jobs:
               -e NODE_ENV=production \
               -e PORT=3000 \
               -e NEXT_TELEMETRY_DISABLED=1 \
+              -e CRM_API_URL=http://crm-backend:8000/api \
               -e SMTP_HOST=my.mailbux.com \
               -e SMTP_PORT=587 \
               -e SMTP_SECURE=false \
