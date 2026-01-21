@@ -26,8 +26,9 @@ export async function POST(request: NextRequest) {
 
         if (!response.ok) {
             const error = await response.json()
+            console.error('CRM API Error:', JSON.stringify(error, null, 2))
             return NextResponse.json(
-                { error: error.detail || 'Failed to submit onboarding' },
+                { error: error.detail || error, fullError: error },
                 { status: response.status }
             )
         }
