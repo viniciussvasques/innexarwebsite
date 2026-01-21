@@ -9,7 +9,22 @@
     "portfolio": "Portafolio",
     "blockchain": "Blockchain",
     "contact": "Contacto",
-    "getStarted": "Comenzar"
+    "getStarted": "Comenzar",
+    "launch": "Sitios $399"
+  },
+  "launchBanner": {
+    "badge": "🚀 Oferta Limitada",
+    "title": "Sitio Web Profesional",
+    "highlight": "en 5 Días",
+    "subtitle": "Obtén un sitio web impresionante y optimizado para conversiones. Sin plantillas. Sin complicaciones. Solo resultados.",
+    "feature1": "Entrega en 5 Días",
+    "feature2": "100% Personalizado",
+    "feature3": "SEO Listo",
+    "originalPrice": "$799",
+    "price": "$399",
+    "savings": "Ahorra 50%",
+    "cta": "Obtener Mi Sitio",
+    "guarantee": "Garantía de 30 días"
   },
   "saas": {
     "title": "Innexar SaaS - Gestión Empresarial (ERP)",

@@ -1,5 +1,6 @@
 import Header from '@/components/Header'
 import Hero from '@/components/Hero'
+import LaunchBanner from '@/components/LaunchBanner'
 import Services from '@/components/Services'
 import SuccessStories from '@/components/SuccessStories'
 import ProcessSection from '@/components/ProcessSection'
@@ -22,18 +23,19 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
 
   return (
     <main className="min-h-screen">
-        <Header />
-        <Hero />
-        <Services />
-        <SuccessStories />
-        <ProcessSection />
-        <Technologies />
-        <EngagementModels />
-        <Testimonials />
-        <LeadMagnet />
-        <About />
-        <Contact />
-        <Footer />
+      <Header />
+      <Hero />
+      <LaunchBanner />
+      <Services />
+      <SuccessStories />
+      <ProcessSection />
+      <Technologies />
+      <EngagementModels />
+      <Testimonials />
+      <LeadMagnet />
+      <About />
+      <Contact />
+      <Footer />
     </main>
   )
 }

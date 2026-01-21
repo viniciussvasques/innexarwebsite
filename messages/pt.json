@@ -9,7 +9,22 @@
     "portfolio": "Portfólio",
     "blockchain": "Blockchain",
     "contact": "Contato",
-    "getStarted": "Começar"
+    "getStarted": "Começar",
+    "launch": "Sites $399"
+  },
+  "launchBanner": {
+    "badge": "🚀 Oferta Limitada",
+    "title": "Site Profissional",
+    "highlight": "em 5 Dias",
+    "subtitle": "Tenha um site incrível e otimizado para conversão. Sem templates. Sem complicação. Só resultados.",
+    "feature1": "Entrega em 5 Dias",
+    "feature2": "100% Exclusivo",
+    "feature3": "SEO Pronto",
+    "originalPrice": "$799",
+    "price": "$399",
+    "savings": "Economize 50%",
+    "cta": "Quero Meu Site",
+    "guarantee": "Garantia de 30 dias"
   },
   "saas": {
     "title": "Innexar SaaS - Gestão Empresarial (ERP)",

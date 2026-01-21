@@ -27,9 +27,10 @@ export default function Header() {
   const headerT = useTranslations('header');
   const locale = useLocale();
 
-  const navigation: { key: string; name: string; href: string }[] = [
+  const navigation: { key: string; name: string; href: string; highlight?: boolean }[] = [
     { key: 'home', name: t('home'), href: '/' },
     { key: 'services', name: t('services'), href: '/services' },
+    { key: 'launch', name: t('launch'), href: '/launch', highlight: true },
     { key: 'about', name: t('about'), href: '/about' },
     { key: 'blockchain', name: t('blockchain'), href: '/blockchain' },
     { key: 'contact', name: t('contact'), href: '/contact' },
@@ -112,8 +113,12 @@ export default function Header() {
                 <Link
                   key={item.key}
                   href={item.href}
-                  className="relative px-5 py-2.5 text-sm font-medium rounded-lg text-gray-700 hover:text-blue-600 hover:bg-blue-50 transition-all duration-200"
+                  className={item.highlight
+                    ? "relative px-4 py-2 text-sm font-bold rounded-lg text-white bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-700 hover:to-pink-600 shadow-md hover:shadow-lg transition-all duration-200 animate-pulse"
+                    : "relative px-5 py-2.5 text-sm font-medium rounded-lg text-gray-700 hover:text-blue-600 hover:bg-blue-50 transition-all duration-200"
+                  }
                 >
+                  {item.highlight && <span className="mr-1">⚡</span>}
                   {item.name}
                 </Link>
               ))}
@@ -210,8 +215,8 @@ export default function Header() {
                         key={lang.code}
                         onClick={() => changeLanguage(lang.code)}
                         className={`flex items-center gap-x-3 w-full px-4 py-3 text-base font-medium rounded-lg transition-all duration-200 ${lang.code === locale
-                            ? 'bg-blue-50 text-blue-600'
-                            : 'text-gray-700 hover:bg-gray-50'
+                          ? 'bg-blue-50 text-blue-600'
+                          : 'text-gray-700 hover:bg-gray-50'
                           }`}
                       >
                         <span>{lang.flag}</span>

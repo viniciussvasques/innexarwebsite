@@ -9,7 +9,22 @@
     "portfolio": "Portfolio",
     "blockchain": "Blockchain",
     "contact": "Contact",
-    "getStarted": "Get Started"
+    "getStarted": "Get Started",
+    "launch": "Sites $399"
+  },
+  "launchBanner": {
+    "badge": "🚀 Limited Offer",
+    "title": "Professional Website",
+    "highlight": "in 5 Days",
+    "subtitle": "Get a stunning, conversion-optimized website for your local business. No templates. No hassle. Just results.",
+    "feature1": "5-Day Delivery",
+    "feature2": "100% Custom",
+    "feature3": "SEO Ready",
+    "originalPrice": "$799",
+    "price": "$399",
+    "savings": "Save 50%",
+    "cta": "Get Your Site Now",
+    "guarantee": "30-day money-back guarantee"
   },
   "saas": {
     "title": "Innexar SaaS - Business Management (ERP)",
