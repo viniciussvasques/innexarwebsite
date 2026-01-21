@@ -236,6 +236,48 @@ function OnboardingContent() {
 
     const [newTestimonial, setNewTestimonial] = useState<Testimonial>({ name: '', text: '', role: '' })
     const hasTrackedLead = useRef(false)
+    const hasLoadedFromStorage = useRef(false)
+
+    // Storage key based on orderId
+    const storageKey = orderId ? `onboarding_${orderId}` : 'onboarding_draft'
+
+    // Load saved progress from localStorage on mount
+    useEffect(() => {
+        if (hasLoadedFromStorage.current) return
+        hasLoadedFromStorage.current = true
+
+        try {
+            const saved = localStorage.getItem(storageKey)
+            if (saved) {
+                const { formData: savedFormData, currentStep: savedStep } = JSON.parse(saved)
+                if (savedFormData) {
+                    setFormData(prev => ({ ...prev, ...savedFormData }))
+                }
+                if (savedStep && savedStep > 0 && savedStep <= TOTAL_STEPS) {
+                    setCurrentStep(savedStep)
+                }
+                console.log('Restored onboarding progress from step', savedStep)
+            }
+        } catch (error) {
+            console.error('Error loading saved progress:', error)
+        }
+    }, [storageKey])
+
+    // Save progress to localStorage whenever formData or currentStep changes
+    useEffect(() => {
+        if (!hasLoadedFromStorage.current) return // Don't save during initial load
+
+        try {
+            const dataToSave = {
+                formData,
+                currentStep,
+                savedAt: new Date().toISOString(),
+            }
+            localStorage.setItem(storageKey, JSON.stringify(dataToSave))
+        } catch (error) {
+            console.error('Error saving progress:', error)
+        }
+    }, [formData, currentStep, storageKey])
 
     // Track Lead event on page load
     useEffect(() => {
@@ -385,6 +427,8 @@ function OnboardingContent() {
                     content_name: 'Site Onboarding Complete',
                     status: 'success',
                 })
+                // Clear saved progress from localStorage
+                localStorage.removeItem(storageKey)
                 setIsComplete(true)
             } else {
                 throw new Error('Failed to submit')
