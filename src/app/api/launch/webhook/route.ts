@@ -18,14 +18,19 @@ export async function POST(request: NextRequest) {
     const signature = request.headers.get('stripe-signature')
 
     if (!signature) {
+        console.error('Webhook: No signature provided')
         return NextResponse.json({ error: 'No signature' }, { status: 400 })
     }
 
+    console.log('Webhook: Received request with signature')
+
     const webhookSecret = await getStripeWebhookSecret()
+    console.log('Webhook: Got secret, length:', webhookSecret?.length || 0)
 
     try {
         const stripe = await getStripe()
         const event = stripe.webhooks.constructEvent(body, signature, webhookSecret)
+        console.log('Webhook: Event verified -', event.type)
 
         // Handle events
         switch (event.type) {
@@ -63,7 +68,8 @@ export async function POST(request: NextRequest) {
                             console.error('Failed to send confirmation email:', emailError)
                         }
                     } else {
-                        console.error('Failed to create order in CRM')
+                        const errorText = await orderResponse.text()
+                        console.error('Failed to create order in CRM:', orderResponse.status, errorText)
                     }
                 } catch (error) {
                     console.error('Error calling CRM API:', error)
