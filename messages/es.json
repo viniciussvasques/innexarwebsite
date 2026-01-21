@@ -1919,6 +1919,8 @@
           "general": "Negocio General",
           "other": "Otro"
         },
+        "customNiche": "Describa el Tipo de Su Negocio",
+        "customNichePlaceholder": "Ej: Peluquería de Mascotas, Taller Mecánico, Estudio Fotográfico",
         "pages": {
           "home": "Inicio",
           "about": "Nosotros",

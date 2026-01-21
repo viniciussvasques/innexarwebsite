@@ -88,6 +88,7 @@ interface FormData {
     hasWhatsapp: boolean
     businessAddress: string
     niche: string
+    customNiche: string
     primaryCity: string
     state: string
     serviceAreas: string[]
@@ -196,6 +197,7 @@ function OnboardingContent() {
         hasWhatsapp: false,
         businessAddress: '',
         niche: '',
+        customNiche: '',
         primaryCity: '',
         state: '',
         serviceAreas: [],
@@ -264,7 +266,13 @@ function OnboardingContent() {
 
     const addService = () => {
         if (serviceInput.trim() && formData.services.length < 15) {
-            updateField('services', [...formData.services, serviceInput.trim()])
+            const newService = serviceInput.trim()
+            const newServices = [...formData.services, newService]
+            updateField('services', newServices)
+            // Auto-select first service as primary if none selected
+            if (!formData.primaryService) {
+                updateField('primaryService', newService)
+            }
             setServiceInput('')
         }
     }
@@ -312,7 +320,7 @@ function OnboardingContent() {
     const canProceed = () => {
         switch (currentStep) {
             case 1: return formData.businessName && formData.businessEmail && formData.businessPhone
-            case 2: return formData.niche && formData.primaryCity && formData.state
+            case 2: return formData.niche && formData.primaryCity && formData.state && (formData.niche !== 'other' || formData.customNiche)
             case 3: return formData.services.length > 0 && formData.primaryService
             case 4: return formData.siteObjective && formData.selectedPages.length >= 2
             case 5: return formData.primaryColor
@@ -334,6 +342,7 @@ function OnboardingContent() {
                 has_whatsapp: formData.hasWhatsapp,
                 business_address: formData.businessAddress,
                 niche: formData.niche,
+                custom_niche: formData.customNiche,
                 primary_city: formData.primaryCity,
                 state: formData.state,
                 service_areas: formData.serviceAreas,
@@ -685,6 +694,23 @@ function OnboardingContent() {
                                     })}
                                 </div>
                             </div>
+
+                            {/* Custom Niche Input - shows when "other" is selected */}
+                            {formData.niche === 'other' && (
+                                <div>
+                                    <label className="block text-sm font-medium text-slate-300 mb-2">
+                                        {t('onboarding.form.customNiche')} *
+                                    </label>
+                                    <input
+                                        type="text"
+                                        value={formData.customNiche}
+                                        onChange={e => updateField('customNiche', e.target.value)}
+                                        placeholder={t('onboarding.form.customNichePlaceholder')}
+                                        className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-blue-500"
+                                    />
+                                </div>
+                            )}
+
                             <div className="grid md:grid-cols-2 gap-4">
                                 <div>
                                     <label className="block text-sm font-medium text-slate-300 mb-2">{t('onboarding.form.city')} *</label>

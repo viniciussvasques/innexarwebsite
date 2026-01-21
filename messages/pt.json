@@ -1919,6 +1919,8 @@
           "general": "Negócio Geral",
           "other": "Outro"
         },
+        "customNiche": "Descreva o Tipo do Seu Negócio",
+        "customNichePlaceholder": "Ex: Pet Shop, Oficina Mecânica, Estúdio de Fotografia",
         "pages": {
           "home": "Início",
           "about": "Sobre Nós",

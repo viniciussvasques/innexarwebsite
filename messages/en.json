@@ -1897,6 +1897,8 @@
           "general": "General Business",
           "other": "Other"
         },
+        "customNiche": "Describe Your Business Type",
+        "customNichePlaceholder": "e.g., Pet Grooming, Auto Repair, Photography Studio",
         "pages": {
           "home": "Home",
           "about": "About Us",
