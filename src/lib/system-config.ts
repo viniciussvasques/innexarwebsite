@@ -22,38 +22,26 @@ async function fetchStripeConfig(): Promise<StripeConfig> {
     }
 
     try {
-        const response = await fetch(`${CRM_API_URL}/system-config/public`, {
+        // Use the public-config endpoint which doesn't require auth
+        const response = await fetch(`${CRM_API_URL}/public-config/stripe/keys`, {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' },
             cache: 'no-store',
         })
 
         if (!response.ok) {
-            console.error('Failed to fetch system config:', response.status)
+            console.error('Failed to fetch Stripe config:', response.status)
             return {}
         }
 
-        const configs = await response.json()
-
-        // Transform array of configs to object
-        const configMap: StripeConfig = {}
-        for (const config of configs) {
-            if (config.key === 'stripe_secret_key') {
-                configMap.stripe_secret_key = config.value
-            } else if (config.key === 'stripe_publishable_key') {
-                configMap.stripe_publishable_key = config.value
-            } else if (config.key === 'stripe_webhook_secret') {
-                configMap.stripe_webhook_secret = config.value
-            }
-        }
-
-        cachedConfig = configMap
+        const config = await response.json()
+        cachedConfig = config
         cacheTimestamp = now
         console.log('Loaded Stripe config from CRM')
 
-        return configMap
+        return config
     } catch (error) {
-        console.error('Error fetching system config from CRM:', error)
+        console.error('Error fetching Stripe config from CRM:', error)
         return {}
     }
 }
