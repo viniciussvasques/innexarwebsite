@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { getStripeSecretKey } from '@/lib/system-config'
 
 // Base product
 const BASE_PRODUCT = {
@@ -19,7 +20,7 @@ const ADDONS: Record<string, { name: string; price: number; description: string 
 // Dynamically import Stripe only at runtime
 async function getStripe() {
     const Stripe = (await import('stripe')).default
-    const key = process.env.STRIPE_SECRET_KEY || 'sk_test_placeholder'
+    const key = await getStripeSecretKey()
     return new Stripe(key, {
         apiVersion: '2025-12-15.clover' as const,
     })

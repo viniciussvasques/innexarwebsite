@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { getStripeSecretKey, getStripeWebhookSecret } from '@/lib/system-config'
 
 // CRM API endpoint
 const CRM_API_URL = process.env.CRM_API_URL || 'https://sales.innexar.app/api'
@@ -6,7 +7,7 @@ const CRM_API_URL = process.env.CRM_API_URL || 'https://sales.innexar.app/api'
 // Dynamically import Stripe only at runtime
 async function getStripe() {
     const Stripe = (await import('stripe')).default
-    const key = process.env.STRIPE_SECRET_KEY || 'whsec_placeholder'
+    const key = await getStripeSecretKey()
     return new Stripe(key, {
         apiVersion: '2025-12-15.clover' as const,
     })
@@ -20,7 +21,7 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({ error: 'No signature' }, { status: 400 })
     }
 
-    const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET || 'whsec_placeholder'
+    const webhookSecret = await getStripeWebhookSecret()
 
     try {
         const stripe = await getStripe()
