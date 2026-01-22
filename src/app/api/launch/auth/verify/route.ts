@@ -1,10 +1,12 @@
 import { NextResponse } from "next/server";
 
+const CRM_API_URL = process.env.CRM_API_URL || 'https://sales.innexar.app/api'
+
 export async function POST(req: Request) {
     try {
         const { token } = await req.json();
 
-        const response = await fetch(`${process.env.CRM_API_URL}/site-customers/verify/${token}`, {
+        const response = await fetch(`${CRM_API_URL}/site-customers/verify/${token}`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
