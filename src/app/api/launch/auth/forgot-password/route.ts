@@ -4,10 +4,14 @@ const CRM_API_URL = process.env.CRM_API_URL || 'https://sales.innexar.app/api'
 
 export async function POST(request: NextRequest) {
     try {
-        const { searchParams } = new URL(request.url)
-        const email = searchParams.get('email')
+        const body = await request.json()
+        const email = body.email
 
-        const response = await fetch(`${CRM_API_URL}/site-customers/forgot-password?email=${encodeURIComponent(email || '')}`, {
+        if (!email) {
+            return NextResponse.json({ error: 'Email is required' }, { status: 400 })
+        }
+
+        const response = await fetch(`${CRM_API_URL}/site-customers/forgot-password?email=${encodeURIComponent(email)}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' }
         })
