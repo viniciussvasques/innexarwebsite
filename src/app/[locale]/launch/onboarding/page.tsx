@@ -10,8 +10,9 @@ import {
     Plus, X, Facebook, Instagram, Linkedin, Youtube, MessageCircle,
     ArrowRight, Sparkles, Users, FileText, Image, HelpCircle, DollarSign,
     Utensils, Scale, Stethoscope, Home, Wrench, Zap, TreeDeciduous, Sparkle,
-    Send, Calendar, LayoutDashboard, PartyPopper
+    Send, Calendar, LayoutDashboard, PartyPopper, Loader2, AlertCircle, LogIn
 } from 'lucide-react'
+import { Link } from '@/navigation'
 import { useTranslations } from 'next-intl'
 import { MetaPixel } from '@/lib/meta-pixel'
 import Header from '@/components/Header'
@@ -240,6 +241,12 @@ function OnboardingContent() {
     })
 
     const [newTestimonial, setNewTestimonial] = useState<Testimonial>({ name: '', text: '', role: '' })
+
+    // Email verification state
+    const [isCheckingEmail, setIsCheckingEmail] = useState(false)
+    const [emailExists, setEmailExists] = useState(false)
+    const [showLoginModal, setShowLoginModal] = useState(false)
+
     const hasTrackedLead = useRef(false)
     const hasLoadedFromStorage = useRef(false)
 
@@ -297,6 +304,31 @@ function OnboardingContent() {
 
     const updateField = <K extends keyof FormData>(field: K, value: FormData[K]) => {
         setFormData(prev => ({ ...prev, [field]: value }))
+        // Reset email exists error when email changes
+        if (field === 'businessEmail') {
+            setEmailExists(false)
+        }
+    }
+
+    const checkEmail = async () => {
+        if (!formData.businessEmail || !formData.businessEmail.includes('@')) return
+
+        setIsCheckingEmail(true)
+        try {
+            const response = await fetch(`/api/launch/check-email?email=${encodeURIComponent(formData.businessEmail)}`)
+            const data = await response.json()
+
+            if (data.exists) {
+                setEmailExists(true)
+                setShowLoginModal(true)
+            } else {
+                setEmailExists(false)
+            }
+        } catch (error) {
+            console.error('Error checking email:', error)
+        } finally {
+            setIsCheckingEmail(false)
+        }
     }
 
     const selectColorPalette = (paletteId: string) => {
@@ -367,6 +399,7 @@ function OnboardingContent() {
     const canProceed = () => {
         switch (currentStep) {
             case 1: return formData.businessName && formData.businessEmail && formData.businessPhone &&
+                !emailExists && !isCheckingEmail &&
                 formData.password && formData.password.length >= 8 &&
                 formData.password === formData.confirmPassword
             case 2: return formData.niche && formData.primaryCity && formData.state && (formData.niche !== 'other' || formData.customNiche)
@@ -554,24 +587,24 @@ function OnboardingContent() {
                     >
                         <p className="font-semibold text-blue-300 mb-3 flex items-center gap-2">
                             <Rocket className="w-5 h-5" />
-                            What happens next?
+                            {t('onboarding.complete.nextSteps')}
                         </p>
                         <div className="space-y-2 text-sm">
                             <div className="flex items-center gap-3 text-slate-300">
                                 <Check className="w-4 h-4 text-green-400 flex-shrink-0" />
-                                <span>Confirmation email with order details</span>
+                                <span>{t('onboarding.complete.step1')}</span>
                             </div>
                             <div className="flex items-center gap-3 text-slate-300">
                                 <Check className="w-4 h-4 text-green-400 flex-shrink-0" />
-                                <span>Our design team reviews your requirements</span>
+                                <span>{t('onboarding.complete.step2')}</span>
                             </div>
                             <div className="flex items-center gap-3 text-slate-300">
                                 <Check className="w-4 h-4 text-green-400 flex-shrink-0" />
-                                <span>First draft delivered in 3-5 business days</span>
+                                <span>{t('onboarding.complete.step3')}</span>
                             </div>
                             <div className="flex items-center gap-3 text-slate-300">
                                 <Check className="w-4 h-4 text-green-400 flex-shrink-0" />
-                                <span>2 rounds of revisions included</span>
+                                <span>{t('onboarding.complete.step4')}</span>
                             </div>
                         </div>
                     </motion.div>
@@ -593,7 +626,7 @@ function OnboardingContent() {
                             href="/"
                             className="flex items-center justify-center gap-2 w-full py-3 bg-white/5 border border-white/10 hover:border-white/20 rounded-xl font-medium text-slate-300 transition-all"
                         >
-                            Return to Home
+                            {t('onboarding.form.backHome')}
                         </a>
                     </motion.div>
 
@@ -658,6 +691,40 @@ function OnboardingContent() {
                         </div>
                     </div>
 
+                    {/* Login Modal */}
+                    {showLoginModal && (
+                        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+                            <motion.div
+                                initial={{ opacity: 0, scale: 0.95 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                className="bg-slate-900 border border-slate-800 rounded-2xl p-6 max-w-md w-full shadow-2xl"
+                            >
+                                <div className="flex items-center gap-3 text-amber-400 mb-4">
+                                    <AlertCircle className="w-8 h-8" />
+                                    <h3 className="text-xl font-bold text-white">{t('onboarding.form.loginModal.title')}</h3>
+                                </div>
+                                <p className="text-slate-300 mb-6">
+                                    {t('onboarding.form.loginModal.message')}
+                                </p>
+                                <div className="flex gap-3">
+                                    <Link
+                                        href="/launch/login"
+                                        className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl font-semibold flex items-center justify-center gap-2 transition-colors"
+                                    >
+                                        <LogIn className="w-4 h-4" />
+                                        {t('onboarding.form.loginModal.loginButton')}
+                                    </Link>
+                                    <button
+                                        onClick={() => setShowLoginModal(false)}
+                                        className="flex-1 bg-white/10 hover:bg-white/20 text-white py-3 rounded-xl font-semibold transition-colors"
+                                    >
+                                        {t('onboarding.form.loginModal.cancelButton')}
+                                    </button>
+                                </div>
+                            </motion.div>
+                        </div>
+                    )}
+
                     {/* Form Card */}
                     <motion.div
                         key={currentStep}
@@ -685,9 +752,22 @@ function OnboardingContent() {
                                             type="email"
                                             value={formData.businessEmail}
                                             onChange={e => updateField('businessEmail', e.target.value)}
+                                            onBlur={checkEmail}
                                             placeholder={t('onboarding.form.emailPlaceholder')}
                                             className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-blue-500"
                                         />
+                                        {isCheckingEmail && (
+                                            <p className="text-xs text-blue-400 mt-1 flex items-center gap-1">
+                                                <Loader2 className="w-3 h-3 animate-spin" />
+                                                {t('onboarding.form.emailCheck.checking')}
+                                            </p>
+                                        )}
+                                        {emailExists && (
+                                            <p className="text-xs text-red-400 mt-1 flex items-center gap-1">
+                                                <AlertCircle className="w-3 h-3" />
+                                                {t('onboarding.form.emailCheck.exists')}
+                                            </p>
+                                        )}
                                     </div>
                                     <div>
                                         <label className="block text-sm font-medium text-slate-300 mb-2">{t('onboarding.form.phone')} *</label>
@@ -741,7 +821,7 @@ function OnboardingContent() {
                                                     }`}
                                             />
                                             {formData.password && formData.password.length < 8 && (
-                                                <p className="text-xs text-red-400 mt-1">Min. 8 characters</p>
+                                                <p className="text-xs text-red-400 mt-1">{t('onboarding.form.errors.minPassword')}</p>
                                             )}
                                         </div>
                                         <div>
@@ -755,7 +835,7 @@ function OnboardingContent() {
                                                     }`}
                                             />
                                             {formData.confirmPassword && formData.password !== formData.confirmPassword && (
-                                                <p className="text-xs text-red-400 mt-1">Passwords do not match</p>
+                                                <p className="text-xs text-red-400 mt-1">{t('onboarding.form.errors.mismatch')}</p>
                                             )}
                                         </div>
                                     </div>

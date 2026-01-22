@@ -1913,6 +1913,17 @@
           "whatsapp": "WhatsApp",
           "form": "Contact Form",
           "bookOnline": "Book Online"
+        },
+        "emailCheck": {
+          "checking": "Checking email...",
+          "available": "Email available",
+          "exists": "This email is already registered"
+        },
+        "loginModal": {
+          "title": "Email Already Registered",
+          "message": "This email is already associated with an account. Please log in to continue.",
+          "loginButton": "Log In",
+          "cancelButton": "Use Different Email"
         }
       },
       "navigation": {
@@ -1928,48 +1939,112 @@
         "dashboardButton": "View Project Dashboard",
         "timeline": "Expected Timeline: 5 business days"
       }
+    }
+  },
+  "dashboard": {
+    "header": {
+      "logout": "Sign Out"
     },
-    "dashboard": {
-      "title": "Your Project Dashboard",
-      "subtitle": "Track your website progress",
-      "orderDetails": "Order Details",
-      "status": "Status",
-      "statuses": {
-        "pending": "Pending",
-        "designing": "In Design",
-        "development": "In Development",
-        "review": "Ready for Review",
-        "revisions": "In Revisions",
-        "completed": "Completed",
-        "delivered": "Delivered"
-      },
-      "timeline": {
-        "title": "Project Timeline",
-        "payment": "Payment Received",
-        "onboarding": "Onboarding Complete",
-        "design": "Design Phase",
-        "development": "Development",
-        "review": "Your Review",
-        "launch": "Site Launch"
-      },
-      "orderSummary": {
-        "title": "Order Summary",
-        "basePackage": "Professional Website",
-        "addons": "Add-ons",
-        "total": "Total"
-      },
-      "actions": {
-        "title": "Quick Actions",
-        "viewPreview": "View Preview",
-        "requestChanges": "Request Changes",
-        "approveDesign": "Approve Design",
-        "contactSupport": "Contact Support"
-      },
-      "support": {
-        "title": "Need Help?",
-        "message": "Our team is here to assist you.",
-        "email": "Email Us",
-        "whatsapp": "WhatsApp"
+    "welcome": {
+      "greeting": "Hello",
+      "subtitle": "Track your project's progress below."
+    },
+    "status": {
+      "label": "Current Status",
+      "paid": "Payment Confirmed",
+      "onboarding": "Awaiting Onboarding",
+      "building": "In Development",
+      "review": "Ready for Review",
+      "delivered": "Delivered",
+      "delivery": "Expected delivery"
+    },
+    "business": {
+      "title": "Your Business",
+      "name": "Name",
+      "location": "Location",
+      "pending": "Complete onboarding to see information"
+    },
+    "order": {
+      "title": "Order Details",
+      "number": "Order #",
+      "total": "Total Value",
+      "revisions": "Revisions Used"
+    },
+    "success": {
+      "title": "Your Site is Live! 🎉",
+      "message": "Congratulations! Your website is now published and ready for the world. You can access it through the button below.",
+      "button": "Visit My Site"
+    },
+    "actions": {
+      "title": "Quick Actions",
+      "viewPreview": "View Preview",
+      "requestChanges": "Request Changes",
+      "approveDesign": "Approve Design",
+      "contactSupport": "Contact Support"
+    },
+    "support": {
+      "title": "Need Help?",
+      "message": "Our team is here to assist you.",
+      "email": "Email Us",
+      "whatsapp": "WhatsApp"
+    },
+    "error": {
+      "title": "Failed to load",
+      "fetch": "Failed to load project",
+      "generic": "Error loading",
+      "notFound": "Project not found",
+      "retry": "Login again"
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Welcome Back",
+      "subtitle": "Access your customer portal to track your site development.",
+      "emailLabel": "Email Address",
+      "emailPlaceholder": "Enter your email",
+      "passwordLabel": "Password",
+      "passwordPlaceholder": "Enter your password",
+      "forgotPassword": "Forgot your password?",
+      "submit": "Sign In",
+      "noAccount": "Don't have an account?",
+      "getStarted": "Get Started",
+      "error": {
+        "invalid": "Invalid email or password",
+        "generic": "Something went wrong. Please try again."
+      }
+    },
+    "forgotPassword": {
+      "title": "Reset Password",
+      "subtitle": "Enter your email and we'll send you a link to reset your password.",
+      "emailLabel": "Email Address",
+      "emailPlaceholder": "Enter your email",
+      "submit": "Send Reset Link",
+      "backToLogin": "Back to login",
+      "success": "Check your email for the reset link.",
+      "error": "Could not find an account with that email."
+    },
+    "resetPassword": {
+      "title": "New Password",
+      "subtitle": "Create a new password for your account.",
+      "passwordLabel": "New Password",
+      "passwordPlaceholder": "At least 8 characters",
+      "confirmPasswordLabel": "Confirm New Password",
+      "confirmPasswordPlaceholder": "Repeat your new password",
+      "submit": "Update Password",
+      "success": "Password updated successfully!",
+      "error": "Failed to reset password. The link may be expired.",
+      "mismatch": "Passwords do not match"
+    },
+    "verifyEmail": {
+      "title": "Check Your Inbox",
+      "subtitle": "We've sent a verification link to your email address.",
+      "resend": "Didn't receive the email?",
+      "resendButton": "Resend verification email",
+      "success": "Verification email sent!",
+      "verified": {
+        "title": "Email Verified!",
+        "subtitle": "Your account is now active. You can proceed to your portal.",
+        "cta": "Go to Portal"
       }
     }
   }
