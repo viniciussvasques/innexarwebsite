@@ -89,15 +89,15 @@ const AIChat = () => {
       }
 
       const data = await response.json()
-      
+
       const assistantMessage: Message = {
         id: (Date.now() + 1).toString(),
         role: 'assistant',
-        content: data.response || data.message || (getBrowserLanguage() === 'pt' 
+        content: data.response || data.message || (getBrowserLanguage() === 'pt'
           ? 'Desculpe, não consegui processar sua mensagem.'
           : getBrowserLanguage() === 'es'
-          ? 'Lo siento, no pude procesar tu mensaje.'
-          : 'Sorry, I couldn\'t process your message.'),
+            ? 'Lo siento, no pude procesar tu mensaje.'
+            : 'Sorry, I couldn\'t process your message.'),
         timestamp: new Date()
       }
 
@@ -107,11 +107,11 @@ const AIChat = () => {
       const errorMessage: Message = {
         id: (Date.now() + 1).toString(),
         role: 'assistant',
-        content: getBrowserLanguage() === 'pt' 
+        content: getBrowserLanguage() === 'pt'
           ? 'Desculpe, ocorreu um erro. Por favor, tente novamente ou entre em contato conosco através do formulário.'
           : getBrowserLanguage() === 'es'
-          ? 'Lo siento, ocurrió un error. Por favor, intente nuevamente o contáctenos a través del formulario.'
-          : 'Sorry, an error occurred. Please try again or contact us through the form.',
+            ? 'Lo siento, ocurrió un error. Por favor, intente nuevamente o contáctenos a través del formulario.'
+            : 'Sorry, an error occurred. Please try again or contact us through the form.',
         timestamp: new Date()
       }
       setMessages(prev => [...prev, errorMessage])
@@ -157,7 +157,8 @@ const AIChat = () => {
       {/* Chat Window */}
       {isOpen && (
         <div
-          className="fixed bottom-24 right-6 z-[9998] w-full max-w-md h-[600px] bg-white rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-gray-200"
+          className="fixed z-[9998] bg-white rounded-2xl sm:rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-gray-200
+            inset-0 sm:inset-auto sm:bottom-24 sm:right-6 sm:w-full sm:max-w-md sm:h-[500px] md:h-[600px]"
           style={{
             animation: 'slideUp 0.3s ease-out'
           }}
@@ -197,16 +198,14 @@ const AIChat = () => {
                 }}
               >
                 <div
-                  className={`max-w-[80%] rounded-2xl px-4 py-3 ${
-                    message.role === 'user'
+                  className={`max-w-[80%] rounded-2xl px-4 py-3 ${message.role === 'user'
                       ? 'bg-blue-600 text-white'
                       : 'bg-white text-gray-900 shadow-sm border border-gray-200'
-                  }`}
+                    }`}
                 >
                   <p className="text-sm whitespace-pre-wrap break-words">{message.content}</p>
-                  <p className={`text-xs mt-1 ${
-                    message.role === 'user' ? 'text-blue-100' : 'text-gray-500'
-                  }`}>
+                  <p className={`text-xs mt-1 ${message.role === 'user' ? 'text-blue-100' : 'text-gray-500'
+                    }`}>
                     {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                   </p>
                 </div>
@@ -235,11 +234,11 @@ const AIChat = () => {
                 onChange={(e) => setInput(e.target.value)}
                 onKeyPress={handleKeyPress}
                 placeholder={
-                  getBrowserLanguage() === 'pt' 
+                  getBrowserLanguage() === 'pt'
                     ? 'Digite sua mensagem...'
                     : getBrowserLanguage() === 'es'
-                    ? 'Escribe tu mensaje...'
-                    : 'Type your message...'
+                      ? 'Escribe tu mensaje...'
+                      : 'Type your message...'
                 }
                 className="flex-1 px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900"
                 disabled={isLoading}
@@ -258,8 +257,8 @@ const AIChat = () => {
               {getBrowserLanguage() === 'pt'
                 ? 'Helena pode ajudar com informações sobre nossos serviços e projetos.'
                 : getBrowserLanguage() === 'es'
-                ? 'Helena puede ayudar con información sobre nuestros servicios y proyectos.'
-                : 'Helena can help with information about our services and projects.'}
+                  ? 'Helena puede ayudar con información sobre nuestros servicios y proyectos.'
+                  : 'Helena can help with information about our services and projects.'}
             </p>
           </div>
         </div>

@@ -13,10 +13,10 @@ export async function POST(request: NextRequest) {
     }
 
     // URL da API do CRM (endpoint público)
-    const crmApiUrl = process.env.CRM_API_URL || 'https://api.sales.innexar.app'
-    
+    const crmApiUrl = process.env.CRM_API_URL || 'https://sales.innexar.app/api'
+
     // Fazer requisição para o CRM (endpoint público)
-    const response = await fetch(`${crmApiUrl}/api/ai/public/chat`, {
+    const response = await fetch(`${crmApiUrl}/ai/public/chat`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
