@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server'
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    const { message, language, context } = body
+    const { message, session_id, language, context } = body
 
     if (!message) {
       return NextResponse.json(
@@ -23,6 +23,7 @@ export async function POST(request: NextRequest) {
       },
       body: JSON.stringify({
         message,
+        session_id,
         language: language || 'pt',
         context: {
           ...context,

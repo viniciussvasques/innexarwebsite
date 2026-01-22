@@ -16,7 +16,20 @@ const AIChat = () => {
   const [messages, setMessages] = useState<Message[]>([])
   const [input, setInput] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+  const [sessionId, setSessionId] = useState<string | null>(null)
   const messagesEndRef = useRef<HTMLDivElement>(null)
+
+  // Gerar ou recuperar session_id do localStorage
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      let storedSessionId = localStorage.getItem('helena_session_id')
+      if (!storedSessionId) {
+        storedSessionId = crypto.randomUUID()
+        localStorage.setItem('helena_session_id', storedSessionId)
+      }
+      setSessionId(storedSessionId)
+    }
+  }, [])
 
   // Detectar idioma do navegador
   const getBrowserLanguage = () => {
@@ -95,11 +108,12 @@ const AIChat = () => {
         },
         body: JSON.stringify({
           message: userMessage.content,
-          language: getBrowserLanguage(),
+          session_id: sessionId,
+          language: locale || 'en',
           context: {
             source: 'website',
             page: typeof window !== 'undefined' ? window.location.pathname : '/',
-            user_agent: typeof window !== 'undefined' ? navigator.userAgent : ''
+            visitor_hash: typeof window !== 'undefined' ? btoa(navigator.userAgent).slice(0, 32) : ''
           }
         }),
       })
