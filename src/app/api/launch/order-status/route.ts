@@ -14,14 +14,17 @@ export async function GET(request: NextRequest) {
 
     try {
         // Fetch order from CRM API using public endpoint
-        const crmUrl = process.env.CRM_API_URL || 'http://crm-backend:8000/api'
+        const crmUrl = process.env.CRM_API_URL || 'https://sales.innexar.app/api'
         const response = await fetch(`${crmUrl}/site-orders/public/${orderId}?email=${encodeURIComponent(email)}`, {
             headers: {
                 'Content-Type': 'application/json',
             },
+            next: { revalidate: 0 } // Ensure we don't cache status in dev
         })
 
         if (!response.ok) {
+            const errorText = await response.text();
+            console.error(`CRM API Error (${response.status}):`, errorText);
             return NextResponse.json(
                 { error: 'Order not found' },
                 { status: 404 }

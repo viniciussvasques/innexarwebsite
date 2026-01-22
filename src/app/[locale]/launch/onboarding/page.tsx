@@ -14,6 +14,7 @@ import {
 } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { MetaPixel } from '@/lib/meta-pixel'
+import Header from '@/components/Header'
 
 // ============ CONFIGURATION ============
 const TOTAL_STEPS = 7
@@ -115,6 +116,8 @@ interface FormData {
     googleReviewsLink: string
     aboutOwner: string
     yearsInBusiness: string
+    password?: string
+    confirmPassword?: string
 }
 
 function OnboardingContent() {
@@ -232,6 +235,8 @@ function OnboardingContent() {
         googleReviewsLink: '',
         aboutOwner: '',
         yearsInBusiness: '',
+        password: '',
+        confirmPassword: '',
     })
 
     const [newTestimonial, setNewTestimonial] = useState<Testimonial>({ name: '', text: '', role: '' })
@@ -361,7 +366,9 @@ function OnboardingContent() {
 
     const canProceed = () => {
         switch (currentStep) {
-            case 1: return formData.businessName && formData.businessEmail && formData.businessPhone
+            case 1: return formData.businessName && formData.businessEmail && formData.businessPhone &&
+                formData.password && formData.password.length >= 8 &&
+                formData.password === formData.confirmPassword
             case 2: return formData.niche && formData.primaryCity && formData.state && (formData.niche !== 'other' || formData.customNiche)
             case 3: return formData.services.length > 0 && formData.primaryService
             case 4: return formData.siteObjective && formData.selectedPages.length >= 2
@@ -411,6 +418,7 @@ function OnboardingContent() {
                 google_reviews_link: formData.googleReviewsLink,
                 about_owner: formData.aboutOwner,
                 years_in_business: formData.yearsInBusiness ? parseInt(formData.yearsInBusiness) : null,
+                password: formData.password,
                 is_complete: true,
                 completed_steps: TOTAL_STEPS,
             }
@@ -607,697 +615,741 @@ function OnboardingContent() {
 
     // ============ MAIN FORM ============
     return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 text-white py-8 px-4 md:px-6">
-            <div className="max-w-4xl mx-auto">
-                {/* Progress Header */}
-                <div className="mb-8">
-                    <div className="flex items-center justify-between mb-4 overflow-x-auto pb-2">
-                        {steps.map((step, index) => {
-                            const StepIcon = step.icon
-                            return (
-                                <div key={step.id} className="flex items-center">
-                                    <motion.button
-                                        onClick={() => currentStep > step.id && setCurrentStep(step.id)}
-                                        disabled={currentStep < step.id}
-                                        animate={{ scale: currentStep === step.id ? 1.1 : 1 }}
-                                        className={`w-10 h-10 md:w-12 md:h-12 rounded-xl flex items-center justify-center transition-colors ${currentStep > step.id
-                                            ? 'bg-green-500 cursor-pointer'
-                                            : currentStep === step.id
-                                                ? 'bg-blue-500'
-                                                : 'bg-white/10'
-                                            }`}
-                                    >
-                                        {currentStep > step.id ? (
-                                            <Check className="w-5 h-5" />
-                                        ) : (
-                                            <StepIcon className="w-5 h-5" />
-                                        )}
-                                    </motion.button>
-                                    {index < steps.length - 1 && (
-                                        <div className={`w-8 md:w-12 h-1 mx-1 rounded-full ${currentStep > step.id ? 'bg-green-500' : 'bg-white/10'
-                                            }`} />
-                                    )}
-                                </div>
-                            )
-                        })}
-                    </div>
-                    <div className="text-center">
-                        <span className="text-blue-400 font-semibold">Step {currentStep} of {TOTAL_STEPS}:</span>{' '}
-                        <span className="text-white">{steps[currentStep - 1].title}</span>
-                        <p className="text-slate-400 text-sm mt-1">{steps[currentStep - 1].description}</p>
-                    </div>
-                </div>
-
-                {/* Form Card */}
-                <motion.div
-                    key={currentStep}
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-6 md:p-8"
-                >
-                    {/* ============ STEP 1: Business Info ============ */}
-                    {currentStep === 1 && (
-                        <div className="space-y-6">
-                            <div>
-                                <label className="block text-sm font-medium text-slate-300 mb-2">{t('onboarding.form.businessName')} *</label>
-                                <input
-                                    type="text"
-                                    value={formData.businessName}
-                                    onChange={e => updateField('businessName', e.target.value)}
-                                    placeholder={t('onboarding.form.businessNamePlaceholder')}
-                                    className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-blue-500"
-                                />
-                            </div>
-                            <div className="grid md:grid-cols-2 gap-4">
-                                <div>
-                                    <label className="block text-sm font-medium text-slate-300 mb-2">{t('onboarding.form.email')} *</label>
-                                    <input
-                                        type="email"
-                                        value={formData.businessEmail}
-                                        onChange={e => updateField('businessEmail', e.target.value)}
-                                        placeholder={t('onboarding.form.emailPlaceholder')}
-                                        className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-blue-500"
-                                    />
-                                </div>
-                                <div>
-                                    <label className="block text-sm font-medium text-slate-300 mb-2">{t('onboarding.form.phone')} *</label>
-                                    <input
-                                        type="tel"
-                                        value={formData.businessPhone}
-                                        onChange={e => updateField('businessPhone', e.target.value)}
-                                        placeholder={t('onboarding.form.phonePlaceholder')}
-                                        className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-blue-500"
-                                    />
-                                </div>
-                            </div>
-                            <label className="flex items-center gap-3 cursor-pointer">
-                                <input
-                                    type="checkbox"
-                                    checked={formData.hasWhatsapp}
-                                    onChange={e => updateField('hasWhatsapp', e.target.checked)}
-                                    className="w-5 h-5 rounded border-white/20 bg-white/10"
-                                />
-                                <span className="text-slate-300">{t('onboarding.form.hasWhatsApp')}</span>
-                            </label>
-                            <div>
-                                <label className="block text-sm font-medium text-slate-300 mb-2">{t('onboarding.form.address')}</label>
-                                <input
-                                    type="text"
-                                    value={formData.businessAddress}
-                                    onChange={e => updateField('businessAddress', e.target.value)}
-                                    placeholder={t('onboarding.form.addressPlaceholder')}
-                                    className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-blue-500"
-                                />
-                            </div>
-                        </div>
-                    )}
-
-                    {/* ============ STEP 2: Location & Niche ============ */}
-                    {currentStep === 2 && (
-                        <div className="space-y-6">
-                            <div>
-                                <label className="block text-sm font-medium text-slate-300 mb-3">{t('onboarding.form.niche')} *</label>
-                                <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
-                                    {niches.map(niche => {
-                                        const NicheIcon = niche.icon
-                                        return (
-                                            <motion.button
-                                                key={niche.id}
-                                                whileHover={{ scale: 1.02 }}
-                                                whileTap={{ scale: 0.98 }}
-                                                onClick={() => updateField('niche', niche.id)}
-                                                className={`p-3 rounded-xl border text-center transition-colors ${formData.niche === niche.id
-                                                    ? 'bg-blue-500/20 border-blue-400'
-                                                    : 'bg-white/5 border-white/10 hover:border-white/20'
-                                                    }`}
-                                            >
-                                                <NicheIcon className="w-6 h-6 mx-auto mb-1" />
-                                                <div className="text-xs">{niche.label}</div>
-                                            </motion.button>
-                                        )
-                                    })}
-                                </div>
-                            </div>
-
-                            {/* Custom Niche Input - shows when "other" is selected */}
-                            {formData.niche === 'other' && (
-                                <div>
-                                    <label className="block text-sm font-medium text-slate-300 mb-2">
-                                        {t('onboarding.form.customNiche')} *
-                                    </label>
-                                    <input
-                                        type="text"
-                                        value={formData.customNiche}
-                                        onChange={e => updateField('customNiche', e.target.value)}
-                                        placeholder={t('onboarding.form.customNichePlaceholder')}
-                                        className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-blue-500"
-                                    />
-                                </div>
-                            )}
-
-                            <div className="grid md:grid-cols-2 gap-4">
-                                <div>
-                                    <label className="block text-sm font-medium text-slate-300 mb-2">{t('onboarding.form.city')} *</label>
-                                    <input
-                                        type="text"
-                                        value={formData.primaryCity}
-                                        onChange={e => updateField('primaryCity', e.target.value)}
-                                        placeholder="e.g., Orlando"
-                                        className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-blue-500"
-                                    />
-                                </div>
-                                <div>
-                                    <label className="block text-sm font-medium text-slate-300 mb-2">{t('onboarding.form.state')} *</label>
-                                    <select
-                                        value={formData.state}
-                                        onChange={e => updateField('state', e.target.value)}
-                                        className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white focus:outline-none focus:border-blue-500"
-                                    >
-                                        <option value="" className="bg-slate-800">Select state</option>
-                                        {usStates.map(state => (
-                                            <option key={state} value={state} className="bg-slate-800">{state}</option>
-                                        ))}
-                                    </select>
-                                </div>
-                            </div>
-                            <div>
-                                <label className="block text-sm font-medium text-slate-300 mb-2">{t('onboarding.form.serviceAreas')}</label>
-                                <div className="flex gap-2">
-                                    <input
-                                        type="text"
-                                        value={serviceAreaInput}
-                                        onChange={e => setServiceAreaInput(e.target.value)}
-                                        onKeyPress={e => e.key === 'Enter' && (e.preventDefault(), addServiceArea())}
-                                        placeholder="Add nearby cities..."
-                                        className="flex-1 px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-blue-500"
-                                    />
-                                    <button onClick={addServiceArea} className="px-4 py-3 bg-blue-500 hover:bg-blue-600 rounded-xl transition-colors">
-                                        <Plus className="w-5 h-5" />
-                                    </button>
-                                </div>
-                                {formData.serviceAreas.length > 0 && (
-                                    <div className="flex flex-wrap gap-2 mt-3">
-                                        {formData.serviceAreas.map((area, i) => (
-                                            <span key={i} className="px-3 py-1 bg-white/10 rounded-lg flex items-center gap-2">
-                                                {area}
-                                                <button onClick={() => updateField('serviceAreas', formData.serviceAreas.filter((_, j) => j !== i))} className="text-slate-400 hover:text-red-400">
-                                                    <X className="w-4 h-4" />
-                                                </button>
-                                            </span>
-                                        ))}
-                                    </div>
-                                )}
-                            </div>
-                        </div>
-                    )}
-
-                    {/* ============ STEP 3: Services ============ */}
-                    {currentStep === 3 && (
-                        <div className="space-y-6">
-                            <div>
-                                <label className="block text-sm font-medium text-slate-300 mb-2">{t('onboarding.form.services')} *</label>
-                                <div className="flex gap-2">
-                                    <input
-                                        type="text"
-                                        value={serviceInput}
-                                        onChange={e => setServiceInput(e.target.value)}
-                                        onKeyPress={e => e.key === 'Enter' && (e.preventDefault(), addService())}
-                                        placeholder="e.g., Emergency Repairs"
-                                        className="flex-1 px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-blue-500"
-                                    />
-                                    <button onClick={addService} className="px-6 py-3 bg-blue-500 hover:bg-blue-600 rounded-xl font-medium transition-colors flex items-center gap-2">
-                                        <Plus className="w-5 h-5" /> Add
-                                    </button>
-                                </div>
-                            </div>
-                            {formData.services.length > 0 && (
-                                <div>
-                                    <p className="text-sm text-slate-400 mb-2">Click to select your PRIMARY service:</p>
-                                    <div className="flex flex-wrap gap-2">
-                                        {formData.services.map((service, index) => (
-                                            <motion.div
-                                                key={index}
-                                                initial={{ opacity: 0, scale: 0.8 }}
-                                                animate={{ opacity: 1, scale: 1 }}
-                                                className={`flex items-center gap-2 px-4 py-2 rounded-lg cursor-pointer transition-colors ${formData.primaryService === service
-                                                    ? 'bg-blue-500 text-white'
-                                                    : 'bg-white/10 text-slate-300 hover:bg-white/20'
-                                                    }`}
-                                                onClick={() => updateField('primaryService', service)}
-                                            >
-                                                {formData.primaryService === service && <Star className="w-4 h-4" />}
-                                                <span>{service}</span>
-                                                <button
-                                                    onClick={e => { e.stopPropagation(); removeService(index) }}
-                                                    className="ml-1 text-slate-400 hover:text-red-400"
-                                                >
-                                                    <X className="w-4 h-4" />
-                                                </button>
-                                            </motion.div>
-                                        ))}
-                                    </div>
-                                </div>
-                            )}
-                        </div>
-                    )}
-
-                    {/* ============ STEP 4: Site Goals & Pages ============ */}
-                    {currentStep === 4 && (
-                        <div className="space-y-8">
-                            <div>
-                                <label className="block text-sm font-medium text-slate-300 mb-3">{t('onboarding.form.siteObjective')} *</label>
-                                <div className="grid md:grid-cols-2 gap-3">
-                                    {objectives.map(obj => {
-                                        const ObjIcon = obj.icon
-                                        return (
-                                            <motion.button
-                                                key={obj.id}
-                                                whileHover={{ scale: 1.02 }}
-                                                onClick={() => updateField('siteObjective', obj.id)}
-                                                className={`p-4 rounded-xl border text-left transition-colors ${formData.siteObjective === obj.id
-                                                    ? 'bg-blue-500/20 border-blue-400'
-                                                    : 'bg-white/5 border-white/10 hover:border-white/20'
-                                                    }`}
-                                            >
-                                                <div className="flex items-center gap-3">
-                                                    <ObjIcon className="w-6 h-6" />
-                                                    <div>
-                                                        <div className="font-medium">{obj.label}</div>
-                                                        <div className="text-xs text-slate-400">{obj.desc}</div>
-                                                    </div>
-                                                </div>
-                                            </motion.button>
-                                        )
-                                    })}
-                                </div>
-                            </div>
-
-                            <div>
-                                <label className="block text-sm font-medium text-slate-300 mb-3">{t('onboarding.form.selectPages')}</label>
-                                <div className="grid grid-cols-2 md:grid-cols-5 gap-2">
-                                    {pages.map(page => (
+        <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 text-white">
+            <Header />
+            <div className="py-8 px-4 md:px-6 pt-24">
+                <div className="max-w-4xl mx-auto">
+                    {/* Progress Header */}
+                    <div className="mb-8">
+                        <div className="flex items-center justify-between mb-4 overflow-x-auto pb-2">
+                            {steps.map((step, index) => {
+                                const StepIcon = step.icon
+                                return (
+                                    <div key={step.id} className="flex items-center">
                                         <motion.button
-                                            key={page.id}
-                                            whileHover={{ scale: page.required ? 1 : 1.02 }}
-                                            onClick={() => togglePage(page.id)}
-                                            className={`p-3 rounded-xl border text-sm transition-colors flex items-center justify-center gap-1 ${formData.selectedPages.includes(page.id)
-                                                ? 'bg-blue-500/20 border-blue-400'
-                                                : 'bg-white/5 border-white/10 hover:border-white/20'
-                                                } ${page.required ? 'opacity-70 cursor-default' : ''}`}
+                                            onClick={() => currentStep > step.id && setCurrentStep(step.id)}
+                                            disabled={currentStep < step.id}
+                                            animate={{ scale: currentStep === step.id ? 1.1 : 1 }}
+                                            className={`w-10 h-10 md:w-12 md:h-12 rounded-xl flex items-center justify-center transition-colors ${currentStep > step.id
+                                                ? 'bg-green-500 cursor-pointer'
+                                                : currentStep === step.id
+                                                    ? 'bg-blue-500'
+                                                    : 'bg-white/10'
+                                                }`}
                                         >
-                                            {page.label}
-                                            {page.required && <Check className="w-3 h-3 text-blue-300" />}
+                                            {currentStep > step.id ? (
+                                                <Check className="w-5 h-5" />
+                                            ) : (
+                                                <StepIcon className="w-5 h-5" />
+                                            )}
                                         </motion.button>
-                                    ))}
-                                </div>
-                                <p className="text-xs text-slate-400 mt-2">Selected: {formData.selectedPages.length} pages</p>
-                            </div>
+                                        {index < steps.length - 1 && (
+                                            <div className={`w-8 md:w-12 h-1 mx-1 rounded-full ${currentStep > step.id ? 'bg-green-500' : 'bg-white/10'
+                                                }`} />
+                                        )}
+                                    </div>
+                                )
+                            })}
+                        </div>
+                        <div className="text-center">
+                            <span className="text-blue-400 font-semibold">Step {currentStep} of {TOTAL_STEPS}:</span>{' '}
+                            <span className="text-white">{steps[currentStep - 1].title}</span>
+                            <p className="text-slate-400 text-sm mt-1">{steps[currentStep - 1].description}</p>
+                        </div>
+                    </div>
 
-                            <div>
-                                <label className="block text-sm font-medium text-slate-300 mb-2">{t('onboarding.form.siteDescription')}</label>
-                                <textarea
-                                    value={formData.siteDescription}
-                                    onChange={e => updateField('siteDescription', e.target.value)}
-                                    placeholder="Tell us about your business, what makes you different..."
-                                    rows={4}
-                                    className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-blue-500"
-                                />
-                            </div>
-
-                            <div className="grid md:grid-cols-2 gap-6">
+                    {/* Form Card */}
+                    <motion.div
+                        key={currentStep}
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-6 md:p-8"
+                    >
+                        {/* ============ STEP 1: Business Info ============ */}
+                        {currentStep === 1 && (
+                            <div className="space-y-6">
                                 <div>
-                                    <label className="block text-sm font-medium text-slate-300 mb-3">Website Tone</label>
-                                    <div className="space-y-2">
-                                        {tones.map(tone => (
-                                            <button
-                                                key={tone.id}
-                                                onClick={() => updateField('tone', tone.id)}
-                                                className={`w-full p-3 rounded-xl border text-left transition-colors ${formData.tone === tone.id
-                                                    ? 'bg-blue-500/20 border-blue-400'
-                                                    : 'bg-white/5 border-white/10 hover:border-white/20'
-                                                    }`}
-                                            >
-                                                <div className="font-medium">{tone.label}</div>
-                                                <div className="text-xs text-slate-400">{tone.desc}</div>
-                                            </button>
-                                        ))}
+                                    <label className="block text-sm font-medium text-slate-300 mb-2">{t('onboarding.form.businessName')} *</label>
+                                    <input
+                                        type="text"
+                                        value={formData.businessName}
+                                        onChange={e => updateField('businessName', e.target.value)}
+                                        placeholder={t('onboarding.form.businessNamePlaceholder')}
+                                        className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-blue-500"
+                                    />
+                                </div>
+                                <div className="grid md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label className="block text-sm font-medium text-slate-300 mb-2">{t('onboarding.form.email')} *</label>
+                                        <input
+                                            type="email"
+                                            value={formData.businessEmail}
+                                            onChange={e => updateField('businessEmail', e.target.value)}
+                                            placeholder={t('onboarding.form.emailPlaceholder')}
+                                            className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-blue-500"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm font-medium text-slate-300 mb-2">{t('onboarding.form.phone')} *</label>
+                                        <input
+                                            type="tel"
+                                            value={formData.businessPhone}
+                                            onChange={e => updateField('businessPhone', e.target.value)}
+                                            placeholder={t('onboarding.form.phonePlaceholder')}
+                                            className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-blue-500"
+                                        />
                                     </div>
                                 </div>
+                                <label className="flex items-center gap-3 cursor-pointer">
+                                    <input
+                                        type="checkbox"
+                                        checked={formData.hasWhatsapp}
+                                        onChange={e => updateField('hasWhatsapp', e.target.checked)}
+                                        className="w-5 h-5 rounded border-white/20 bg-white/10"
+                                    />
+                                    <span className="text-slate-300">{t('onboarding.form.hasWhatsApp')}</span>
+                                </label>
                                 <div>
-                                    <label className="block text-sm font-medium text-slate-300 mb-3">Main Call to Action</label>
-                                    <div className="grid grid-cols-2 gap-2">
-                                        {ctaOptions.map(cta => {
-                                            const CtaIcon = cta.icon
+                                    <label className="block text-sm font-medium text-slate-300 mb-2">{t('onboarding.form.address')}</label>
+                                    <input
+                                        type="text"
+                                        value={formData.businessAddress}
+                                        onChange={e => updateField('businessAddress', e.target.value)}
+                                        placeholder={t('onboarding.form.addressPlaceholder')}
+                                        className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-blue-500"
+                                    />
+                                </div>
+
+                                {/* Account Creation Section */}
+                                <div className="pt-6 border-t border-white/10">
+                                    <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+                                        <Users className="w-5 h-5 text-blue-400" />
+                                        {t('onboarding.form.password')}
+                                    </h3>
+                                    <p className="text-sm text-slate-400 mb-6">
+                                        {t('onboarding.form.passwordHelp')}
+                                    </p>
+                                    <div className="grid md:grid-cols-2 gap-4">
+                                        <div>
+                                            <label className="block text-sm font-medium text-slate-300 mb-2">{t('onboarding.form.password')} *</label>
+                                            <input
+                                                type="password"
+                                                value={formData.password}
+                                                onChange={e => updateField('password', e.target.value)}
+                                                placeholder={t('onboarding.form.passwordPlaceholder')}
+                                                className={`w-full px-4 py-3 bg-white/10 border rounded-xl text-white placeholder-slate-500 focus:outline-none ${formData.password && formData.password.length < 8 ? 'border-red-500/50' : 'border-white/20 focus:border-blue-500'
+                                                    }`}
+                                            />
+                                            {formData.password && formData.password.length < 8 && (
+                                                <p className="text-xs text-red-400 mt-1">Min. 8 characters</p>
+                                            )}
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm font-medium text-slate-300 mb-2">{t('onboarding.form.confirmPassword')} *</label>
+                                            <input
+                                                type="password"
+                                                value={formData.confirmPassword}
+                                                onChange={e => updateField('confirmPassword', e.target.value)}
+                                                placeholder="••••••••"
+                                                className={`w-full px-4 py-3 bg-white/10 border rounded-xl text-white placeholder-slate-500 focus:outline-none ${formData.confirmPassword && formData.password !== formData.confirmPassword ? 'border-red-500/50' : 'border-white/20 focus:border-blue-500'
+                                                    }`}
+                                            />
+                                            {formData.confirmPassword && formData.password !== formData.confirmPassword && (
+                                                <p className="text-xs text-red-400 mt-1">Passwords do not match</p>
+                                            )}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
+                        {/* ============ STEP 2: Location & Niche ============ */}
+                        {currentStep === 2 && (
+                            <div className="space-y-6">
+                                <div>
+                                    <label className="block text-sm font-medium text-slate-300 mb-3">{t('onboarding.form.niche')} *</label>
+                                    <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
+                                        {niches.map(niche => {
+                                            const NicheIcon = niche.icon
                                             return (
-                                                <button
-                                                    key={cta.id}
-                                                    onClick={() => updateField('primaryCta', cta.id)}
-                                                    className={`p-3 rounded-xl border text-center transition-colors ${formData.primaryCta === cta.id
+                                                <motion.button
+                                                    key={niche.id}
+                                                    whileHover={{ scale: 1.02 }}
+                                                    whileTap={{ scale: 0.98 }}
+                                                    onClick={() => updateField('niche', niche.id)}
+                                                    className={`p-3 rounded-xl border text-center transition-colors ${formData.niche === niche.id
                                                         ? 'bg-blue-500/20 border-blue-400'
                                                         : 'bg-white/5 border-white/10 hover:border-white/20'
                                                         }`}
                                                 >
-                                                    <CtaIcon className="w-5 h-5 mx-auto mb-1" />
-                                                    <div className="text-sm">{cta.label}</div>
-                                                </button>
+                                                    <NicheIcon className="w-6 h-6 mx-auto mb-1" />
+                                                    <div className="text-xs">{niche.label}</div>
+                                                </motion.button>
                                             )
                                         })}
                                     </div>
-                                    <input
-                                        type="text"
-                                        value={formData.ctaText}
-                                        onChange={e => updateField('ctaText', e.target.value)}
-                                        placeholder="Custom CTA text (e.g., Get Free Quote)"
-                                        className="w-full mt-3 px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-blue-500"
-                                    />
                                 </div>
-                            </div>
-                        </div>
-                    )}
 
-                    {/* ============ STEP 5: Design & Colors ============ */}
-                    {currentStep === 5 && (
-                        <div className="space-y-8">
-                            <div>
-                                <label className="block text-sm font-medium text-slate-300 mb-3">{t('onboarding.form.colorPalette')}</label>
-                                <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                                    {colorPalettes.filter(p => p.id !== 'custom').map(palette => (
-                                        <motion.button
-                                            key={palette.id}
-                                            whileHover={{ scale: 1.02 }}
-                                            onClick={() => selectColorPalette(palette.id)}
-                                            className={`p-4 rounded-xl border transition-all ${formData.colorPalette === palette.id
-                                                ? 'border-white ring-2 ring-white/50'
-                                                : 'border-white/10 hover:border-white/30'
-                                                }`}
-                                        >
-                                            <div className="flex gap-1 mb-2">
-                                                <div className="w-8 h-8 rounded-lg" style={{ backgroundColor: palette.primary }} />
-                                                <div className="w-8 h-8 rounded-lg" style={{ backgroundColor: palette.secondary }} />
-                                                <div className="w-8 h-8 rounded-lg" style={{ backgroundColor: palette.accent }} />
-                                            </div>
-                                            <div className="text-xs">{palette.name}</div>
-                                        </motion.button>
-                                    ))}
-                                </div>
-                            </div>
-
-                            <div>
-                                <label className="block text-sm font-medium text-slate-300 mb-3">Or Choose Custom Colors</label>
-                                <div className="grid grid-cols-3 gap-4">
-                                    {['primary', 'secondary', 'accent'].map(colorType => (
-                                        <div key={colorType}>
-                                            <label className="text-xs text-slate-400 capitalize">{colorType}</label>
-                                            <div className="flex gap-2 items-center mt-1">
-                                                <input
-                                                    type="color"
-                                                    value={formData[`${colorType}Color` as keyof FormData] as string}
-                                                    onChange={e => {
-                                                        updateField(`${colorType}Color` as keyof FormData, e.target.value as never)
-                                                        updateField('colorPalette', 'custom')
-                                                    }}
-                                                    className="w-12 h-12 rounded-lg cursor-pointer border-0"
-                                                />
-                                                <input
-                                                    type="text"
-                                                    value={formData[`${colorType}Color` as keyof FormData] as string}
-                                                    onChange={e => {
-                                                        updateField(`${colorType}Color` as keyof FormData, e.target.value as never)
-                                                        updateField('colorPalette', 'custom')
-                                                    }}
-                                                    className="flex-1 px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white text-sm font-mono"
-                                                />
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-
-                            <div>
-                                <label className="block text-sm font-medium text-slate-300 mb-2">Reference Sites (Optional)</label>
-                                <p className="text-xs text-slate-400 mb-2">Add URLs of websites you like for design inspiration</p>
-                                <div className="flex gap-2">
-                                    <input
-                                        type="url"
-                                        value={referenceInput}
-                                        onChange={e => setReferenceInput(e.target.value)}
-                                        onKeyPress={e => e.key === 'Enter' && (e.preventDefault(), addReference())}
-                                        placeholder="https://example.com"
-                                        className="flex-1 px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-blue-500"
-                                    />
-                                    <button onClick={addReference} className="px-4 py-3 bg-blue-500 hover:bg-blue-600 rounded-xl transition-colors">
-                                        <Plus className="w-5 h-5" />
-                                    </button>
-                                </div>
-                                {formData.referenceSites.length > 0 && (
-                                    <div className="flex flex-wrap gap-2 mt-3">
-                                        {formData.referenceSites.map((site, i) => (
-                                            <span key={i} className="px-3 py-1 bg-white/10 rounded-lg flex items-center gap-2 text-sm">
-                                                <Globe className="w-3 h-3" />
-                                                {site.length > 25 ? site.substring(0, 25) + '...' : site}
-                                                <button onClick={() => updateField('referenceSites', formData.referenceSites.filter((_, j) => j !== i))} className="text-slate-400 hover:text-red-400">
-                                                    <X className="w-4 h-4" />
-                                                </button>
-                                            </span>
-                                        ))}
+                                {/* Custom Niche Input - shows when "other" is selected */}
+                                {formData.niche === 'other' && (
+                                    <div>
+                                        <label className="block text-sm font-medium text-slate-300 mb-2">
+                                            {t('onboarding.form.customNiche')} *
+                                        </label>
+                                        <input
+                                            type="text"
+                                            value={formData.customNiche}
+                                            onChange={e => updateField('customNiche', e.target.value)}
+                                            placeholder={t('onboarding.form.customNichePlaceholder')}
+                                            className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-blue-500"
+                                        />
                                     </div>
                                 )}
-                            </div>
 
-                            <div>
-                                <label className="block text-sm font-medium text-slate-300 mb-2">Additional Design Notes (Optional)</label>
-                                <textarea
-                                    value={formData.designNotes}
-                                    onChange={e => updateField('designNotes', e.target.value)}
-                                    placeholder="Any specific design preferences, elements you want, or things to avoid..."
-                                    rows={3}
-                                    className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-blue-500"
-                                />
-                            </div>
-                        </div>
-                    )}
-
-                    {/* ============ STEP 6: Business Details ============ */}
-                    {currentStep === 6 && (
-                        <div className="space-y-8">
-                            <div>
-                                <label className="block text-sm font-medium text-slate-300 mb-3">{t('onboarding.form.businessHours')}</label>
-                                <div className="grid gap-2">
-                                    {[
-                                        { key: 'mon', label: 'Monday' },
-                                        { key: 'tue', label: 'Tuesday' },
-                                        { key: 'wed', label: 'Wednesday' },
-                                        { key: 'thu', label: 'Thursday' },
-                                        { key: 'fri', label: 'Friday' },
-                                        { key: 'sat', label: 'Saturday' },
-                                        { key: 'sun', label: 'Sunday' },
-                                    ].map(day => (
-                                        <div key={day.key} className="flex items-center gap-3">
-                                            <span className="w-24 text-sm text-slate-400">{day.label}</span>
-                                            <input
-                                                type="text"
-                                                value={formData.businessHours[day.key] || ''}
-                                                onChange={e => updateField('businessHours', { ...formData.businessHours, [day.key]: e.target.value })}
-                                                placeholder="e.g., 9am - 5pm or Closed"
-                                                className="flex-1 px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 text-sm"
-                                            />
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-
-                            <div>
-                                <label className="block text-sm font-medium text-slate-300 mb-3">{t('onboarding.form.socialMedia')}</label>
                                 <div className="grid md:grid-cols-2 gap-4">
                                     <div>
-                                        <label className="text-xs text-slate-400 flex items-center gap-2 mb-1"><Facebook className="w-4 h-4" /> Facebook</label>
+                                        <label className="block text-sm font-medium text-slate-300 mb-2">{t('onboarding.form.city')} *</label>
                                         <input
-                                            type="url"
-                                            value={formData.socialFacebook}
-                                            onChange={e => updateField('socialFacebook', e.target.value)}
-                                            placeholder="https://facebook.com/yourpage"
-                                            className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 text-sm"
+                                            type="text"
+                                            value={formData.primaryCity}
+                                            onChange={e => updateField('primaryCity', e.target.value)}
+                                            placeholder="e.g., Orlando"
+                                            className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-blue-500"
                                         />
                                     </div>
                                     <div>
-                                        <label className="text-xs text-slate-400 flex items-center gap-2 mb-1"><Instagram className="w-4 h-4" /> Instagram</label>
+                                        <label className="block text-sm font-medium text-slate-300 mb-2">{t('onboarding.form.state')} *</label>
+                                        <select
+                                            value={formData.state}
+                                            onChange={e => updateField('state', e.target.value)}
+                                            className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white focus:outline-none focus:border-blue-500"
+                                        >
+                                            <option value="" className="bg-slate-800">Select state</option>
+                                            {usStates.map(state => (
+                                                <option key={state} value={state} className="bg-slate-800">{state}</option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-slate-300 mb-2">{t('onboarding.form.serviceAreas')}</label>
+                                    <div className="flex gap-2">
                                         <input
-                                            type="url"
-                                            value={formData.socialInstagram}
-                                            onChange={e => updateField('socialInstagram', e.target.value)}
-                                            placeholder="https://instagram.com/yourhandle"
-                                            className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 text-sm"
+                                            type="text"
+                                            value={serviceAreaInput}
+                                            onChange={e => setServiceAreaInput(e.target.value)}
+                                            onKeyPress={e => e.key === 'Enter' && (e.preventDefault(), addServiceArea())}
+                                            placeholder="Add nearby cities..."
+                                            className="flex-1 px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-blue-500"
                                         />
+                                        <button onClick={addServiceArea} className="px-4 py-3 bg-blue-500 hover:bg-blue-600 rounded-xl transition-colors">
+                                            <Plus className="w-5 h-5" />
+                                        </button>
+                                    </div>
+                                    {formData.serviceAreas.length > 0 && (
+                                        <div className="flex flex-wrap gap-2 mt-3">
+                                            {formData.serviceAreas.map((area, i) => (
+                                                <span key={i} className="px-3 py-1 bg-white/10 rounded-lg flex items-center gap-2">
+                                                    {area}
+                                                    <button onClick={() => updateField('serviceAreas', formData.serviceAreas.filter((_, j) => j !== i))} className="text-slate-400 hover:text-red-400">
+                                                        <X className="w-4 h-4" />
+                                                    </button>
+                                                </span>
+                                            ))}
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                        )}
+
+                        {/* ============ STEP 3: Services ============ */}
+                        {currentStep === 3 && (
+                            <div className="space-y-6">
+                                <div>
+                                    <label className="block text-sm font-medium text-slate-300 mb-2">{t('onboarding.form.services')} *</label>
+                                    <div className="flex gap-2">
+                                        <input
+                                            type="text"
+                                            value={serviceInput}
+                                            onChange={e => setServiceInput(e.target.value)}
+                                            onKeyPress={e => e.key === 'Enter' && (e.preventDefault(), addService())}
+                                            placeholder="e.g., Emergency Repairs"
+                                            className="flex-1 px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-blue-500"
+                                        />
+                                        <button onClick={addService} className="px-6 py-3 bg-blue-500 hover:bg-blue-600 rounded-xl font-medium transition-colors flex items-center gap-2">
+                                            <Plus className="w-5 h-5" /> Add
+                                        </button>
+                                    </div>
+                                </div>
+                                {formData.services.length > 0 && (
+                                    <div>
+                                        <p className="text-sm text-slate-400 mb-2">Click to select your PRIMARY service:</p>
+                                        <div className="flex flex-wrap gap-2">
+                                            {formData.services.map((service, index) => (
+                                                <motion.div
+                                                    key={index}
+                                                    initial={{ opacity: 0, scale: 0.8 }}
+                                                    animate={{ opacity: 1, scale: 1 }}
+                                                    className={`flex items-center gap-2 px-4 py-2 rounded-lg cursor-pointer transition-colors ${formData.primaryService === service
+                                                        ? 'bg-blue-500 text-white'
+                                                        : 'bg-white/10 text-slate-300 hover:bg-white/20'
+                                                        }`}
+                                                    onClick={() => updateField('primaryService', service)}
+                                                >
+                                                    {formData.primaryService === service && <Star className="w-4 h-4" />}
+                                                    <span>{service}</span>
+                                                    <button
+                                                        onClick={e => { e.stopPropagation(); removeService(index) }}
+                                                        className="ml-1 text-slate-400 hover:text-red-400"
+                                                    >
+                                                        <X className="w-4 h-4" />
+                                                    </button>
+                                                </motion.div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+                        )}
+
+                        {/* ============ STEP 4: Site Goals & Pages ============ */}
+                        {currentStep === 4 && (
+                            <div className="space-y-8">
+                                <div>
+                                    <label className="block text-sm font-medium text-slate-300 mb-3">{t('onboarding.form.siteObjective')} *</label>
+                                    <div className="grid md:grid-cols-2 gap-3">
+                                        {objectives.map(obj => {
+                                            const ObjIcon = obj.icon
+                                            return (
+                                                <motion.button
+                                                    key={obj.id}
+                                                    whileHover={{ scale: 1.02 }}
+                                                    onClick={() => updateField('siteObjective', obj.id)}
+                                                    className={`p-4 rounded-xl border text-left transition-colors ${formData.siteObjective === obj.id
+                                                        ? 'bg-blue-500/20 border-blue-400'
+                                                        : 'bg-white/5 border-white/10 hover:border-white/20'
+                                                        }`}
+                                                >
+                                                    <div className="flex items-center gap-3">
+                                                        <ObjIcon className="w-6 h-6" />
+                                                        <div>
+                                                            <div className="font-medium">{obj.label}</div>
+                                                            <div className="text-xs text-slate-400">{obj.desc}</div>
+                                                        </div>
+                                                    </div>
+                                                </motion.button>
+                                            )
+                                        })}
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label className="block text-sm font-medium text-slate-300 mb-3">{t('onboarding.form.selectPages')}</label>
+                                    <div className="grid grid-cols-2 md:grid-cols-5 gap-2">
+                                        {pages.map(page => (
+                                            <motion.button
+                                                key={page.id}
+                                                whileHover={{ scale: page.required ? 1 : 1.02 }}
+                                                onClick={() => togglePage(page.id)}
+                                                className={`p-3 rounded-xl border text-sm transition-colors flex items-center justify-center gap-1 ${formData.selectedPages.includes(page.id)
+                                                    ? 'bg-blue-500/20 border-blue-400'
+                                                    : 'bg-white/5 border-white/10 hover:border-white/20'
+                                                    } ${page.required ? 'opacity-70 cursor-default' : ''}`}
+                                            >
+                                                {page.label}
+                                                {page.required && <Check className="w-3 h-3 text-blue-300" />}
+                                            </motion.button>
+                                        ))}
+                                    </div>
+                                    <p className="text-xs text-slate-400 mt-2">Selected: {formData.selectedPages.length} pages</p>
+                                </div>
+
+                                <div>
+                                    <label className="block text-sm font-medium text-slate-300 mb-2">{t('onboarding.form.siteDescription')}</label>
+                                    <textarea
+                                        value={formData.siteDescription}
+                                        onChange={e => updateField('siteDescription', e.target.value)}
+                                        placeholder="Tell us about your business, what makes you different..."
+                                        rows={4}
+                                        className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-blue-500"
+                                    />
+                                </div>
+
+                                <div className="grid md:grid-cols-2 gap-6">
+                                    <div>
+                                        <label className="block text-sm font-medium text-slate-300 mb-3">Website Tone</label>
+                                        <div className="space-y-2">
+                                            {tones.map(tone => (
+                                                <button
+                                                    key={tone.id}
+                                                    onClick={() => updateField('tone', tone.id)}
+                                                    className={`w-full p-3 rounded-xl border text-left transition-colors ${formData.tone === tone.id
+                                                        ? 'bg-blue-500/20 border-blue-400'
+                                                        : 'bg-white/5 border-white/10 hover:border-white/20'
+                                                        }`}
+                                                >
+                                                    <div className="font-medium">{tone.label}</div>
+                                                    <div className="text-xs text-slate-400">{tone.desc}</div>
+                                                </button>
+                                            ))}
+                                        </div>
                                     </div>
                                     <div>
-                                        <label className="text-xs text-slate-400 flex items-center gap-2 mb-1"><Linkedin className="w-4 h-4" /> LinkedIn</label>
+                                        <label className="block text-sm font-medium text-slate-300 mb-3">Main Call to Action</label>
+                                        <div className="grid grid-cols-2 gap-2">
+                                            {ctaOptions.map(cta => {
+                                                const CtaIcon = cta.icon
+                                                return (
+                                                    <button
+                                                        key={cta.id}
+                                                        onClick={() => updateField('primaryCta', cta.id)}
+                                                        className={`p-3 rounded-xl border text-center transition-colors ${formData.primaryCta === cta.id
+                                                            ? 'bg-blue-500/20 border-blue-400'
+                                                            : 'bg-white/5 border-white/10 hover:border-white/20'
+                                                            }`}
+                                                    >
+                                                        <CtaIcon className="w-5 h-5 mx-auto mb-1" />
+                                                        <div className="text-sm">{cta.label}</div>
+                                                    </button>
+                                                )
+                                            })}
+                                        </div>
                                         <input
-                                            type="url"
-                                            value={formData.socialLinkedin}
-                                            onChange={e => updateField('socialLinkedin', e.target.value)}
-                                            placeholder="https://linkedin.com/in/yourprofile"
-                                            className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 text-sm"
-                                        />
-                                    </div>
-                                    <div>
-                                        <label className="text-xs text-slate-400 flex items-center gap-2 mb-1"><Youtube className="w-4 h-4" /> YouTube</label>
-                                        <input
-                                            type="url"
-                                            value={formData.socialYoutube}
-                                            onChange={e => updateField('socialYoutube', e.target.value)}
-                                            placeholder="https://youtube.com/@yourchannel"
-                                            className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 text-sm"
+                                            type="text"
+                                            value={formData.ctaText}
+                                            onChange={e => updateField('ctaText', e.target.value)}
+                                            placeholder="Custom CTA text (e.g., Get Free Quote)"
+                                            className="w-full mt-3 px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-blue-500"
                                         />
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    )}
+                        )}
 
-                    {/* ============ STEP 7: Testimonials & About ============ */}
-                    {currentStep === 7 && (
-                        <div className="space-y-8">
-                            <div>
-                                <label className="block text-sm font-medium text-slate-300 mb-3">{t('onboarding.form.testimonials')}</label>
-                                <p className="text-xs text-slate-400 mb-3">Add reviews from happy customers to display on your site</p>
-
-                                <div className="bg-white/5 border border-white/10 rounded-xl p-4 space-y-3">
-                                    <input
-                                        type="text"
-                                        value={newTestimonial.name}
-                                        onChange={e => setNewTestimonial({ ...newTestimonial, name: e.target.value })}
-                                        placeholder="Customer name"
-                                        className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 text-sm"
-                                    />
-                                    <input
-                                        type="text"
-                                        value={newTestimonial.role || ''}
-                                        onChange={e => setNewTestimonial({ ...newTestimonial, role: e.target.value })}
-                                        placeholder="Role (e.g., Homeowner, Business Owner)"
-                                        className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 text-sm"
-                                    />
-                                    <textarea
-                                        value={newTestimonial.text}
-                                        onChange={e => setNewTestimonial({ ...newTestimonial, text: e.target.value })}
-                                        placeholder="Their review or testimonial..."
-                                        rows={2}
-                                        className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 text-sm"
-                                    />
-                                    <button
-                                        onClick={addTestimonial}
-                                        className="w-full py-2 bg-blue-500/20 border border-blue-400/30 rounded-lg text-blue-300 hover:bg-blue-500/30 flex items-center justify-center gap-2 transition-colors"
-                                    >
-                                        <Plus className="w-4 h-4" /> Add Testimonial
-                                    </button>
+                        {/* ============ STEP 5: Design & Colors ============ */}
+                        {currentStep === 5 && (
+                            <div className="space-y-8">
+                                <div>
+                                    <label className="block text-sm font-medium text-slate-300 mb-3">{t('onboarding.form.colorPalette')}</label>
+                                    <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                                        {colorPalettes.filter(p => p.id !== 'custom').map(palette => (
+                                            <motion.button
+                                                key={palette.id}
+                                                whileHover={{ scale: 1.02 }}
+                                                onClick={() => selectColorPalette(palette.id)}
+                                                className={`p-4 rounded-xl border transition-all ${formData.colorPalette === palette.id
+                                                    ? 'border-white ring-2 ring-white/50'
+                                                    : 'border-white/10 hover:border-white/30'
+                                                    }`}
+                                            >
+                                                <div className="flex gap-1 mb-2">
+                                                    <div className="w-8 h-8 rounded-lg" style={{ backgroundColor: palette.primary }} />
+                                                    <div className="w-8 h-8 rounded-lg" style={{ backgroundColor: palette.secondary }} />
+                                                    <div className="w-8 h-8 rounded-lg" style={{ backgroundColor: palette.accent }} />
+                                                </div>
+                                                <div className="text-xs">{palette.name}</div>
+                                            </motion.button>
+                                        ))}
+                                    </div>
                                 </div>
 
-                                {formData.testimonials.length > 0 && (
-                                    <div className="mt-4 space-y-3">
-                                        {formData.testimonials.map((t, i) => (
-                                            <div key={i} className="bg-white/5 border border-white/10 rounded-xl p-4 relative">
-                                                <button
-                                                    onClick={() => updateField('testimonials', formData.testimonials.filter((_, j) => j !== i))}
-                                                    className="absolute top-2 right-2 text-slate-400 hover:text-red-400"
-                                                >
-                                                    <X className="w-4 h-4" />
-                                                </button>
-                                                <div className="font-medium">{t.name}</div>
-                                                {t.role && <div className="text-xs text-slate-400">{t.role}</div>}
-                                                <div className="text-sm text-slate-300 mt-2">"{t.text}"</div>
+                                <div>
+                                    <label className="block text-sm font-medium text-slate-300 mb-3">Or Choose Custom Colors</label>
+                                    <div className="grid grid-cols-3 gap-4">
+                                        {['primary', 'secondary', 'accent'].map(colorType => (
+                                            <div key={colorType}>
+                                                <label className="text-xs text-slate-400 capitalize">{colorType}</label>
+                                                <div className="flex gap-2 items-center mt-1">
+                                                    <input
+                                                        type="color"
+                                                        value={formData[`${colorType}Color` as keyof FormData] as string}
+                                                        onChange={e => {
+                                                            updateField(`${colorType}Color` as keyof FormData, e.target.value as never)
+                                                            updateField('colorPalette', 'custom')
+                                                        }}
+                                                        className="w-12 h-12 rounded-lg cursor-pointer border-0"
+                                                    />
+                                                    <input
+                                                        type="text"
+                                                        value={formData[`${colorType}Color` as keyof FormData] as string}
+                                                        onChange={e => {
+                                                            updateField(`${colorType}Color` as keyof FormData, e.target.value as never)
+                                                            updateField('colorPalette', 'custom')
+                                                        }}
+                                                        className="flex-1 px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white text-sm font-mono"
+                                                    />
+                                                </div>
                                             </div>
                                         ))}
                                     </div>
-                                )}
+                                </div>
+
+                                <div>
+                                    <label className="block text-sm font-medium text-slate-300 mb-2">Reference Sites (Optional)</label>
+                                    <p className="text-xs text-slate-400 mb-2">Add URLs of websites you like for design inspiration</p>
+                                    <div className="flex gap-2">
+                                        <input
+                                            type="url"
+                                            value={referenceInput}
+                                            onChange={e => setReferenceInput(e.target.value)}
+                                            onKeyPress={e => e.key === 'Enter' && (e.preventDefault(), addReference())}
+                                            placeholder="https://example.com"
+                                            className="flex-1 px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-blue-500"
+                                        />
+                                        <button onClick={addReference} className="px-4 py-3 bg-blue-500 hover:bg-blue-600 rounded-xl transition-colors">
+                                            <Plus className="w-5 h-5" />
+                                        </button>
+                                    </div>
+                                    {formData.referenceSites.length > 0 && (
+                                        <div className="flex flex-wrap gap-2 mt-3">
+                                            {formData.referenceSites.map((site, i) => (
+                                                <span key={i} className="px-3 py-1 bg-white/10 rounded-lg flex items-center gap-2 text-sm">
+                                                    <Globe className="w-3 h-3" />
+                                                    {site.length > 25 ? site.substring(0, 25) + '...' : site}
+                                                    <button onClick={() => updateField('referenceSites', formData.referenceSites.filter((_, j) => j !== i))} className="text-slate-400 hover:text-red-400">
+                                                        <X className="w-4 h-4" />
+                                                    </button>
+                                                </span>
+                                            ))}
+                                        </div>
+                                    )}
+                                </div>
+
+                                <div>
+                                    <label className="block text-sm font-medium text-slate-300 mb-2">Additional Design Notes (Optional)</label>
+                                    <textarea
+                                        value={formData.designNotes}
+                                        onChange={e => updateField('designNotes', e.target.value)}
+                                        placeholder="Any specific design preferences, elements you want, or things to avoid..."
+                                        rows={3}
+                                        className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-blue-500"
+                                    />
+                                </div>
                             </div>
-
-                            <div>
-                                <label className="block text-sm font-medium text-slate-300 mb-2">{t('onboarding.form.googleReviews')}</label>
-                                <input
-                                    type="url"
-                                    value={formData.googleReviewsLink}
-                                    onChange={e => updateField('googleReviewsLink', e.target.value)}
-                                    placeholder="https://g.page/yourbusiness/review"
-                                    className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-blue-500"
-                                />
-                            </div>
-
-                            <div>
-                                <label className="block text-sm font-medium text-slate-300 mb-2">{t('onboarding.form.aboutOwner')}</label>
-                                <textarea
-                                    value={formData.aboutOwner}
-                                    onChange={e => updateField('aboutOwner', e.target.value)}
-                                    placeholder="Share your story, experience, and what makes your business special..."
-                                    rows={4}
-                                    className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-blue-500"
-                                />
-                            </div>
-
-                            <div>
-                                <label className="block text-sm font-medium text-slate-300 mb-2">{t('onboarding.form.yearsInBusiness')}</label>
-                                <input
-                                    type="number"
-                                    value={formData.yearsInBusiness}
-                                    onChange={e => updateField('yearsInBusiness', e.target.value)}
-                                    placeholder="e.g., 10"
-                                    className="w-32 px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-blue-500"
-                                />
-                            </div>
-                        </div>
-                    )}
-
-                    {/* ============ Navigation ============ */}
-                    <div className="flex items-center justify-between mt-8 pt-6 border-t border-white/10">
-                        <motion.button
-                            whileHover={{ scale: currentStep > 1 ? 1.02 : 1 }}
-                            whileTap={{ scale: currentStep > 1 ? 0.98 : 1 }}
-                            onClick={() => setCurrentStep(prev => Math.max(1, prev - 1))}
-                            disabled={currentStep === 1}
-                            className={`px-6 py-3 rounded-xl font-medium flex items-center gap-2 ${currentStep === 1 ? 'opacity-50 cursor-not-allowed' : 'bg-white/10 hover:bg-white/20'
-                                }`}
-                        >
-                            <ChevronLeft className="w-5 h-5" />{t('onboarding.navigation.previous')}
-                        </motion.button>
-
-                        {currentStep < TOTAL_STEPS ? (
-                            <motion.button
-                                whileHover={{ scale: canProceed() ? 1.02 : 1 }}
-                                whileTap={{ scale: canProceed() ? 0.98 : 1 }}
-                                onClick={() => canProceed() && setCurrentStep(prev => prev + 1)}
-                                className={`px-8 py-3 rounded-xl font-medium flex items-center gap-2 ${canProceed() ? 'bg-blue-500 hover:bg-blue-600' : 'bg-slate-700 cursor-not-allowed'
-                                    }`}
-                            >
-                                {t('onboarding.navigation.next')} <ChevronRight className="w-5 h-5" />
-                            </motion.button>
-                        ) : (
-                            <motion.button
-                                whileHover={{ scale: 1.02 }}
-                                whileTap={{ scale: 0.98 }}
-                                onClick={handleSubmit}
-                                disabled={isSubmitting}
-                                className={`px-8 py-3 rounded-xl font-medium flex items-center gap-2 ${isSubmitting
-                                    ? 'bg-slate-700 cursor-wait'
-                                    : 'bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600'
-                                    }`}
-                            >
-                                {isSubmitting ? (
-                                    <>
-                                        <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                                        {t('onboarding.navigation.submitting')}
-                                    </>
-                                ) : (
-                                    <>
-                                        <Rocket className="w-5 h-5" />
-                                        {t('onboarding.navigation.submit')}
-                                    </>
-                                )}
-                            </motion.button>
                         )}
-                    </div>
-                </motion.div>
 
-                {/* Progress indicator */}
-                <div className="mt-6 text-center text-slate-400 text-sm">
-                    Progress: {Math.round((currentStep / TOTAL_STEPS) * 100)}% complete
+                        {/* ============ STEP 6: Business Details ============ */}
+                        {currentStep === 6 && (
+                            <div className="space-y-8">
+                                <div>
+                                    <label className="block text-sm font-medium text-slate-300 mb-3">{t('onboarding.form.businessHours')}</label>
+                                    <div className="grid gap-2">
+                                        {[
+                                            { key: 'mon', label: 'Monday' },
+                                            { key: 'tue', label: 'Tuesday' },
+                                            { key: 'wed', label: 'Wednesday' },
+                                            { key: 'thu', label: 'Thursday' },
+                                            { key: 'fri', label: 'Friday' },
+                                            { key: 'sat', label: 'Saturday' },
+                                            { key: 'sun', label: 'Sunday' },
+                                        ].map(day => (
+                                            <div key={day.key} className="flex items-center gap-3">
+                                                <span className="w-24 text-sm text-slate-400">{day.label}</span>
+                                                <input
+                                                    type="text"
+                                                    value={formData.businessHours[day.key] || ''}
+                                                    onChange={e => updateField('businessHours', { ...formData.businessHours, [day.key]: e.target.value })}
+                                                    placeholder="e.g., 9am - 5pm or Closed"
+                                                    className="flex-1 px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 text-sm"
+                                                />
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label className="block text-sm font-medium text-slate-300 mb-3">{t('onboarding.form.socialMedia')}</label>
+                                    <div className="grid md:grid-cols-2 gap-4">
+                                        <div>
+                                            <label className="text-xs text-slate-400 flex items-center gap-2 mb-1"><Facebook className="w-4 h-4" /> Facebook</label>
+                                            <input
+                                                type="url"
+                                                value={formData.socialFacebook}
+                                                onChange={e => updateField('socialFacebook', e.target.value)}
+                                                placeholder="https://facebook.com/yourpage"
+                                                className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 text-sm"
+                                            />
+                                        </div>
+                                        <div>
+                                            <label className="text-xs text-slate-400 flex items-center gap-2 mb-1"><Instagram className="w-4 h-4" /> Instagram</label>
+                                            <input
+                                                type="url"
+                                                value={formData.socialInstagram}
+                                                onChange={e => updateField('socialInstagram', e.target.value)}
+                                                placeholder="https://instagram.com/yourhandle"
+                                                className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 text-sm"
+                                            />
+                                        </div>
+                                        <div>
+                                            <label className="text-xs text-slate-400 flex items-center gap-2 mb-1"><Linkedin className="w-4 h-4" /> LinkedIn</label>
+                                            <input
+                                                type="url"
+                                                value={formData.socialLinkedin}
+                                                onChange={e => updateField('socialLinkedin', e.target.value)}
+                                                placeholder="https://linkedin.com/in/yourprofile"
+                                                className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 text-sm"
+                                            />
+                                        </div>
+                                        <div>
+                                            <label className="text-xs text-slate-400 flex items-center gap-2 mb-1"><Youtube className="w-4 h-4" /> YouTube</label>
+                                            <input
+                                                type="url"
+                                                value={formData.socialYoutube}
+                                                onChange={e => updateField('socialYoutube', e.target.value)}
+                                                placeholder="https://youtube.com/@yourchannel"
+                                                className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 text-sm"
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
+                        {/* ============ STEP 7: Testimonials & About ============ */}
+                        {currentStep === 7 && (
+                            <div className="space-y-8">
+                                <div>
+                                    <label className="block text-sm font-medium text-slate-300 mb-3">{t('onboarding.form.testimonials')}</label>
+                                    <p className="text-xs text-slate-400 mb-3">Add reviews from happy customers to display on your site</p>
+
+                                    <div className="bg-white/5 border border-white/10 rounded-xl p-4 space-y-3">
+                                        <input
+                                            type="text"
+                                            value={newTestimonial.name}
+                                            onChange={e => setNewTestimonial({ ...newTestimonial, name: e.target.value })}
+                                            placeholder="Customer name"
+                                            className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 text-sm"
+                                        />
+                                        <input
+                                            type="text"
+                                            value={newTestimonial.role || ''}
+                                            onChange={e => setNewTestimonial({ ...newTestimonial, role: e.target.value })}
+                                            placeholder="Role (e.g., Homeowner, Business Owner)"
+                                            className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 text-sm"
+                                        />
+                                        <textarea
+                                            value={newTestimonial.text}
+                                            onChange={e => setNewTestimonial({ ...newTestimonial, text: e.target.value })}
+                                            placeholder="Their review or testimonial..."
+                                            rows={2}
+                                            className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 text-sm"
+                                        />
+                                        <button
+                                            onClick={addTestimonial}
+                                            className="w-full py-2 bg-blue-500/20 border border-blue-400/30 rounded-lg text-blue-300 hover:bg-blue-500/30 flex items-center justify-center gap-2 transition-colors"
+                                        >
+                                            <Plus className="w-4 h-4" /> Add Testimonial
+                                        </button>
+                                    </div>
+
+                                    {formData.testimonials.length > 0 && (
+                                        <div className="mt-4 space-y-3">
+                                            {formData.testimonials.map((t, i) => (
+                                                <div key={i} className="bg-white/5 border border-white/10 rounded-xl p-4 relative">
+                                                    <button
+                                                        onClick={() => updateField('testimonials', formData.testimonials.filter((_, j) => j !== i))}
+                                                        className="absolute top-2 right-2 text-slate-400 hover:text-red-400"
+                                                    >
+                                                        <X className="w-4 h-4" />
+                                                    </button>
+                                                    <div className="font-medium">{t.name}</div>
+                                                    {t.role && <div className="text-xs text-slate-400">{t.role}</div>}
+                                                    <div className="text-sm text-slate-300 mt-2">"{t.text}"</div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
+                                </div>
+
+                                <div>
+                                    <label className="block text-sm font-medium text-slate-300 mb-2">{t('onboarding.form.googleReviews')}</label>
+                                    <input
+                                        type="url"
+                                        value={formData.googleReviewsLink}
+                                        onChange={e => updateField('googleReviewsLink', e.target.value)}
+                                        placeholder="https://g.page/yourbusiness/review"
+                                        className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-blue-500"
+                                    />
+                                </div>
+
+                                <div>
+                                    <label className="block text-sm font-medium text-slate-300 mb-2">{t('onboarding.form.aboutOwner')}</label>
+                                    <textarea
+                                        value={formData.aboutOwner}
+                                        onChange={e => updateField('aboutOwner', e.target.value)}
+                                        placeholder="Share your story, experience, and what makes your business special..."
+                                        rows={4}
+                                        className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-blue-500"
+                                    />
+                                </div>
+
+                                <div>
+                                    <label className="block text-sm font-medium text-slate-300 mb-2">{t('onboarding.form.yearsInBusiness')}</label>
+                                    <input
+                                        type="number"
+                                        value={formData.yearsInBusiness}
+                                        onChange={e => updateField('yearsInBusiness', e.target.value)}
+                                        placeholder="e.g., 10"
+                                        className="w-32 px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-blue-500"
+                                    />
+                                </div>
+                            </div>
+                        )}
+
+                        {/* ============ Navigation ============ */}
+                        <div className="flex items-center justify-between mt-8 pt-6 border-t border-white/10">
+                            <motion.button
+                                whileHover={{ scale: currentStep > 1 ? 1.02 : 1 }}
+                                whileTap={{ scale: currentStep > 1 ? 0.98 : 1 }}
+                                onClick={() => setCurrentStep(prev => Math.max(1, prev - 1))}
+                                disabled={currentStep === 1}
+                                className={`px-6 py-3 rounded-xl font-medium flex items-center gap-2 ${currentStep === 1 ? 'opacity-50 cursor-not-allowed' : 'bg-white/10 hover:bg-white/20'
+                                    }`}
+                            >
+                                <ChevronLeft className="w-5 h-5" />{t('onboarding.navigation.previous')}
+                            </motion.button>
+
+                            {currentStep < TOTAL_STEPS ? (
+                                <motion.button
+                                    whileHover={{ scale: canProceed() ? 1.02 : 1 }}
+                                    whileTap={{ scale: canProceed() ? 0.98 : 1 }}
+                                    onClick={() => canProceed() && setCurrentStep(prev => prev + 1)}
+                                    className={`px-8 py-3 rounded-xl font-medium flex items-center gap-2 ${canProceed() ? 'bg-blue-500 hover:bg-blue-600' : 'bg-slate-700 cursor-not-allowed'
+                                        }`}
+                                >
+                                    {t('onboarding.navigation.next')} <ChevronRight className="w-5 h-5" />
+                                </motion.button>
+                            ) : (
+                                <motion.button
+                                    whileHover={{ scale: 1.02 }}
+                                    whileTap={{ scale: 0.98 }}
+                                    onClick={handleSubmit}
+                                    disabled={isSubmitting}
+                                    className={`px-8 py-3 rounded-xl font-medium flex items-center gap-2 ${isSubmitting
+                                        ? 'bg-slate-700 cursor-wait'
+                                        : 'bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600'
+                                        }`}
+                                >
+                                    {isSubmitting ? (
+                                        <>
+                                            <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                                            {t('onboarding.navigation.submitting')}
+                                        </>
+                                    ) : (
+                                        <>
+                                            <Rocket className="w-5 h-5" />
+                                            {t('onboarding.navigation.submit')}
+                                        </>
+                                    )}
+                                </motion.button>
+                            )}
+                        </div>
+                    </motion.div>
+
+                    {/* Progress indicator */}
+                    <div className="mt-6 text-center text-slate-400 text-sm">
+                        Progress: {Math.round((currentStep / TOTAL_STEPS) * 100)}% complete
+                    </div>
                 </div>
             </div>
         </div>
