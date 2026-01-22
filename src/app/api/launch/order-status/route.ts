@@ -13,9 +13,9 @@ export async function GET(request: NextRequest) {
     }
 
     try {
-        // Fetch order from CRM API
-        const crmUrl = process.env.CRM_API_URL || 'http://localhost:8000'
-        const response = await fetch(`${crmUrl}/api/site-orders/${orderId}`, {
+        // Fetch order from CRM API using public endpoint
+        const crmUrl = process.env.CRM_API_URL || 'http://crm-backend:8000/api'
+        const response = await fetch(`${crmUrl}/site-orders/public/${orderId}?email=${encodeURIComponent(email)}`, {
             headers: {
                 'Content-Type': 'application/json',
             },
