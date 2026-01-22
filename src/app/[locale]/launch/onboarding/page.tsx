@@ -617,7 +617,7 @@ function OnboardingContent() {
     return (
         <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 text-white">
             <Header />
-            <div className="py-8 px-4 md:px-6 pt-24">
+            <div className="py-8 px-4 md:px-6 pt-40">
                 <div className="max-w-4xl mx-auto">
                     {/* Progress Header */}
                     <div className="mb-8">
