@@ -291,6 +291,30 @@ function OnboardingContent() {
         }
     }, [formData, currentStep, storageKey])
 
+    // Check if onboarding is already completed in the backend
+    useEffect(() => {
+        if (!orderId) return
+
+        const checkOnboardingStatus = async () => {
+            try {
+                const response = await fetch(`/api/launch/onboarding?order_id=${orderId}`)
+                if (response.ok) {
+                    const data = await response.json()
+                    if (data.is_complete) {
+                        // Clear localStorage since onboarding is done
+                        localStorage.removeItem(storageKey)
+                        // Redirect to dashboard
+                        router.push(`/dashboard`)
+                    }
+                }
+            } catch (error) {
+                console.error('Error checking onboarding status:', error)
+            }
+        }
+
+        checkOnboardingStatus()
+    }, [orderId, storageKey, router])
+
     // Track Lead event on page load
     useEffect(() => {
         if (!hasTrackedLead.current) {
