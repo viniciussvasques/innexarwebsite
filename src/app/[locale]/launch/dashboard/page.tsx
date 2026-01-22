@@ -76,7 +76,33 @@ function DashboardContent() {
 
     useEffect(() => {
         const fetchOrder = async () => {
-            if (!orderId || !email) {
+            // First try URL params
+            let currentOrderId = orderId
+            let currentEmail = email
+
+            // If no URL params, try localStorage (logged-in customer)
+            if (!currentOrderId || !currentEmail) {
+                const token = localStorage.getItem('customer_token')
+                const storedEmail = localStorage.getItem('customer_email')
+
+                if (token) {
+                    try {
+                        // Fetch customer's orders using token
+                        const ordersResponse = await fetch(`/api/launch/customer/orders?token=${token}`)
+                        if (ordersResponse.ok) {
+                            const ordersData = await ordersResponse.json()
+                            if (ordersData.orders && ordersData.orders.length > 0) {
+                                setOrder(ordersData.orders[0])
+                                setLoading(false)
+                                return
+                            }
+                        }
+                    } catch (err) {
+                        console.error('Error fetching orders by token:', err)
+                    }
+                }
+
+                // No valid token or orders found
                 setError('Missing order information. Please check your email for the correct link.')
                 setLoading(false)
                 return
@@ -84,7 +110,7 @@ function DashboardContent() {
 
             try {
                 // In production, this would verify email matches order
-                const response = await fetch(`/api/launch/order-status?order_id=${orderId}&email=${encodeURIComponent(email)}`)
+                const response = await fetch(`/api/launch/order-status?order_id=${currentOrderId}&email=${encodeURIComponent(currentEmail)}`)
                 if (response.ok) {
                     const data = await response.json()
                     setOrder(data)
