@@ -12,7 +12,7 @@ import {
     Utensils, Scale, Stethoscope, Home, Wrench, Zap, TreeDeciduous, Sparkle,
     Send, Calendar, LayoutDashboard, PartyPopper, Loader2, AlertCircle, LogIn
 } from 'lucide-react'
-import { Link } from '@/navigation'
+import { Link } from '@/i18n/navigation'
 import { useTranslations } from 'next-intl'
 import { MetaPixel } from '@/lib/meta-pixel'
 import Header from '@/components/Header'

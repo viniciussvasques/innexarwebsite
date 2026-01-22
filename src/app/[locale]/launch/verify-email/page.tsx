@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { motion } from "framer-motion";
-import { Link, useRouter } from "@/navigation";
+import { Link, useRouter } from "@/i18n/navigation";
 import { Mail, ArrowRight, Loader2, AlertCircle, CheckCircle2 } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 
