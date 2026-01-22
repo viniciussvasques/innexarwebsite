@@ -1426,11 +1426,6 @@
           "label": "United States",
           "display": "+1 407 473-6081",
           "href": "+14074736081"
-        },
-        {
-          "label": "Brazil",
-          "display": "+55 11 5108-5266",
-          "href": "+551151085266"
         }
       ],
       "address": "United States Office",
@@ -1598,7 +1593,7 @@
       "autoReplyAdvantage6": "Quality Assurance - 99.5% Accuracy",
       "autoReplyContactTitle": "Get in Touch",
       "autoReplyContactEmail": "comercial@innexar.app",
-      "autoReplyContactPhone": "+55 11 5108-5266",
+      "autoReplyContactPhone": "+1 407 473-6081",
       "autoReplyContactWebsite": "innexar.app",
       "labels": {
         "name": "Name",
@@ -1660,11 +1655,6 @@
           "label": "United States",
           "display": "+1 407 473-6081",
           "href": "+14074736081"
-        },
-        {
-          "label": "Brazil",
-          "display": "+55 11 5108-5266",
-          "href": "+551151085266"
         }
       ],
       "cta": "Request a proposal"

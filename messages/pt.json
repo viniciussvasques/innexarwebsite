@@ -1445,11 +1445,6 @@
       "phone": "Telefone",
       "phones": [
         {
-          "label": "Brasil",
-          "display": "+55 11 5108-5266",
-          "href": "+551151085266"
-        },
-        {
           "label": "Estados Unidos",
           "display": "+1 407 473-6081",
           "href": "+14074736081"
@@ -1620,7 +1615,7 @@
       "autoReplyAdvantage6": "Garantia de Qualidade - 99.5% Precisão",
       "autoReplyContactTitle": "Entre em Contato",
       "autoReplyContactEmail": "comercial@innexar.app",
-      "autoReplyContactPhone": "+55 11 5108-5266",
+      "autoReplyContactPhone": "+1 407 473-6081",
       "autoReplyContactWebsite": "innexar.app",
       "labels": {
         "name": "Nome",
@@ -1638,11 +1633,6 @@
     "top": {
       "emailValue": "comercial@innexar.app",
       "phones": [
-        {
-          "label": "Brasil",
-          "display": "+55 11 5108-5266",
-          "href": "+551151085266"
-        },
         {
           "label": "Estados Unidos",
           "display": "+1 407 473-6081",

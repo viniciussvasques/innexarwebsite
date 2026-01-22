@@ -1448,11 +1448,6 @@
           "label": "Estados Unidos",
           "display": "+1 407 473-6081",
           "href": "+14074736081"
-        },
-        {
-          "label": "Brasil",
-          "display": "+55 11 5108-5266",
-          "href": "+551151085266"
         }
       ],
       "address": "Oficina en Estados Unidos",
@@ -1620,7 +1615,7 @@
       "autoReplyAdvantage6": "Garantía de Calidad - 99.5% Precisión",
       "autoReplyContactTitle": "Contáctanos",
       "autoReplyContactEmail": "comercial@innexar.app",
-      "autoReplyContactPhone": "+55 11 5108-5266",
+      "autoReplyContactPhone": "+1 407 473-6081",
       "autoReplyContactWebsite": "innexar.app",
       "labels": {
         "name": "Nombre",
@@ -1684,9 +1679,9 @@
           "href": "+14074736081"
         },
         {
-          "label": "Brasil",
-          "display": "+55 11 5108-5266",
-          "href": "+551151085266"
+          "label": "Estados Unidos",
+          "display": "+1 407 473-6081",
+          "href": "+14074736081"
         }
       ],
       "cta": "Solicitar una propuesta"
