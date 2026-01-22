@@ -157,8 +157,7 @@ const AIChat = () => {
       {/* Chat Window */}
       {isOpen && (
         <div
-          className="fixed z-[9998] bg-white rounded-2xl sm:rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-gray-200
-            inset-0 sm:inset-auto sm:bottom-24 sm:right-6 sm:w-full sm:max-w-md sm:h-[500px] md:h-[600px]"
+          className="fixed z-[9998] bg-white shadow-2xl flex flex-col overflow-hidden border border-gray-200 inset-0 sm:inset-auto sm:bottom-24 sm:right-6 sm:rounded-2xl sm:w-full sm:max-w-md sm:h-[500px] md:h-[600px]"
           style={{
             animation: 'slideUp 0.3s ease-out'
           }}
@@ -199,8 +198,8 @@ const AIChat = () => {
               >
                 <div
                   className={`max-w-[80%] rounded-2xl px-4 py-3 ${message.role === 'user'
-                      ? 'bg-blue-600 text-white'
-                      : 'bg-white text-gray-900 shadow-sm border border-gray-200'
+                    ? 'bg-blue-600 text-white'
+                    : 'bg-white text-gray-900 shadow-sm border border-gray-200'
                     }`}
                 >
                   <p className="text-sm whitespace-pre-wrap break-words">{message.content}</p>
