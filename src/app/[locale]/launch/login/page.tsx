@@ -34,10 +34,11 @@ export default function LoginPage() {
             }
 
             // Success - store the token and email
-            localStorage.setItem("customer_token", data.token);
+            localStorage.setItem("customer_token", data.access_token);
             localStorage.setItem("customer_email", email);
+            localStorage.setItem("customer_id", data.customer_id);
 
-            router.push("/dashboard");
+            router.push("/launch/dashboard");
         } catch (err: any) {
             setError(err.message || t("error.generic"));
         } finally {
