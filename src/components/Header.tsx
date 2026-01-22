@@ -163,7 +163,7 @@ export default function Header() {
 
               {/* Portal Button */}
               <Link
-                href="/launch/login"
+                href="/dashboard"
                 className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-600 hover:text-blue-600 rounded-lg hover:bg-gray-50 transition-all duration-200 border border-gray-200"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -238,7 +238,7 @@ export default function Header() {
 
                   {/* Mobile Portal Button */}
                   <Link
-                    href="/launch/login"
+                    href="/dashboard"
                     className="flex items-center justify-center gap-2 mt-4 px-4 py-3 text-base font-medium text-gray-700 border border-gray-200 rounded-lg hover:bg-gray-50"
                     onClick={() => setMobileMenuOpen(false)}
                   >
