@@ -236,10 +236,22 @@ export default function Header() {
                     ))}
                   </div>
 
+                  {/* Mobile Portal Button */}
+                  <Link
+                    href="/dashboard/login"
+                    className="flex items-center justify-center gap-2 mt-4 px-4 py-3 text-base font-medium text-gray-700 border border-gray-200 rounded-lg hover:bg-gray-50"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    </svg>
+                    Portal do Cliente
+                  </Link>
+
                   {/* Mobile Get Started Button */}
                   <Link
                     href="/contact"
-                    className="block mt-4 px-4 py-3 text-center text-base font-semibold text-white bg-linear-to-r from-blue-600 to-blue-700 rounded-lg hover:from-blue-700 hover:to-blue-800 shadow-md"
+                    className="block mt-2 px-4 py-3 text-center text-base font-semibold text-white bg-linear-to-r from-blue-600 to-blue-700 rounded-lg hover:from-blue-700 hover:to-blue-800 shadow-md"
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     {t('getStarted')}
