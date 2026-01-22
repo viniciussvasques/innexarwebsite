@@ -3,6 +3,7 @@
 import { useState, useEffect, Suspense, useCallback, useRef } from 'react'
 import { motion } from 'framer-motion'
 import { useSearchParams } from 'next/navigation'
+import { useRouter } from '@/i18n/navigation'
 import confetti from 'canvas-confetti'
 import {
     Building2, MapPin, Briefcase, Target, Palette, Clock, Star,
@@ -125,6 +126,7 @@ function OnboardingContent() {
     const t = useTranslations('launch')
     const searchParams = useSearchParams()
     const orderId = searchParams.get('order_id')
+    const router = useRouter()
 
     // Translated configuration arrays
     const steps = [
