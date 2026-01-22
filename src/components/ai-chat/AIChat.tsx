@@ -27,6 +27,25 @@ const AIChat = () => {
     return 'en'
   }
 
+  // Formatar conteúdo da mensagem (converter markdown para HTML)
+  const formatMessageContent = (content: string) => {
+    // Converter links markdown [text](url) para HTML
+    let formatted = content.replace(
+      /\[([^\]]+)\]\(([^)]+)\)/g,
+      '<a href="$2" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:underline">$1</a>'
+    )
+    // Converter **bold** para HTML
+    formatted = formatted.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+    // Converter *italic* para HTML (mas não se for **)
+    formatted = formatted.replace(/(?<!\*)\*([^*]+)\*(?!\*)/g, '<em>$1</em>')
+    // Converter URLs simples para links clicáveis
+    formatted = formatted.replace(
+      /(?<!href="|>)(https?:\/\/[^\s<]+)/g,
+      '<a href="$1" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:underline">$1</a>'
+    )
+    return formatted
+  }
+
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }
@@ -202,7 +221,10 @@ const AIChat = () => {
                     : 'bg-white text-gray-900 shadow-sm border border-gray-200'
                     }`}
                 >
-                  <p className="text-sm whitespace-pre-wrap break-words">{message.content}</p>
+                  <div
+                    className="text-sm whitespace-pre-wrap break-words prose prose-sm max-w-none"
+                    dangerouslySetInnerHTML={{ __html: formatMessageContent(message.content) }}
+                  />
                   <p className={`text-xs mt-1 ${message.role === 'user' ? 'text-blue-100' : 'text-gray-500'
                     }`}>
                     {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
