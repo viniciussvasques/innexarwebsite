@@ -54,10 +54,11 @@ const AIChat = () => {
     scrollToBottom()
   }, [messages])
 
-  // Mensagem inicial baseada no idioma
+  // Mensagem inicial baseada no idioma do SITE (não do browser)
   useEffect(() => {
     if (isOpen && messages.length === 0) {
-      const lang = getBrowserLanguage()
+      // Usar locale do site (da URL) em vez do browser
+      const lang = locale || 'en'
       const welcomeMessages: Record<string, string> = {
         pt: 'Olá! Sou Helena, assistente virtual da Innexar. Como posso ajudá-lo hoje?',
         es: '¡Hola! Soy Helena, asistente virtual de Innexar. ¿Cómo puedo ayudarte hoy?',
@@ -70,7 +71,7 @@ const AIChat = () => {
         timestamp: new Date()
       }])
     }
-  }, [isOpen])
+  }, [isOpen, locale])
 
   const handleSend = async () => {
     if (!input.trim() || isLoading) return
