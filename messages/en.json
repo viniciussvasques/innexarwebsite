@@ -1928,7 +1928,8 @@
         "errors": {
           "minPassword": "Password must be at least 8 characters",
           "mismatch": "Passwords do not match"
-        }
+        },
+        "backHome": "Back to Home"
       },
       "navigation": {
         "previous": "Previous",
@@ -1941,7 +1942,19 @@
         "subtitle": "Your onboarding is complete",
         "message": "Our team will start working on your website right away. You'll receive updates via email.",
         "dashboardButton": "View Project Dashboard",
-        "timeline": "Expected Timeline: 5 business days"
+        "timeline": "Expected Timeline: 5 business days",
+        "nextSteps": "What happens next?",
+        "step1": "Our design team reviews your requirements",
+        "step2": "We create a custom mockup for your approval",
+        "step3": "Development begins after your approval",
+        "step4": "Final review and site delivery"
+      },
+      "dashboard": {
+        "title": "Project Dashboard",
+        "subtitle": "Track your website's progress",
+        "timeline": {
+          "title": "Project Timeline"
+        }
       }
     }
   },

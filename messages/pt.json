@@ -1950,7 +1950,8 @@
         "errors": {
           "minPassword": "A senha deve ter pelo menos 8 caracteres",
           "mismatch": "As senhas não coincidem"
-        }
+        },
+        "backHome": "Voltar ao Início"
       },
       "navigation": {
         "previous": "Anterior",
@@ -1963,7 +1964,19 @@
         "subtitle": "Seu onboarding foi concluído",
         "message": "Nossa equipe começará a trabalhar no seu site imediatamente. Você receberá atualizações por email.",
         "dashboardButton": "Ver Painel do Projeto",
-        "timeline": "Prazo Estimado: 5 dias úteis"
+        "timeline": "Prazo Estimado: 5 dias úteis",
+        "nextSteps": "O que acontece agora?",
+        "step1": "Nossa equipe de design analisa seus requisitos",
+        "step2": "Criamos um mockup personalizado para sua aprovação",
+        "step3": "Após sua aprovação, começamos o desenvolvimento",
+        "step4": "Revisão final e entrega do site"
+      },
+      "dashboard": {
+        "title": "Painel do Projeto",
+        "subtitle": "Acompanhe o progresso do seu site",
+        "timeline": {
+          "title": "Linha do Tempo do Projeto"
+        }
       }
     }
   },
