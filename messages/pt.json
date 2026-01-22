@@ -1946,6 +1946,10 @@
           "message": "Este e-mail já está associado a uma conta. Por favor, faça login para continuar.",
           "loginButton": "Fazer Login",
           "cancelButton": "Usar Outro E-mail"
+        },
+        "errors": {
+          "minPassword": "A senha deve ter pelo menos 8 caracteres",
+          "mismatch": "As senhas não coincidem"
         }
       },
       "navigation": {

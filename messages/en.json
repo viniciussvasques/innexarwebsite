@@ -1924,6 +1924,10 @@
           "message": "This email is already associated with an account. Please log in to continue.",
           "loginButton": "Log In",
           "cancelButton": "Use Different Email"
+        },
+        "errors": {
+          "minPassword": "Password must be at least 8 characters",
+          "mismatch": "Passwords do not match"
         }
       },
       "navigation": {

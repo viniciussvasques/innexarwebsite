@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 
-const CRM_API_URL = process.env.CRM_API_URL || 'https://api.sales.innexar.app'
+const CRM_API_URL = process.env.CRM_API_URL || 'https://sales.innexar.app/api'
 
 export async function POST(request: NextRequest) {
     try {

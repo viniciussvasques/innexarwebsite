@@ -472,11 +472,13 @@ function OnboardingContent() {
                 localStorage.removeItem(storageKey)
                 setIsComplete(true)
             } else {
-                throw new Error('Failed to submit')
+                const errorData = await response.json()
+                const errorMessage = errorData.error?.message || errorData.error || 'Failed to submit'
+                throw new Error(errorMessage)
             }
-        } catch (error) {
+        } catch (error: any) {
             console.error('Error submitting onboarding:', error)
-            alert('Something went wrong. Please try again.')
+            alert(error.message || 'Something went wrong. Please try again.')
         } finally {
             setIsSubmitting(false)
         }
