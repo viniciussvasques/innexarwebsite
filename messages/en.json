@@ -1796,6 +1796,36 @@
         "step4Desc": "Go live!"
       }
     },
+    "dashboard": {
+      "title": "Project Dashboard",
+      "subtitle": "Track your website development progress",
+      "statuses": {
+        "pending": "Pending",
+        "development": "In Development",
+        "review": "Ready for Review",
+        "delivered": "Delivered"
+      },
+      "timeline": {
+        "title": "Project Timeline",
+        "payment": "Payment Confirmed",
+        "onboarding": "Onboarding Complete",
+        "design": "Design Phase",
+        "development": "Development Phase",
+        "review": "Review Phase",
+        "launch": "Launch"
+      },
+      "actions": {
+        "requestChanges": "Request Changes",
+        "viewPreview": "View Preview",
+        "approveDesign": "Approve Design",
+        "contactSupport": "Contact Support"
+      },
+      "info": {
+        "order": "Order",
+        "date": "Date",
+        "status": "Current Status"
+      }
+    },
     "onboarding": {
       "title": "Let's Build Your Website",
       "subtitle": "Tell us about your business so we can create the perfect site for you",

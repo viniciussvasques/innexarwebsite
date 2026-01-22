@@ -1818,6 +1818,36 @@
         "step4Desc": "Vá ao ar!"
       }
     },
+    "dashboard": {
+      "title": "Painel do Projeto",
+      "subtitle": "Acompanhe o progresso do desenvolvimento do seu site",
+      "statuses": {
+        "pending": "Pendente",
+        "development": "Em Desenvolvimento",
+        "review": "Pronto para Revisão",
+        "delivered": "Entregue"
+      },
+      "timeline": {
+        "title": "Linha do Tempo do Projeto",
+        "payment": "Pagamento Confirmado",
+        "onboarding": "Onboarding Completo",
+        "design": "Fase de Design",
+        "development": "Fase de Desenvolvimento",
+        "review": "Fase de Revisão",
+        "launch": "Lançamento"
+      },
+      "actions": {
+        "requestChanges": "Solicitar Alterações",
+        "viewPreview": "Ver Preview",
+        "approveDesign": "Aprovar Design",
+        "contactSupport": "Contatar Suporte"
+      },
+      "info": {
+        "order": "Pedido",
+        "date": "Data",
+        "status": "Status Atual"
+      }
+    },
     "onboarding": {
       "title": "Vamos Criar Seu Site",
       "subtitle": "Conte sobre seu negócio para criarmos o site perfeito para você",
