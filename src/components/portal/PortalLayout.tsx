@@ -91,36 +91,29 @@ export default function PortalLayout({ children, customerName, projectName }: Po
             >
                 {/* Logo Section */}
                 <div className="h-20 flex items-center justify-between px-6 border-b border-white/5">
-                    <Link href={`/${locale}`} className="flex items-center gap-3">
+                    <Link href={`/${locale}`} className="flex items-center">
                         <motion.div
-                            animate={{ scale: sidebarOpen ? 1 : 0.8 }}
-                            className="relative"
+                            animate={{ width: sidebarOpen ? 'auto' : '40px' }}
+                            className="overflow-hidden"
                         >
-                            <Image
-                                src="/favicon.png"
-                                alt="Innexar"
-                                width={40}
-                                height={40}
-                                className="rounded-xl"
-                            />
-                        </motion.div>
-                        <AnimatePresence>
-                            {sidebarOpen && (
-                                <motion.div
-                                    initial={{ opacity: 0, x: -10 }}
-                                    animate={{ opacity: 1, x: 0 }}
-                                    exit={{ opacity: 0, x: -10 }}
-                                >
-                                    <Image
-                                        src="/logo-header-white.png"
-                                        alt="Innexar"
-                                        width={140}
-                                        height={36}
-                                        className="h-9 w-auto"
-                                    />
-                                </motion.div>
+                            {sidebarOpen ? (
+                                <Image
+                                    src="/logo-header-white.png"
+                                    alt="Innexar"
+                                    width={180}
+                                    height={48}
+                                    className="h-12 w-auto"
+                                />
+                            ) : (
+                                <Image
+                                    src="/favicon.png"
+                                    alt="Innexar"
+                                    width={40}
+                                    height={40}
+                                    className="rounded-xl"
+                                />
                             )}
-                        </AnimatePresence>
+                        </motion.div>
                     </Link>
 
                     {/* Collapse Button - Desktop */}
