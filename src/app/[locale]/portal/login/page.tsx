@@ -16,43 +16,15 @@ export default function PortalLogin() {
     const [showPassword, setShowPassword] = useState(false);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
-    const [checkingSession, setCheckingSession] = useState(true);
+    const [checkingSession, setCheckingSession] = useState(false);
 
-    // Check if already logged in
+    // Check if already logged in - runs once on mount
     useEffect(() => {
-        const checkSession = async () => {
-            const token = localStorage.getItem('customer_token');
-            if (!token) {
-                setCheckingSession(false);
-                return;
-            }
-
-            try {
-                const controller = new AbortController();
-                const timeoutId = setTimeout(() => controller.abort(), 3000);
-
-                const res = await fetch('/api/launch/customer/orders', {
-                    headers: { 'Authorization': `Bearer ${token}` },
-                    signal: controller.signal
-                });
-
-                clearTimeout(timeoutId);
-
-                if (res.ok) {
-                    router.push(`/${locale}/portal`);
-                } else {
-                    localStorage.removeItem('customer_token');
-                    localStorage.removeItem('customer_email');
-                    localStorage.removeItem('customer_id');
-                    setCheckingSession(false);
-                }
-            } catch {
-                localStorage.removeItem('customer_token');
-                setCheckingSession(false);
-            }
-        };
-
-        checkSession();
+        const token = localStorage.getItem('customer_token');
+        if (token) {
+            // Just redirect if there's a token - portal will validate it
+            router.push(`/${locale}/portal`);
+        }
     }, [router, locale]);
 
     const handleSubmit = async (e: React.FormEvent) => {
