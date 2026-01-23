@@ -17,8 +17,7 @@ import {
     ChevronLeft,
     Bell,
     Menu,
-    X,
-    Sparkles
+    X
 } from 'lucide-react';
 
 interface NavItem {
@@ -97,20 +96,29 @@ export default function PortalLayout({ children, customerName, projectName }: Po
                             animate={{ scale: sidebarOpen ? 1 : 0.8 }}
                             className="relative"
                         >
-                            <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center">
-                                <Sparkles className="w-5 h-5 text-white" />
-                            </div>
+                            <Image
+                                src="/favicon.png"
+                                alt="Innexar"
+                                width={40}
+                                height={40}
+                                className="rounded-xl"
+                            />
                         </motion.div>
                         <AnimatePresence>
                             {sidebarOpen && (
-                                <motion.span
+                                <motion.div
                                     initial={{ opacity: 0, x: -10 }}
                                     animate={{ opacity: 1, x: 0 }}
                                     exit={{ opacity: 0, x: -10 }}
-                                    className="text-xl font-bold text-white"
                                 >
-                                    Innexar
-                                </motion.span>
+                                    <Image
+                                        src="/logo-header.png"
+                                        alt="Innexar"
+                                        width={120}
+                                        height={32}
+                                        className="h-8 w-auto"
+                                    />
+                                </motion.div>
                             )}
                         </AnimatePresence>
                     </Link>

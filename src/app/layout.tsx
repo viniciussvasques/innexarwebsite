@@ -8,10 +8,7 @@ export const metadata: Metadata = {
   title: 'Innexar - Technology Solutions',
   description: 'Professional technology solutions, software development, infrastructure and consulting services',
   icons: {
-    icon: [
-      { url: '/favicon.png', type: 'image/png' },
-      { url: '/favicon.svg', type: 'image/svg+xml' },
-    ],
+    icon: '/favicon.png',
     shortcut: '/favicon.png',
     apple: '/favicon.png',
   },
