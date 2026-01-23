@@ -99,9 +99,9 @@ export default function Header() {
                 <Image
                   src="/logo-header.png"
                   alt="Innexar"
-                  width={200}
-                  height={50}
-                  className="h-12 w-auto transition-transform duration-300 group-hover:scale-105"
+                  width={240}
+                  height={60}
+                  className="h-14 w-auto transition-transform duration-300 group-hover:scale-105"
                   priority
                 />
               </Link>

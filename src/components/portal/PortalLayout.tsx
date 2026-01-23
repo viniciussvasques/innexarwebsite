@@ -112,11 +112,11 @@ export default function PortalLayout({ children, customerName, projectName }: Po
                                     exit={{ opacity: 0, x: -10 }}
                                 >
                                     <Image
-                                        src="/logo-header.png"
+                                        src="/logo-header-white.png"
                                         alt="Innexar"
-                                        width={120}
-                                        height={32}
-                                        className="h-8 w-auto"
+                                        width={140}
+                                        height={36}
+                                        className="h-9 w-auto"
                                     />
                                 </motion.div>
                             )}
