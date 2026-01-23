@@ -100,9 +100,9 @@ export default function PortalLayout({ children, customerName, projectName }: Po
                                 <Image
                                     src="/logo-header-white.png"
                                     alt="Innexar"
-                                    width={180}
-                                    height={48}
-                                    className="h-12 w-auto"
+                                    width={280}
+                                    height={72}
+                                    className="h-16 w-auto"
                                 />
                             ) : (
                                 <Image
