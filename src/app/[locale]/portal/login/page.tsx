@@ -20,35 +20,39 @@ export default function PortalLogin() {
 
     // Check if already logged in
     useEffect(() => {
-        const token = localStorage.getItem('customer_token');
-        if (token) {
-            // Verify token is still valid with timeout
-            const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), 5000);
+        const checkSession = async () => {
+            const token = localStorage.getItem('customer_token');
+            if (!token) {
+                setCheckingSession(false);
+                return;
+            }
 
-            fetch('/api/launch/customer/orders', {
-                headers: { 'Authorization': `Bearer ${token}` },
-                signal: controller.signal
-            })
-                .then(res => {
-                    clearTimeout(timeoutId);
-                    if (res.ok) {
-                        router.push(`/${locale}/portal`);
-                    } else {
-                        // Token invalid, clear it
-                        localStorage.removeItem('customer_token');
-                        localStorage.removeItem('customer_email');
-                        localStorage.removeItem('customer_id');
-                        setCheckingSession(false);
-                    }
-                })
-                .catch(() => {
-                    clearTimeout(timeoutId);
-                    setCheckingSession(false);
+            try {
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 3000);
+
+                const res = await fetch('/api/launch/customer/orders', {
+                    headers: { 'Authorization': `Bearer ${token}` },
+                    signal: controller.signal
                 });
-        } else {
-            setCheckingSession(false);
-        }
+
+                clearTimeout(timeoutId);
+
+                if (res.ok) {
+                    router.push(`/${locale}/portal`);
+                } else {
+                    localStorage.removeItem('customer_token');
+                    localStorage.removeItem('customer_email');
+                    localStorage.removeItem('customer_id');
+                    setCheckingSession(false);
+                }
+            } catch {
+                localStorage.removeItem('customer_token');
+                setCheckingSession(false);
+            }
+        };
+
+        checkSession();
     }, [router, locale]);
 
     const handleSubmit = async (e: React.FormEvent) => {
