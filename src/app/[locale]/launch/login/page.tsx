@@ -38,7 +38,7 @@ export default function LoginPage() {
             localStorage.setItem("customer_email", email);
             localStorage.setItem("customer_id", data.customer_id);
 
-            router.push("/launch/dashboard");
+            router.push("/portal");
         } catch (err: any) {
             setError(err.message || t("error.generic"));
         } finally {
