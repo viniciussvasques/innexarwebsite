@@ -22,11 +22,16 @@ export default function PortalLogin() {
     useEffect(() => {
         const token = localStorage.getItem('customer_token');
         if (token) {
-            // Verify token is still valid
+            // Verify token is still valid with timeout
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 5000);
+
             fetch('/api/launch/customer/orders', {
-                headers: { 'Authorization': `Bearer ${token}` }
+                headers: { 'Authorization': `Bearer ${token}` },
+                signal: controller.signal
             })
                 .then(res => {
+                    clearTimeout(timeoutId);
                     if (res.ok) {
                         router.push(`/${locale}/portal`);
                     } else {
@@ -38,6 +43,7 @@ export default function PortalLogin() {
                     }
                 })
                 .catch(() => {
+                    clearTimeout(timeoutId);
                     setCheckingSession(false);
                 });
         } else {
