@@ -1,33 +1,21 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from 'next/server'
 
 const CRM_API_URL = process.env.CRM_API_URL || 'https://sales.innexar.app/api'
 
-export async function POST(req: Request) {
+export async function POST(request: NextRequest) {
     try {
-        const { token } = await req.json();
+        const body = await request.json()
 
-        const response = await fetch(`${CRM_API_URL}/site-customers/verify/${token}`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-        });
+        const response = await fetch(`${CRM_API_URL}/customer-auth/verify`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(body)
+        })
 
-        const data = await response.json();
-
-        if (!response.ok) {
-            return NextResponse.json(
-                { error: data.detail || "Verification failed" },
-                { status: response.status }
-            );
-        }
-
-        return NextResponse.json(data);
+        const data = await response.json()
+        return NextResponse.json(data, { status: response.status })
     } catch (error) {
-        console.error("Verify Email Error:", error);
-        return NextResponse.json(
-            { error: "Internal Server Error" },
-            { status: 500 }
-        );
+        console.error('Verify error:', error)
+        return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
     }
 }

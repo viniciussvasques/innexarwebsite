@@ -5,7 +5,8 @@ const CRM_API_URL = process.env.CRM_API_URL || 'https://sales.innexar.app/api'
 export async function POST(request: NextRequest) {
     try {
         const body = await request.json()
-        const response = await fetch(`${CRM_API_URL}/site-customers/reset-password`, {
+
+        const response = await fetch(`${CRM_API_URL}/customer-auth/reset-password`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(body)
