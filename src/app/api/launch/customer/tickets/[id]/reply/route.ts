@@ -4,8 +4,9 @@ const CRM_API_URL = process.env.CRM_API_URL || 'http://localhost:8000';
 
 export async function POST(
     request: NextRequest,
-    { params }: { params: { id: string } }
+    { params }: { params: Promise<{ id: string }> }
 ) {
+    const { id } = await params;
     const token = request.headers.get('authorization')?.replace('Bearer ', '');
 
     if (!token) {
@@ -15,7 +16,7 @@ export async function POST(
     try {
         const body = await request.json();
 
-        const response = await fetch(`${CRM_API_URL}/api/customer-auth/me/tickets/${params.id}/reply`, {
+        const response = await fetch(`${CRM_API_URL}/api/customer-auth/me/tickets/${id}/reply`, {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${token}`,
