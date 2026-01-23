@@ -2,10 +2,12 @@
 
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import Link from 'next/link';
+import { useLocale } from 'next-intl';
 import {
     Rocket, Clock, Palette, Eye, CheckCircle2,
     ArrowRight, TrendingUp, Calendar, Zap,
-    ExternalLink, FileText
+    ExternalLink, FileText, Sparkles
 } from 'lucide-react';
 
 interface Project {
@@ -35,12 +37,18 @@ const pipelineSteps = [
 ];
 
 export default function PortalDashboard() {
+    const locale = useLocale();
     const [projects, setProjects] = useState<Project[]>([]);
     const [loading, setLoading] = useState(true);
+    const [customerName, setCustomerName] = useState('');
 
     useEffect(() => {
         const fetchProjects = async () => {
             const token = localStorage.getItem('customer_token');
+            const email = localStorage.getItem('customer_email');
+            if (email) {
+                setCustomerName(email.split('@')[0]);
+            }
             if (!token) return;
 
             try {
@@ -116,17 +124,25 @@ export default function PortalDashboard() {
                 className="flex flex-col md:flex-row md:items-center md:justify-between gap-4"
             >
                 <div>
-                    <h1 className="text-3xl font-bold text-white mb-2">Welcome back! 👋</h1>
+                    <div className="flex items-center gap-2 mb-2">
+                        <Sparkles className="w-5 h-5 text-blue-400" />
+                        <span className="text-sm text-slate-400">Client Portal</span>
+                    </div>
+                    <h1 className="text-3xl font-bold text-white mb-2">
+                        Welcome back{customerName ? `, ${customerName}` : ''}! 👋
+                    </h1>
                     <p className="text-slate-400">Here's what's happening with your projects.</p>
                 </div>
-                <motion.button
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl text-white font-medium shadow-lg shadow-blue-500/25"
-                >
-                    <Zap className="w-4 h-4" />
-                    Request New Project
-                </motion.button>
+                <Link href={`/${locale}/portal/new-project`}>
+                    <motion.button
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl text-white font-medium shadow-lg shadow-blue-500/25 hover:shadow-xl hover:shadow-blue-500/30 transition-shadow"
+                    >
+                        <Zap className="w-4 h-4" />
+                        Request New Project
+                    </motion.button>
+                </Link>
             </motion.div>
 
             {/* Stats Grid */}
@@ -242,25 +258,25 @@ export default function PortalDashboard() {
             {/* Quick Actions */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {[
-                    { title: 'Need Help?', desc: 'Contact our support team', icon: '💬', href: '/portal/support' },
-                    { title: 'Start New Project', desc: 'Request a new website', icon: '🚀', href: '/portal/new-project' },
+                    { title: 'Need Help?', desc: 'Contact our support team', icon: '💬', href: `/${locale}/portal/support` },
+                    { title: 'Start New Project', desc: 'Request a new website', icon: '🚀', href: `/${locale}/portal/new-project` },
                 ].map((action, i) => (
-                    <motion.a
-                        key={action.title}
-                        href={action.href}
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.4 + i * 0.1 }}
-                        whileHover={{ scale: 1.02 }}
-                        className="group bg-white/5 hover:bg-white/10 backdrop-blur-xl border border-white/10 hover:border-white/20 rounded-2xl p-6 flex items-center gap-4 transition-all"
-                    >
-                        <span className="text-4xl">{action.icon}</span>
-                        <div className="flex-1">
-                            <h3 className="text-lg font-bold text-white mb-1">{action.title}</h3>
-                            <p className="text-slate-400 text-sm">{action.desc}</p>
-                        </div>
-                        <ArrowRight className="w-5 h-5 text-slate-400 group-hover:text-white group-hover:translate-x-1 transition-all" />
-                    </motion.a>
+                    <Link key={action.title} href={action.href}>
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.4 + i * 0.1 }}
+                            whileHover={{ scale: 1.02 }}
+                            className="group bg-white/5 hover:bg-white/10 backdrop-blur-xl border border-white/10 hover:border-white/20 rounded-2xl p-6 flex items-center gap-4 transition-all cursor-pointer h-full"
+                        >
+                            <span className="text-4xl">{action.icon}</span>
+                            <div className="flex-1">
+                                <h3 className="text-lg font-bold text-white mb-1">{action.title}</h3>
+                                <p className="text-slate-400 text-sm">{action.desc}</p>
+                            </div>
+                            <ArrowRight className="w-5 h-5 text-slate-400 group-hover:text-white group-hover:translate-x-1 transition-all" />
+                        </motion.div>
+                    </Link>
                 ))}
             </div>
 
@@ -279,29 +295,30 @@ export default function PortalDashboard() {
                             const colors = getColorClasses(status.color);
 
                             return (
-                                <motion.div
-                                    key={project.id}
-                                    whileHover={{ scale: 1.01 }}
-                                    className="flex items-center gap-4 p-4 bg-white/5 hover:bg-white/10 rounded-xl border border-white/5 hover:border-white/10 transition-all cursor-pointer"
-                                >
-                                    <div className={`w-10 h-10 rounded-xl ${colors.bg} flex items-center justify-center`}>
-                                        <status.icon className={`w-5 h-5 ${colors.text}`} />
-                                    </div>
-                                    <div className="flex-1 min-w-0">
-                                        <h3 className="text-white font-medium truncate">{project.name}</h3>
-                                        <p className="text-slate-400 text-sm">{status.label}</p>
-                                    </div>
-                                    <div className="hidden md:block w-32">
-                                        <div className="h-2 bg-white/10 rounded-full overflow-hidden">
-                                            <motion.div
-                                                initial={{ width: 0 }}
-                                                animate={{ width: `${project.progress}%` }}
-                                                className={`h-full bg-gradient-to-r ${colors.gradient}`}
-                                            />
+                                <Link key={project.id} href={`/${locale}/portal/projects/${project.id}`}>
+                                    <motion.div
+                                        whileHover={{ scale: 1.01 }}
+                                        className="flex items-center gap-4 p-4 bg-white/5 hover:bg-white/10 rounded-xl border border-white/5 hover:border-white/10 transition-all cursor-pointer"
+                                    >
+                                        <div className={`w-10 h-10 rounded-xl ${colors.bg} flex items-center justify-center`}>
+                                            <status.icon className={`w-5 h-5 ${colors.text}`} />
                                         </div>
-                                    </div>
-                                    <ArrowRight className="w-4 h-4 text-slate-400" />
-                                </motion.div>
+                                        <div className="flex-1 min-w-0">
+                                            <h3 className="text-white font-medium truncate">{project.name}</h3>
+                                            <p className="text-slate-400 text-sm">{status.label}</p>
+                                        </div>
+                                        <div className="hidden md:block w-32">
+                                            <div className="h-2 bg-white/10 rounded-full overflow-hidden">
+                                                <motion.div
+                                                    initial={{ width: 0 }}
+                                                    animate={{ width: `${project.progress}%` }}
+                                                    className={`h-full bg-gradient-to-r ${colors.gradient}`}
+                                                />
+                                            </div>
+                                        </div>
+                                        <ArrowRight className="w-4 h-4 text-slate-400" />
+                                    </motion.div>
+                                </Link>
                             );
                         })}
                     </div>
@@ -320,13 +337,15 @@ export default function PortalDashboard() {
                     </div>
                     <h2 className="text-2xl font-bold text-white mb-2">No Projects Yet</h2>
                     <p className="text-slate-400 mb-6">Start your digital journey by requesting your first project.</p>
-                    <motion.button
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
-                        className="px-8 py-3 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl text-white font-medium shadow-lg shadow-blue-500/25"
-                    >
-                        Start Your First Project
-                    </motion.button>
+                    <Link href={`/${locale}/portal/new-project`}>
+                        <motion.button
+                            whileHover={{ scale: 1.02 }}
+                            whileTap={{ scale: 0.98 }}
+                            className="px-8 py-3 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl text-white font-medium shadow-lg shadow-blue-500/25 hover:shadow-xl transition-shadow"
+                        >
+                            Start Your First Project
+                        </motion.button>
+                    </Link>
                 </motion.div>
             )}
         </div>
