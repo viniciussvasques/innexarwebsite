@@ -295,22 +295,34 @@ function OnboardingContent() {
 
     // Check if onboarding is already completed in the backend
     useEffect(() => {
-        if (!orderId) return
+        if (!orderId) {
+            console.log('[Onboarding] No orderId, skipping check')
+            return
+        }
 
         const checkOnboardingStatus = async () => {
+            console.log(`[Onboarding] Checking status for order: ${orderId}`)
             try {
                 const response = await fetch(`/api/launch/onboarding?order_id=${orderId}`)
+                console.log(`[Onboarding] Status response: ${response.status}`)
+
                 if (response.ok) {
                     const data = await response.json()
+                    console.log(`[Onboarding] Status data:`, data)
+
                     if (data.is_complete) {
+                        console.log('[Onboarding] Already complete! Redirecting...')
                         // Clear localStorage since onboarding is done
                         localStorage.removeItem(storageKey)
                         // Redirect to dashboard
-                        router.push(`/dashboard`)
+                        const email = formData.businessEmail || ''
+                        router.push(`/launch/dashboard?order_id=${orderId}&email=${encodeURIComponent(email)}`)
                     }
+                } else {
+                    console.error(`[Onboarding] Failed to check status: ${response.statusText}`)
                 }
             } catch (error) {
-                console.error('Error checking onboarding status:', error)
+                console.error('[Onboarding] Error checking onboarding status:', error)
             }
         }
 
@@ -499,12 +511,54 @@ function OnboardingContent() {
                 setIsComplete(true)
             } else {
                 const errorData = await response.json()
-                const errorMessage = errorData.error?.message || errorData.error || 'Failed to submit'
+                console.error('Onboarding error response:', errorData)
+                
+                // Extract error message from various error formats
+                let errorMessage = 'Failed to submit'
+                
+                if (errorData.error) {
+                    if (typeof errorData.error === 'string') {
+                        errorMessage = errorData.error
+                    } else if (errorData.error.message) {
+                        errorMessage = errorData.error.message
+                    } else if (errorData.error.msg) {
+                        errorMessage = errorData.error.msg
+                    } else if (Array.isArray(errorData.error)) {
+                        // Pydantic validation errors
+                        const firstError = errorData.error[0]
+                        if (firstError && firstError.msg) {
+                            errorMessage = firstError.msg
+                        } else {
+                            errorMessage = JSON.stringify(errorData.error)
+                        }
+                    } else if (typeof errorData.error === 'object') {
+                        // Try to extract a meaningful message
+                        errorMessage = errorData.error.msg || errorData.error.message || errorData.error.detail || 'Validation error'
+                    }
+                } else if (errorData.detail) {
+                    if (typeof errorData.detail === 'string') {
+                        errorMessage = errorData.detail
+                    } else if (Array.isArray(errorData.detail)) {
+                        // Pydantic validation errors array
+                        const firstError = errorData.detail[0]
+                        if (firstError && firstError.msg) {
+                            errorMessage = `${firstError.loc?.join('.') || 'Field'}: ${firstError.msg}`
+                        } else {
+                            errorMessage = 'Validation error'
+                        }
+                    } else if (errorData.detail.msg) {
+                        errorMessage = errorData.detail.msg
+                    }
+                } else if (errorData.message) {
+                    errorMessage = errorData.message
+                }
+                
                 throw new Error(errorMessage)
             }
         } catch (error: any) {
             console.error('Error submitting onboarding:', error)
-            alert(error.message || 'Something went wrong. Please try again.')
+            const displayMessage = error?.message || (typeof error === 'string' ? error : 'Something went wrong. Please try again.')
+            alert(displayMessage)
         } finally {
             setIsSubmitting(false)
         }
@@ -537,12 +591,17 @@ function OnboardingContent() {
         }, 250)
     }, [])
 
-    // Trigger confetti when complete
+    // Trigger confetti when complete and redirect after delay
     useEffect(() => {
         if (isComplete) {
             fireConfetti()
+            // Auto-redirect to dashboard after 5 seconds
+            const redirectTimer = setTimeout(() => {
+                router.push(`/launch/dashboard?order_id=${orderId}&email=${encodeURIComponent(formData.businessEmail)}`)
+            }, 5000)
+            return () => clearTimeout(redirectTimer)
         }
-    }, [isComplete, fireConfetti])
+    }, [isComplete, fireConfetti, orderId, formData.businessEmail, router])
 
     // ============ COMPLETION SCREEN ============
     if (isComplete) {
@@ -602,10 +661,24 @@ function OnboardingContent() {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ delay: 0.5 }}
-                        className="text-slate-300 mb-8"
+                        className="text-slate-300 mb-4"
                     >
                         {t('onboarding.complete.message')}
                     </motion.p>
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 0.55 }}
+                        className="bg-green-500/20 border border-green-400/30 rounded-xl p-4 mb-8"
+                    >
+                        <div className="flex items-center gap-3 text-green-300">
+                            <div className="w-5 h-5 border-2 border-green-400 border-t-transparent rounded-full animate-spin" />
+                            <span className="font-medium">IA iniciando construção do seu site...</span>
+                        </div>
+                        <p className="text-sm text-green-200/70 mt-2">
+                            Você receberá atualizações por email e pode acompanhar o progresso no dashboard.
+                        </p>
+                    </motion.div>
 
                     <motion.div
                         initial={{ opacity: 0, y: 10 }}
@@ -643,6 +716,14 @@ function OnboardingContent() {
                         transition={{ delay: 0.7 }}
                         className="space-y-3"
                     >
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ delay: 0.8 }}
+                            className="text-center text-sm text-slate-400 mb-2"
+                        >
+                            Redirecionando para o dashboard em 5 segundos...
+                        </motion.div>
                         <a
                             href={`/launch/dashboard?order_id=${orderId}&email=${encodeURIComponent(formData.businessEmail)}`}
                             className="flex items-center justify-center gap-2 w-full py-4 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 rounded-xl font-bold text-white shadow-lg shadow-blue-500/25 transition-all"

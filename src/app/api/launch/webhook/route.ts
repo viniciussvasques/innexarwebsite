@@ -33,48 +33,32 @@ export async function POST(request: NextRequest) {
         console.log('Webhook: Event verified -', event.type)
 
         // Handle events
+        // Forward checkout.session.completed to backend webhook for order creation
         switch (event.type) {
             case 'checkout.session.completed': {
                 const session = event.data.object
-
-                // Create order in CRM
+                console.log('Checkout session completed:', session.id)
+                console.log('Forwarding to backend webhook for order creation...')
+                
+                // Forward the event to backend webhook
                 try {
-                    const orderResponse = await fetch(`${CRM_API_URL}/site-orders`, {
+                    const backendResponse = await fetch(`${CRM_API_URL}/site-orders/webhook`, {
                         method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            customer_name: session.customer_details?.name || 'Customer',
-                            customer_email: session.customer_details?.email || '',
-                            customer_phone: session.customer_details?.phone || '',
-                            stripe_session_id: session.id,
-                            stripe_customer_id: session.customer as string,
-                            total_price: (session.amount_total || 0) / 100,
-                            addon_ids: parseAddons(session.metadata?.addons || ''),
-                        }),
+                        headers: {
+                            'stripe-signature': signature || '',
+                        },
+                        body: body, // Send raw body as received from Stripe
                     })
-
-                    if (orderResponse.ok) {
-                        const orderData = await orderResponse.json()
-                        console.log('Order created:', orderData.id)
-
-                        // Send payment confirmation email
-                        try {
-                            await fetch(`${CRM_API_URL}/emails/send-payment-confirmation/${orderData.id}`, {
-                                method: 'POST',
-                                headers: { 'Content-Type': 'application/json' },
-                            })
-                            console.log('Payment confirmation email sent for order:', orderData.id)
-                        } catch (emailError) {
-                            console.error('Failed to send confirmation email:', emailError)
-                        }
+                    
+                    if (backendResponse.ok) {
+                        console.log('Backend webhook processed successfully')
                     } else {
-                        const errorText = await orderResponse.text()
-                        console.error('Failed to create order in CRM:', orderResponse.status, errorText)
+                        const errorText = await backendResponse.text()
+                        console.error('Backend webhook error:', backendResponse.status, errorText)
                     }
                 } catch (error) {
-                    console.error('Error calling CRM API:', error)
+                    console.error('Error forwarding to backend webhook:', error)
                 }
-
                 break
             }
 
@@ -100,8 +84,21 @@ export async function POST(request: NextRequest) {
 }
 
 function parseAddons(addonsString: string): number[] {
-    // For now, return empty array since we need to map addon slugs to IDs
-    return []
+    if (!addonsString) return []
+
+    // Valid addon mapping based on seeded data
+    const ADDON_MAP: Record<string, number> = {
+        'logo': 1,              // 1: Logo Design
+        'seo': 2,               // 2: SEO Local Pro
+        'extra-page': 3,        // 3: Extra Page
+        'whatsapp': 4,          // 4: WhatsApp Widget
+        'google-business': 5,   // 5: Google Business Setup
+    }
+
+    return addonsString.split(',')
+        .map(slug => slug.trim())
+        .filter(slug => ADDON_MAP[slug])
+        .map(slug => ADDON_MAP[slug])
 }
 
 export const dynamic = 'force-dynamic'

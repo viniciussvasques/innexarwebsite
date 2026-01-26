@@ -117,7 +117,7 @@ export default function VerifyEmailPage() {
               className="mb-4 p-4 rounded-lg bg-red-500/10 border border-red-500/50 flex items-center gap-3 text-red-400 text-sm"
             >
               <AlertCircle className="w-5 h-5 flex-shrink-0" />
-              <p>{error}</p>
+              <p>{typeof error === 'string' ? error : error?.message || error?.msg || 'An error occurred'}</p>
             </motion.div>
           )}
 
@@ -144,13 +144,20 @@ export default function VerifyEmailPage() {
             </div>
 
             {verified ? (
-              <Link
-                href="/launch/login"
-                className="w-full flex justify-center py-2.5 px-4 border border-transparent rounded-lg shadow-sm text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 transition-all items-center gap-2"
-              >
-                {t("verified.cta")}
-                <ArrowRight className="w-4 h-4" />
-              </Link>
+              <div className="w-full space-y-4">
+                <div className="text-center">
+                  <p className="text-green-400 text-sm mb-4">
+                    Email verificado com sucesso! Redirecionando para login...
+                  </p>
+                </div>
+                <Link
+                  href="/launch/login"
+                  className="w-full flex justify-center py-2.5 px-4 border border-transparent rounded-lg shadow-sm text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 transition-all items-center gap-2"
+                >
+                  {t("verified.cta")}
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
+              </div>
             ) : (
               <div className="text-center w-full">
                 <p className="text-sm text-slate-400 mb-6">

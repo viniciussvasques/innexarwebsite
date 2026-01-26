@@ -78,8 +78,8 @@ export async function POST(request: NextRequest) {
             payment_method_types: ['card'],
             line_items: lineItems,
             mode: 'payment',
-            success_url: `${request.headers.get('origin')}/en/launch/success?session_id={CHECKOUT_SESSION_ID}`,
-            cancel_url: `${request.headers.get('origin')}/en/launch`,
+            success_url: `${request.headers.get('origin')}/${body.locale || 'en'}/launch/success?session_id={CHECKOUT_SESSION_ID}`,
+            cancel_url: `${request.headers.get('origin')}/${body.locale || 'en'}/launch`,
             customer_email: customerEmail || undefined,
             metadata: {
                 addons: addons.join(','),

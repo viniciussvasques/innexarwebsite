@@ -2,8 +2,9 @@
 
 import { useEffect, useState, Suspense, useRef } from 'react'
 import { motion } from 'framer-motion'
-import { useSearchParams, useRouter } from 'next/navigation'
-import Link from 'next/link'
+import { useSearchParams } from 'next/navigation'
+import { useRouter } from '@/i18n/navigation'
+import { Link } from '@/i18n/navigation'
 import {
     CheckCircle2, ArrowRight, Mail, Clock, Palette, Eye,
     Rocket, LayoutDashboard, Sparkles, RefreshCw
@@ -26,12 +27,20 @@ function SuccessContent() {
 
     useEffect(() => {
         if (sessionId) {
-            // Fetch order details from session
-            const fetchOrderDetails = async () => {
+            // Fetch order details from session with retry logic
+            // The webhook may take a few seconds to create the order
+            const fetchOrderDetails = async (retryCount = 0) => {
+                const MAX_RETRIES = 5
+                const RETRY_DELAY = 2000 // 2 seconds
+                
                 try {
+                    console.log(`[Success Page] Fetching order details for session: ${sessionId} (attempt ${retryCount + 1}/${MAX_RETRIES + 1})`)
                     const response = await fetch(`/api/launch/session-order?session_id=${sessionId}`)
+                    console.log(`[Success Page] Response status: ${response.status}`)
+                    
                     if (response.ok) {
                         const data = await response.json()
+                        console.log(`[Success Page] Order details received:`, data)
                         setOrderDetails(data)
 
                         // Track Purchase event (only once)
@@ -47,19 +56,37 @@ function SuccessContent() {
                                 order_id: data.orderId,
                             })
                         }
+                    } else if (response.status === 404 && retryCount < MAX_RETRIES) {
+                        // Order not found yet, retry after delay
+                        console.log(`[Success Page] Order not found yet, retrying in ${RETRY_DELAY}ms...`)
+                        setTimeout(() => {
+                            fetchOrderDetails(retryCount + 1)
+                        }, RETRY_DELAY)
+                    } else {
+                        const errorData = await response.json().catch(() => ({ error: 'Unknown error' }))
+                        console.error(`[Success Page] Failed to fetch order details:`, response.status, errorData)
                     }
                 } catch (error) {
-                    console.error('Error fetching order:', error)
+                    console.error('[Success Page] Error fetching order:', error)
+                    // Retry on network errors
+                    if (retryCount < MAX_RETRIES) {
+                        console.log(`[Success Page] Network error, retrying in ${RETRY_DELAY}ms...`)
+                        setTimeout(() => {
+                            fetchOrderDetails(retryCount + 1)
+                        }, RETRY_DELAY)
+                    }
                 }
             }
             fetchOrderDetails()
+        } else {
+            console.warn('[Success Page] No sessionId found in URL')
         }
 
-        // Auto-redirect countdown
+        // Auto-redirect countdown - only count down, don't redirect here
         const timer = setInterval(() => {
             setCountdown(prev => {
                 if (prev <= 1) {
-                    router.push(`/launch/onboarding?order_id=${orderDetails?.orderId || 'new'}`)
+                    clearInterval(timer)
                     return 0
                 }
                 return prev - 1
@@ -67,7 +94,17 @@ function SuccessContent() {
         }, 1000)
 
         return () => clearInterval(timer)
-    }, [sessionId, router, orderDetails?.orderId])
+    }, [sessionId])  // Remove router and orderDetails from deps
+
+    // Separate effect for redirect when countdown reaches 0
+    useEffect(() => {
+        if (countdown === 0) {
+            const orderId = orderDetails?.orderId || sessionId
+            if (orderId) {
+                router.push(`/launch/onboarding?order_id=${orderId}`)
+            }
+        }
+    }, [countdown, orderDetails?.orderId, sessionId, router])
 
     const steps = [
         { icon: CheckCircle2, title: t('success.timeline.step1'), desc: t('success.timeline.step1Desc'), done: true },
@@ -218,8 +255,8 @@ function SuccessContent() {
                         className="space-y-3"
                     >
                         <Link
-                            href={`/launch/onboarding?order_id=${orderDetails?.orderId || 'new'}`}
-                            className="flex items-center justify-center gap-2 w-full py-4 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 rounded-xl font-bold text-white shadow-lg shadow-blue-500/25 transition-all"
+                            href={`/launch/onboarding?order_id=${orderDetails?.orderId || sessionId || ''}`}
+                            className={`flex items-center justify-center gap-2 w-full py-4 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 rounded-xl font-bold text-white shadow-lg shadow-blue-500/25 transition-all ${!orderDetails?.orderId && !sessionId ? 'opacity-50 cursor-not-allowed pointer-events-none' : ''}`}
                         >
                             {t('success.continueButton')}
                             <ArrowRight className="w-5 h-5" />

@@ -25,10 +25,41 @@ export async function POST(request: NextRequest) {
         })
 
         if (!response.ok) {
-            const error = await response.json()
+            let error: any
+            try {
+                error = await response.json()
+            } catch {
+                error = { detail: 'Unknown error occurred' }
+            }
             console.error('CRM API Error:', JSON.stringify(error, null, 2))
+            
+            // Extract a readable error message
+            let errorMessage = 'Error submitting onboarding'
+            if (error.detail) {
+                if (typeof error.detail === 'string') {
+                    errorMessage = error.detail
+                } else if (Array.isArray(error.detail)) {
+                    // Pydantic validation errors
+                    const firstError = error.detail[0]
+                    if (firstError && firstError.msg) {
+                        const field = firstError.loc?.filter((l: any) => l !== 'body').join('.') || 'Field'
+                        errorMessage = `${field}: ${firstError.msg}`
+                    } else {
+                        errorMessage = 'Validation error'
+                    }
+                } else if (typeof error.detail === 'object') {
+                    errorMessage = error.detail.msg || error.detail.message || 'Validation error'
+                }
+            } else if (error.error) {
+                errorMessage = typeof error.error === 'string' ? error.error : error.error.message || 'Error occurred'
+            } else if (error.message) {
+                errorMessage = error.message
+            } else if (typeof error === 'string') {
+                errorMessage = error
+            }
+            
             return NextResponse.json(
-                { error: error.detail || error, fullError: error },
+                { error: errorMessage, fullError: error },
                 { status: response.status }
             )
         }
@@ -72,10 +103,15 @@ export async function GET(request: NextRequest) {
     }
 
     try {
-        // Get order details from CRM
-        const response = await fetch(`${CRM_API_URL}/site-orders/${orderId}`)
+        // Get order details from CRM (using public endpoint)
+        // This supports both integer IDs and Stripe Session IDs
+        console.log(`[Onboarding API] Fetching order: ${orderId}`)
+        const response = await fetch(`${CRM_API_URL}/site-orders/public/${orderId}`, {
+            headers: { 'Content-Type': 'application/json' }
+        })
 
         if (!response.ok) {
+            console.error(`[Onboarding API] Error fetching order: ${response.status}`)
             return NextResponse.json(
                 { error: 'Order not found' },
                 { status: 404 }

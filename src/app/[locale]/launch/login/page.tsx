@@ -30,7 +30,13 @@ export default function LoginPage() {
             const data = await response.json();
 
             if (!response.ok) {
-                throw new Error(data.message || t("error.invalid"));
+                // Handle email verification error specifically
+                if (response.status === 403 && data.detail && data.detail.includes("não verificado")) {
+                    setNeedsVerification(true);
+                    setError(data.detail);
+                    return;
+                }
+                throw new Error(data.detail || data.message || t("error.invalid"));
             }
 
             // Success - store the token and email
@@ -38,7 +44,8 @@ export default function LoginPage() {
             localStorage.setItem("customer_email", email);
             localStorage.setItem("customer_id", data.customer_id);
 
-            router.push("/portal");
+            // Redirect to dashboard instead of portal
+            router.push("/launch/dashboard");
         } catch (err: any) {
             setError(err.message || t("error.generic"));
         } finally {
@@ -84,10 +91,25 @@ export default function LoginPage() {
                         <motion.div
                             initial={{ opacity: 0, height: 0 }}
                             animate={{ opacity: 1, height: "auto" }}
-                            className="mb-4 p-4 rounded-lg bg-red-500/10 border border-red-500/50 flex items-center gap-3 text-red-400 text-sm"
+                            className="mb-4 p-4 rounded-lg bg-red-500/10 border border-red-500/50 text-red-400 text-sm"
                         >
-                            <AlertCircle className="w-5 h-5 flex-shrink-0" />
-                            <p>{error}</p>
+                            <div className="flex items-start gap-3">
+                                <AlertCircle className="w-5 h-5 flex-shrink-0 mt-0.5" />
+                                <div className="flex-1">
+                                    <p className="mb-2">{typeof error === 'string' ? error : error?.message || error?.msg || 'An error occurred'}</p>
+                                    {needsVerification && (
+                                        <div className="mt-3 space-y-2">
+                                            <Link 
+                                                href={`/launch/verify-email?email=${encodeURIComponent(email)}`}
+                                                className="text-blue-400 hover:text-blue-300 text-sm underline inline-flex items-center gap-1"
+                                            >
+                                                Reenviar email de verificação
+                                                <ArrowRight className="w-3 h-3" />
+                                            </Link>
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
                         </motion.div>
                     )}
 

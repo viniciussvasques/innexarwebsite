@@ -1,22 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server'
 
-// Dynamically import Stripe only at runtime
-async function getStripe() {
-    const Stripe = (await import('stripe')).default
-    const key = process.env.STRIPE_SECRET_KEY
-    if (!key) {
-        throw new Error('STRIPE_SECRET_KEY not configured')
-    }
-    return new Stripe(key, {
-        apiVersion: '2025-12-15.clover' as const,
-    })
-}
+// CRM API endpoint
+// If running in docker, we want to talk to the backend container
+// We can use the service name 'backend' if they are in the same network
+const CRM_API_URL = process.env.CRM_API_URL || 'https://sales.innexar.app/api'
 
 export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url)
     const sessionId = searchParams.get('session_id')
 
+    console.log(`[Session API] Request received - sessionId: ${sessionId}, CRM_API_URL: ${CRM_API_URL}`)
+
     if (!sessionId) {
+        console.error('[Session API] Missing session_id parameter')
         return NextResponse.json(
             { error: 'Missing session_id' },
             { status: 400 }
@@ -24,36 +20,53 @@ export async function GET(request: NextRequest) {
     }
 
     try {
-        const stripe = await getStripe()
-        // Retrieve the checkout session from Stripe
-        const session = await stripe.checkout.sessions.retrieve(sessionId)
+        console.log(`[Session API] Fetching session via CRM: ${sessionId}`)
 
-        if (!session) {
+        // Call Backend Public API which acts as a proxy/lookup
+        // This endpoint was recently added to the backend to support session_id lookup without auth
+        const response = await fetch(`${CRM_API_URL}/site-orders/public/${sessionId}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                // Add any necessary headers
+            }
+        })
+
+        if (!response.ok) {
+            const errorText = await response.text().catch(() => 'Unknown error')
+            console.error(`[Session API] CRM returned ${response.status}: ${errorText}`)
+            // If backend returns 404, we return 404
+            if (response.status === 404) {
+                return NextResponse.json(
+                    { error: 'Session not found in CRM', details: errorText },
+                    { status: 404 }
+                )
+            }
+            // Other errors
             return NextResponse.json(
-                { error: 'Session not found' },
-                { status: 404 }
+                { error: 'Error querying CRM', details: errorText },
+                { status: response.status }
             )
         }
 
-        // Get order ID from metadata (set during checkout)
-        const orderId = session.metadata?.order_id || session.id.slice(-8).toUpperCase()
+        const order = await response.json()
+        console.log(`[Session API] Order found: ${order.id}, Status: ${order.status}`)
 
+        // Return the format expected by the frontend
         return NextResponse.json({
-            orderId: orderId,
-            customerEmail: session.customer_email || session.customer_details?.email || '',
-            total: session.amount_total ? session.amount_total / 100 : 399,
-            status: session.payment_status,
+            orderId: order.stripe_session_id || order.id,
+            customerEmail: order.customer_email || '',
+            total: order.total_price || 399,
+            status: order.status, // Use real status from CRM
+            crmStatus: order.status
         })
-    } catch (error) {
-        console.error('Error fetching session:', error)
-
-        // Fallback for development/testing when Stripe is not configured
-        return NextResponse.json({
-            orderId: sessionId?.slice(-8).toUpperCase() || 'DEV-001',
-            customerEmail: 'customer@example.com',
-            total: 399,
-            status: 'paid',
-        })
+    } catch (error: any) {
+        console.error('[Session API] Error fetching session:', error)
+        console.error('[Session API] Error details:', error.message, error.stack)
+        return NextResponse.json(
+            { error: 'Internal server error', details: error.message },
+            { status: 500 }
+        )
     }
 }
 

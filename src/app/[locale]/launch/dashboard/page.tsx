@@ -115,10 +115,16 @@ function DashboardContent() {
                     const data = await response.json()
                     setOrder(data)
                 } else {
-                    setError('Order not found. Please check your link or contact support.')
+                    const errorData = await response.json().catch(() => ({}))
+                    // Extract error message safely
+                    const errorMsg = typeof errorData === 'string' 
+                        ? errorData 
+                        : errorData?.error || errorData?.detail || errorData?.message || 'Order not found. Please check your link or contact support.'
+                    setError(errorMsg)
                 }
-            } catch (err) {
-                setError('Unable to load order. Please try again later.')
+            } catch (err: any) {
+                const errorMsg = err?.message || (typeof err === 'string' ? err : 'Unable to load order. Please try again later.')
+                setError(errorMsg)
             } finally {
                 setLoading(false)
             }
@@ -143,6 +149,13 @@ function DashboardContent() {
     }
 
     if (error || !order) {
+        // Ensure error is always a string
+        const errorMessage = typeof error === 'string' 
+            ? error 
+            : error && typeof error === 'object' 
+                ? (error.message || error.msg || JSON.stringify(error))
+                : 'Unable to load project'
+        
         return (
             <div className="min-h-screen flex items-center justify-center p-6">
                 <motion.div
@@ -152,7 +165,7 @@ function DashboardContent() {
                 >
                     <AlertCircle className="w-16 h-16 text-red-400 mx-auto mb-4" />
                     <h1 className="text-2xl font-bold text-white mb-2">Unable to Load Project</h1>
-                    <p className="text-slate-400 mb-6">{error}</p>
+                    <p className="text-slate-400 mb-6">{errorMessage}</p>
                     <a
                         href="mailto:support@innexar.com"
                         className="inline-flex items-center gap-2 px-6 py-3 bg-blue-500 rounded-xl text-white font-medium hover:bg-blue-600 transition-colors"
