@@ -14,6 +14,7 @@ export default function LoginPage() {
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
+    const [needsVerification, setNeedsVerification] = useState(false);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -30,12 +31,8 @@ export default function LoginPage() {
             const data = await response.json();
 
             if (!response.ok) {
-                // Handle email verification error specifically
-                if (response.status === 403 && data.detail && data.detail.includes("não verificado")) {
-                    setNeedsVerification(true);
-                    setError(data.detail);
-                    return;
-                }
+                // Mesmo que email não esteja verificado, login deve funcionar.
+                // Backend não bloqueia mais por verificação, então tratamos todo erro como genérico.
                 throw new Error(data.detail || data.message || t("error.invalid"));
             }
 
@@ -44,8 +41,8 @@ export default function LoginPage() {
             localStorage.setItem("customer_email", email);
             localStorage.setItem("customer_id", data.customer_id);
 
-            // Redirect to dashboard instead of portal
-            router.push("/launch/dashboard");
+            // Redirect customer to client portal dashboard (locale-aware)
+            router.push("/portal");
         } catch (err: any) {
             setError(err.message || t("error.generic"));
         } finally {
@@ -96,18 +93,7 @@ export default function LoginPage() {
                             <div className="flex items-start gap-3">
                                 <AlertCircle className="w-5 h-5 flex-shrink-0 mt-0.5" />
                                 <div className="flex-1">
-                                    <p className="mb-2">{typeof error === 'string' ? error : error?.message || error?.msg || 'An error occurred'}</p>
-                                    {needsVerification && (
-                                        <div className="mt-3 space-y-2">
-                                            <Link 
-                                                href={`/launch/verify-email?email=${encodeURIComponent(email)}`}
-                                                className="text-blue-400 hover:text-blue-300 text-sm underline inline-flex items-center gap-1"
-                                            >
-                                                Reenviar email de verificação
-                                                <ArrowRight className="w-3 h-3" />
-                                            </Link>
-                                        </div>
-                                    )}
+                                    <p className="mb-2">{typeof error === 'string' ? error : 'An error occurred'}</p>
                                 </div>
                             </div>
                         </motion.div>

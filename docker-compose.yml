@@ -28,18 +28,18 @@ services:
     env_file:
       - .env
     networks:
-      - traefik-network
+      - fixelo_fixelo-network
     labels:
       - "traefik.enable=true"
       # Roteamento para innexar.app
       - "traefik.http.routers.innexar.rule=Host(`innexar.app`) || Host(`www.innexar.app`)"
       - "traefik.http.routers.innexar.entrypoints=websecure"
-      - "traefik.http.routers.innexar.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.innexar.tls.certresolver=cloudflare"
       - "traefik.http.routers.innexar.service=innexar-service"
       # Redirecionar www para não-www (opcional)
       - "traefik.http.routers.innexar-www.rule=Host(`www.innexar.app`)"
       - "traefik.http.routers.innexar-www.entrypoints=websecure"
-      - "traefik.http.routers.innexar-www.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.innexar-www.tls.certresolver=cloudflare"
       - "traefik.http.routers.innexar-www.middlewares=redirect-to-non-www"
       - "traefik.http.middlewares.redirect-to-non-www.redirectregex.regex=^https://www\\.innexar\\.app/(.*)"
       - "traefik.http.middlewares.redirect-to-non-www.redirectregex.replacement=https://innexar.app/$${1}"
@@ -60,6 +60,5 @@ services:
       start_period: 40s
 
 networks:
-  traefik-network:
+  fixelo_fixelo-network:
     external: true
-

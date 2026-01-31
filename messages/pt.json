@@ -10,7 +10,9 @@
     "blockchain": "Blockchain",
     "contact": "Contato",
     "getStarted": "Começar",
-    "launch": "Sites $399"
+    "launch": "Sites $399",
+    "termsOfService": "Termos de Serviço",
+    "privacyPolicy": "Política de Privacidade"
   },
   "launchBanner": {
     "badge": "🚀 Oferta Limitada",
@@ -1645,7 +1647,10 @@
   "footer": {
     "copyright": "© 2025 Innexar. Todos os direitos reservados.",
     "description": "Soluções tecnológicas inovadoras para empresas modernas",
-    "quickLinks": "Links Rápidos"
+    "quickLinks": "Links Rápidos",
+    "legal": "Legal",
+    "termsOfService": "Termos de Serviço",
+    "privacyPolicy": "Política de Privacidade"
   },
   "portfolio": {
     "hero": {
@@ -1684,29 +1689,29 @@
   },
   "seo": {
     "default": {
-      "title": "Innexar - Soluções em Tecnologia e Desenvolvimento de Software",
-      "description": "Innexar oferece soluções completas em tecnologia, desenvolvimento de software, infraestrutura e consultoria. Transformamos ideias em soluções digitais poderosas.",
-      "keywords": "desenvolvimento de software, soluções tecnológicas, consultoria em TI, desenvolvimento web, aplicativos mobile, cloud computing, infraestrutura, Innexar"
+      "title": "Innexar | Desenvolvimento de Software Premium e Soluções Digitais",
+      "description": "A Innexar oferece soluções tecnológicas de alto nível, desde desenvolvimento de software sob medida até infraestrutura em nuvem e IA. Transformamos sua visão em realidade premium.",
+      "keywords": "desenvolvimento de software, soluções premium, IA para negócios, cloud computing, transformação digital, Innexar tecnologia"
     },
     "home": {
-      "title": "Innexar - Soluções em Tecnologia e Desenvolvimento de Software",
-      "description": "Transforme suas ideias em soluções digitais poderosas. Desenvolvimento de software, infraestrutura em nuvem e consultoria tecnológica de alto nível.",
-      "keywords": "desenvolvimento de software, soluções tecnológicas, consultoria em TI, desenvolvimento web, aplicativos mobile"
+      "title": "Innexar | Soluções de Software de Elite & Consultoria Digital",
+      "description": "Eleve seu negócio com software sob medida e estratégias digitais de alta performance. Especialistas em desenvolvimento premium e escalabilidade global.",
+      "keywords": "consultoria de software, desenvolvimento premium, apps mobile, sistemas web, empresa de tecnologia"
     },
     "about": {
-      "title": "Sobre a Innexar - Nossa História e Missão",
-      "description": "Conheça a Innexar, uma empresa especializada em soluções tecnológicas inovadoras. Nossa missão é transformar ideias em realidade digital.",
-      "keywords": "sobre Innexar, empresa de tecnologia, missão, valores, história"
+      "title": "Nossa História | Innexar - Excelência em Engenharia de Software",
+      "description": "Conheça a Innexar e nossa missão de entregar excelência tecnológica. Uma equipe dedicada a criar o futuro digital com qualidade premium.",
+      "keywords": "sobre Innexar, time de tecnologia, especialistas em software, história da empresa"
     },
     "services": {
-      "title": "Serviços - Desenvolvimento de Software e Soluções Tecnológicas",
-      "description": "Oferecemos serviços completos de desenvolvimento de software, aplicativos mobile, soluções em nuvem e consultoria tecnológica.",
-      "keywords": "serviços de desenvolvimento, desenvolvimento de software, aplicativos mobile, cloud computing, consultoria"
+      "title": "Serviços Premium | Desenvolvimento sob Medida, Nuvem e IA",
+      "description": "Soluções tecnológicas completas para empresas visionárias. Do desenvolvimento de apps à integração de inteligência artificial de ponta.",
+      "keywords": "desenvolvimento personalizado, arquitetura em nuvem, IA, machine learning, outsourcing de software"
     },
     "portfolio": {
-      "title": "Portfólio - Projetos e Soluções Desenvolvidas pela Innexar",
-      "description": "Conheça nossos projetos e soluções desenvolvidas para clientes de diversos setores. Cases de sucesso em desenvolvimento de software.",
-      "keywords": "portfólio, projetos, cases de sucesso, desenvolvimento de software, soluções tecnológicas"
+      "title": "Casos de Sucesso | Explore Nossas Soluções Digitais Premium",
+      "description": "Veja como ajudamos empresas ao redor do mundo a brilhar com produtos digitais inovadores e de alta qualidade.",
+      "keywords": "portfólio, cases de sucesso, projetos de software, experiência digital"
     },
     "contact": {
       "title": "Contato - Entre em Contato com a Innexar",
@@ -1717,6 +1722,31 @@
       "title": "SaaS - Plataformas de Software como Serviço",
       "description": "Conheça nossas plataformas SaaS: Innexar ERP e StructurOne. Soluções empresariais completas e escaláveis.",
       "keywords": "SaaS, software como serviço, ERP, gestão empresarial, plataformas SaaS"
+    },
+    "blockchain": {
+      "title": "Blockchain - Soluções Descentralizadas e Smart Contracts",
+      "description": "Soluções avançadas em blockchain, contratos inteligentes personalizados e arquiteturas descentralizadas para seu negócio.",
+      "keywords": "blockchain, smart contracts, web3, dapps, soluções descentralizadas"
+    },
+    "checklist": {
+      "title": "Checklist de Site - Planeje seu Projeto Digital",
+      "description": "Use nosso checklist para planejar seu próximo site ou produto digital. Um guia completo para começar seu projeto com a Innexar.",
+      "keywords": "checklist de site, planejamento de projeto, guia de desenvolvimento web, produto digital"
+    },
+    "launch": {
+      "title": "Launch Pack - Site Profissional em 5 Dias",
+      "description": "Coloque seu negócio online rapidamente com o nosso Launch Pack. Um site de alta qualidade entregue em apenas 5 dias úteis.",
+      "keywords": "entrega rápida de site, landing page, site para pequenas empresas, launch pack"
+    },
+    "privacy-policy": {
+      "title": "Política de Privacidade - Innexar",
+      "description": "Leia nossa política de privacidade para entender como coletamos, usamos e protegemos seus dados pessoais.",
+      "keywords": "política de privacidade, proteção de dados, LGPD, privacidade"
+    },
+    "terms-of-service": {
+      "title": "Termos de Serviço - Innexar",
+      "description": "Leia nossos termos de serviço para entender as regras e regulamentos de uso dos serviços da Innexar.",
+      "keywords": "termos de serviço, jurídico, contrato"
     }
   },
   "launch": {
@@ -1747,7 +1777,7 @@
       "step1": "Pague e Comece",
       "step1Desc": "Checkout seguro em 2 minutos",
       "step2": "Conte Sobre Seu Negócio",
-      "step2Desc": "Formulário simples de 7 etapas",
+      "step2Desc": "Formulário simples de 8 etapas",
       "step3": "Nós Criamos",
       "step3Desc": "Nossa equipe cria seu site",
       "step4": "Revise e Lance",
@@ -1865,7 +1895,9 @@
         "step6": "Horários e Redes",
         "step6Desc": "Informações de contato",
         "step7": "Depoimentos",
-        "step7Desc": "Avaliações de clientes"
+        "step7Desc": "Avaliações de clientes",
+        "step8": "Contrato",
+        "step8Desc": "Assinatura do contrato de serviço"
       },
       "form": {
         "businessName": "Nome da Empresa",
@@ -1881,6 +1913,27 @@
         "passwordPlaceholder": "Mínimo 8 caracteres",
         "address": "Endereço",
         "addressPlaceholder": "Rua, número, cidade",
+        "desiredDomain": "Domínio desejado (opcional)",
+        "desiredDomainHelp": "ex: meusite.com — Depois orientamos onde apontar o domínio.",
+        "domainQuestion": "Você já tem um domínio?",
+        "hasDomain": "Sim, já tenho",
+        "noDomain": "Não, quero comprar",
+        "existingDomain": "Domínio existente",
+        "existingDomainPlaceholder": "meusite.com",
+        "existingDomainHelp": "Enviaremos instruções por email para apontar seu domínio ao nosso servidor quando o site estiver pronto.",
+        "domainToPurchase": "Domínio para comprar",
+        "domainToPurchasePlaceholder": "meusite.com",
+        "checkDomain": "Verificar",
+        "checkingDomain": "Verificando...",
+        "purchaseDomain": "Comprar Domínio",
+        "purchasingDomain": "Comprando...",
+        "domainAvailable": "Domínio disponível",
+        "domainAvailableFree": "Domínio disponível e GRÁTIS!",
+        "domainAvailablePrice": "Domínio disponível por {price}/ano",
+        "domainNotAvailable": "Domínio não disponível. Tente outro nome.",
+        "domainPurchased": "Domínio {domain} comprado com sucesso!",
+        "domainCheckError": "Erro ao verificar domínio",
+        "domainPurchaseError": "Erro ao comprar domínio",
         "niche": "Categoria do Negócio",
         "selectNiche": "Selecione seu setor...",
         "city": "Cidade Principal",
@@ -1981,6 +2034,17 @@
           "minPassword": "A senha deve ter pelo menos 8 caracteres",
           "mismatch": "As senhas não coincidem"
         },
+        "contract": {
+          "signatureLabel": "Nome Completo para Assinatura Digital *",
+          "signaturePlaceholder": "Digite seu nome legal",
+          "signButton": "Assinar Contrato",
+          "signingDisclaimer": "Ao assinar, você concorda com os termos de serviço e escopo do projeto.",
+          "signedTitle": "Contrato Assinado!",
+          "signedAs": "Assinado como: {name} em {date}",
+          "proceedMessage": "Você pode prosseguir para finalizar seu projeto.",
+          "orderIdError": "ID do pedido não encontrado. Tente voltar ao passo anterior ou atualizar a página.",
+          "nameRequired": "Por favor, digite seu nome completo para assinar"
+        },
         "backHome": "Voltar ao Início"
       },
       "navigation": {
@@ -1993,6 +2057,8 @@
         "title": "Tudo Pronto!",
         "subtitle": "Seu onboarding foi concluído",
         "message": "Nossa equipe começará a trabalhar no seu site imediatamente. Você receberá atualizações por email.",
+        "loadingMessage": "IA iniciando construção do seu site...",
+        "loadingDescription": "Você receberá atualizações por email e pode acompanhar o progresso no dashboard.",
         "dashboardButton": "Ver Painel do Projeto",
         "timeline": "Prazo Estimado: 5 dias úteis",
         "nextSteps": "O que acontece agora?",
@@ -2115,6 +2181,85 @@
         "subtitle": "Sua conta agora está ativa. Você pode acessar seu portal.",
         "cta": "Ir para o Portal"
       }
+    }
+  },
+  "cookies": {
+    "title": "🍪 Usamos Cookies",
+    "description": "Utilizamos cookies para melhorar sua experiência, analisar tráfego e personalizar conteúdo. Você pode gerenciar suas preferências abaixo.",
+    "essential": "Cookies Essenciais",
+    "essentialDesc": "Necessários para funcionamento básico do site",
+    "analytics": "Cookies de Analytics",
+    "analyticsDesc": "Google Analytics para entender como você usa o site",
+    "marketing": "Cookies de Marketing",
+    "marketingDesc": "Meta Pixel e Google Ads para anúncios personalizados",
+    "required": "Obrigatório",
+    "settings": "Configurações",
+    "rejectAll": "Rejeitar Todos",
+    "acceptAll": "Aceitar Todos",
+    "savePreferences": "Salvar Preferências"
+  },
+  "legal": {
+    "terms": {
+      "title": "Termos de Serviço",
+      "lastUpdated": "Última atualização: 30 de Janeiro de 2026",
+      "sections": {
+        "acceptance": {
+          "title": "Aceitação dos Termos",
+          "content": "Ao acessar e usar os serviços da Innexar, você concorda em cumprir estes Termos de Serviço e todas as leis e regulamentos aplicáveis."
+        },
+        "services": {
+          "title": "Serviços Prestados",
+          "content": "A Innexar fornece serviços de desenvolvimento web, SaaS e consultoria digital. Cada projeto está sujeito ao seu contrato específico e aos requisitos de onboarding."
+        },
+        "hosting": {
+          "title": "Hospedagem e Suporte",
+          "content": "Os serviços de hospedagem são prestados conforme especificado no plano de serviço. As taxas de hospedagem e manutenção são recorrentes após o período inicial de teste, conforme detalhado no contrato do projeto."
+        },
+        "intellectualProperty": {
+          "title": "Propriedade Intelectual",
+          "content": "O conteúdo do site e o software desenvolvido para o cliente estão sujeitos aos termos de propriedade definidos no contrato de serviço específico assinado durante o onboarding."
+        },
+        "limitations": {
+          "title": "Limitações de Responsabilidade",
+          "content": "A Innexar não será responsável por quaisquer danos indiretos, incidentais ou consequenciais resultantes do uso ou da incapacidade de usar nossos serviços."
+        },
+        "governingLaw": {
+          "title": "Lei Aplicável",
+          "content": "Estes termos são regidos pelas leis do Estado da Flórida, Estados Unidos, sem levar em conta seus conflitos de disposições legais."
+        }
+      },
+      "footerNote": "Para qualquer dúvida sobre estes termos, entre em contato conosco pelo e-mail sales@innexar.app"
+    },
+    "privacy": {
+      "title": "Política de Privacidade",
+      "lastUpdated": "Última atualização: 30 de Janeiro de 2026",
+      "sections": {
+        "dataCollection": {
+          "title": "Coleta de Dados",
+          "content": "Coletamos informações que você nos fornece diretamente (nome, e-mail, detalhes da empresa) e dados de uso automatizados via cookies para melhorar nossos serviços."
+        },
+        "dataUsage": {
+          "title": "Como Usamos Seus Dados",
+          "content": "Seus dados são usados para prestar serviços, processar pagamentos, comunicar atualizações de projetos e melhorar o desempenho do site."
+        },
+        "dataSharing": {
+          "title": "Compartilhamento de Dados",
+          "content": "Não vendemos seus dados pessoais. Apenas compartilhamos informações com provedores de serviços terceirizados confiáveis (como Stripe ou Dynadot) necessários para realizar nossos serviços."
+        },
+        "cookies": {
+          "title": "Cookies e Rastreamento",
+          "content": "Usamos cookies para personalizar o conteúdo, analisar o tráfego e para fins de marketing. Você pode gerenciar suas preferências através do nosso banner de Consentimento de Cookies."
+        },
+        "security": {
+          "title": "Segurança de Dados",
+          "content": "Implementamos medidas de segurança padrão da indústria para proteger suas informações contra acesso não autorizado, alteração ou divulgação."
+        },
+        "rights": {
+          "title": "Seus Direitos",
+          "content": "Você tem o direito de acessar, corrigir ou excluir seus dados pessoais. Entre em contato conosco para exercer esses direitos."
+        }
+      },
+      "footerNote": "Esta política de privacidade está sujeita a alterações. Por favor, revise-a periodicamente."
     }
   }
 }

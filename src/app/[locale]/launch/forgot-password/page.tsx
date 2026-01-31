@@ -101,7 +101,7 @@ export default function ForgotPasswordPage() {
                                     className="mb-4 p-4 rounded-lg bg-red-500/10 border border-red-500/50 flex items-center gap-3 text-red-400 text-sm"
                                 >
                                     <AlertCircle className="w-5 h-5 flex-shrink-0" />
-                                    <p>{typeof error === 'string' ? error : error?.message || error?.msg || 'An error occurred'}</p>
+                                    <p>{typeof error === 'string' ? error : 'An error occurred'}</p>
                                 </motion.div>
                             )}
 

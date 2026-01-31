@@ -10,7 +10,9 @@
     "blockchain": "Blockchain",
     "contact": "Contact",
     "getStarted": "Get Started",
-    "launch": "Sites $399"
+    "launch": "Sites $399",
+    "termsOfService": "Terms of Service",
+    "privacyPolicy": "Privacy Policy"
   },
   "launchBanner": {
     "badge": "🚀 Limited Offer",
@@ -1610,7 +1612,10 @@
   "footer": {
     "copyright": "© 2025 Innexar. All rights reserved.",
     "description": "Innovative technology solutions for modern businesses",
-    "quickLinks": "Quick Links"
+    "quickLinks": "Quick Links",
+    "legal": "Legal",
+    "termsOfService": "Terms of Service",
+    "privacyPolicy": "Privacy Policy"
   },
   "portfolio": {
     "hero": {
@@ -1662,29 +1667,29 @@
   },
   "seo": {
     "default": {
-      "title": "Innexar - Technology Solutions and Software Development",
-      "description": "Innexar offers complete technology solutions, software development, infrastructure and consulting. We transform ideas into powerful digital solutions.",
-      "keywords": "software development, technology solutions, IT consulting, web development, mobile apps, cloud computing, infrastructure, Innexar"
+      "title": "Innexar | Premium Software Development & Digital Solutions",
+      "description": "Innexar delivers high-end technology solutions, from custom software development to cloud infrastructure and AI. Transforming your vision into premium reality.",
+      "keywords": "software development, premium solutions, AI for business, cloud computing, digital transformation, Innexar technology"
     },
     "home": {
-      "title": "Innexar - Technology Solutions and Software Development",
-      "description": "Transform your ideas into powerful digital solutions. Software development, cloud infrastructure and high-level technology consulting.",
-      "keywords": "software development, technology solutions, IT consulting, web development, mobile apps"
+      "title": "Innexar | Elite Software Solutions & Digital Consulting",
+      "description": "Elevate your business with bespoke software and high-performance digital strategies. Experts in premium development and global scalability.",
+      "keywords": "software consulting, premium development, mobile apps, web systems, tech company"
     },
     "about": {
-      "title": "About Innexar - Our Story and Mission",
-      "description": "Meet Innexar, a company specialized in innovative technology solutions. Our mission is to transform ideas into digital reality.",
-      "keywords": "about Innexar, technology company, mission, values, history"
+      "title": "Our Story | Innexar - Excellence in Software Engineering",
+      "description": "Get to know Innexar and our mission to deliver technological excellence. A dedicated team creating the digital future with premium quality.",
+      "keywords": "about Innexar, tech team, software experts, company history"
     },
     "services": {
-      "title": "Services - Software Development and Technology Solutions",
-      "description": "We offer complete software development services, mobile apps, cloud solutions and technology consulting.",
-      "keywords": "development services, software development, mobile apps, cloud computing, consulting"
+      "title": "Premium Services | Custom Development, Cloud & AI",
+      "description": "Complete technology solutions for visionary companies. From app development to cutting-edge artificial intelligence integration.",
+      "keywords": "custom development, cloud architecture, AI, machine learning, software outsourcing"
     },
     "portfolio": {
-      "title": "Portfolio - Projects and Solutions Developed by Innexar",
-      "description": "Discover our projects and solutions developed for clients across various industries. Success stories in software development.",
-      "keywords": "portfolio, projects, success stories, software development, technology solutions"
+      "title": "Success Stories | Explore Our Premium Digital Solutions",
+      "description": "See how we help businesses worldwide shine with innovative, high-quality digital products.",
+      "keywords": "portfolio, success cases, software projects, digital experience"
     },
     "contact": {
       "title": "Contact - Get in Touch with Innexar",
@@ -1695,6 +1700,31 @@
       "title": "SaaS - Software as a Service Platforms",
       "description": "Discover our SaaS platforms: Innexar ERP and StructurOne. Complete and scalable business solutions.",
       "keywords": "SaaS, software as a service, ERP, business management, SaaS platforms"
+    },
+    "blockchain": {
+      "title": "Blockchain - Decentralized Solutions and Smart Contracts",
+      "description": "Advanced blockchain solutions, custom smart contracts, and decentralized architectures for your business.",
+      "keywords": "blockchain, smart contracts, web3, dapps, decentralized solutions"
+    },
+    "checklist": {
+      "title": "Website Checklist - Plan Your Digital Project",
+      "description": "Use our checklist to plan your next website or digital product. A complete guide to starting your project with Innexar.",
+      "keywords": "website checklist, project planning, web development guide, digital product"
+    },
+    "launch": {
+      "title": "Launch Pack - Professional Website in 5 Days",
+      "description": "Get your business online quickly with our Launch Pack. A high-quality website delivered in just 5 business days.",
+      "keywords": "fast website delivery, landing page, small business website, launch pack"
+    },
+    "privacy-policy": {
+      "title": "Privacy Policy - Innexar",
+      "description": "Read our privacy policy to understand how we collect, use, and protect your personal data.",
+      "keywords": "privacy policy, data protection, GDPR, privacy"
+    },
+    "terms-of-service": {
+      "title": "Terms of Service - Innexar",
+      "description": "Read our terms of service to understand the rules and regulations for using Innexar's services.",
+      "keywords": "terms of service, legal, agreement"
     }
   },
   "launch": {
@@ -1725,7 +1755,7 @@
       "step1": "Pay & Get Started",
       "step1Desc": "Secure checkout in 2 minutes",
       "step2": "Tell Us About Your Business",
-      "step2Desc": "Simple 7-step onboarding form",
+      "step2Desc": "Simple 8-step onboarding form",
       "step3": "We Design & Build",
       "step3Desc": "Our team creates your site",
       "step4": "Review & Launch",
@@ -1843,7 +1873,9 @@
         "step6": "Hours & Social",
         "step6Desc": "Contact information",
         "step7": "Testimonials",
-        "step7Desc": "Customer reviews"
+        "step7Desc": "Customer reviews",
+        "step8": "Agreement",
+        "step8Desc": "Sign your service agreement"
       },
       "form": {
         "businessName": "Business Name",
@@ -1859,6 +1891,27 @@
         "passwordPlaceholder": "Minimum 8 characters",
         "address": "Business Address",
         "addressPlaceholder": "123 Main St, City, State",
+        "desiredDomain": "Desired domain (optional)",
+        "desiredDomainHelp": "e.g. mybusiness.com — We'll guide you to point it to your site later.",
+        "domainQuestion": "Do you already have a domain?",
+        "hasDomain": "Yes, I already have one",
+        "noDomain": "No, I want to purchase one",
+        "existingDomain": "Existing domain",
+        "existingDomainPlaceholder": "mybusiness.com",
+        "existingDomainHelp": "We'll send email instructions to point your domain to our server when the site is ready.",
+        "domainToPurchase": "Domain to purchase",
+        "domainToPurchasePlaceholder": "mybusiness.com",
+        "checkDomain": "Check",
+        "checkingDomain": "Checking...",
+        "purchaseDomain": "Purchase Domain",
+        "purchasingDomain": "Purchasing...",
+        "domainAvailable": "Domain available",
+        "domainAvailableFree": "Domain available and FREE!",
+        "domainAvailablePrice": "Domain available for {price}/year",
+        "domainNotAvailable": "Domain not available. Try another name.",
+        "domainPurchased": "Domain {domain} purchased successfully!",
+        "domainCheckError": "Error checking domain",
+        "domainPurchaseError": "Error purchasing domain",
         "niche": "Business Category",
         "selectNiche": "Select your industry...",
         "city": "Primary City",
@@ -1959,6 +2012,17 @@
           "minPassword": "Password must be at least 8 characters",
           "mismatch": "Passwords do not match"
         },
+        "contract": {
+          "signatureLabel": "Full Name for Digital Signature *",
+          "signaturePlaceholder": "Enter your legal name",
+          "signButton": "Sign Agreement",
+          "signingDisclaimer": "By signing, you agree to the terms of service and project scope.",
+          "signedTitle": "Agreement Signed!",
+          "signedAs": "Signed as: {name} on {date}",
+          "proceedMessage": "You can now proceed to finalize your project.",
+          "orderIdError": "Order ID not found. Please try returning to the previous step or refreshing the page.",
+          "nameRequired": "Please enter your full name to sign"
+        },
         "backHome": "Back to Home"
       },
       "navigation": {
@@ -1971,6 +2035,8 @@
         "title": "You're All Set!",
         "subtitle": "Your onboarding is complete",
         "message": "Our team will start working on your website right away. You'll receive updates via email.",
+        "loadingMessage": "AI starting to build your site...",
+        "loadingDescription": "You'll receive updates via email and can track progress in the dashboard.",
         "dashboardButton": "View Project Dashboard",
         "timeline": "Expected Timeline: 5 business days",
         "nextSteps": "What happens next?",
@@ -2093,6 +2159,85 @@
         "subtitle": "Your account is now active. You can proceed to your portal.",
         "cta": "Go to Portal"
       }
+    }
+  },
+  "cookies": {
+    "title": "🍪 We Use Cookies",
+    "description": "We use cookies to improve your experience, analyze traffic, and personalize content. You can manage your preferences below.",
+    "essential": "Essential Cookies",
+    "essentialDesc": "Required for basic site functionality",
+    "analytics": "Analytics Cookies",
+    "analyticsDesc": "Google Analytics to understand how you use the site",
+    "marketing": "Marketing Cookies",
+    "marketingDesc": "Meta Pixel and Google Ads for personalized advertising",
+    "required": "Required",
+    "settings": "Settings",
+    "rejectAll": "Reject All",
+    "acceptAll": "Accept All",
+    "savePreferences": "Save Preferences"
+  },
+  "legal": {
+    "terms": {
+      "title": "Terms of Service",
+      "lastUpdated": "Last updated: January 30, 2026",
+      "sections": {
+        "acceptance": {
+          "title": "Acceptance of Terms",
+          "content": "By accessing and using Innexar's services, you agree to be bound by these Terms of Service and all applicable laws and regulations."
+        },
+        "services": {
+          "title": "Services Provided",
+          "content": "Innexar provides web development, SaaS, and digital consulting services. Each project is subject to its specific contract and onboarding requirements."
+        },
+        "hosting": {
+          "title": "Hosting and Support",
+          "content": "Hosting services are provided as specified in the service plan. Fees for hosting and maintenance are recurring after the initial trial period, as detailed in the project contract."
+        },
+        "intellectualProperty": {
+          "title": "Intellectual Property",
+          "content": "The website content and software developed for the client are subject to the ownership terms defined in the specific service agreement signed during onboarding."
+        },
+        "limitations": {
+          "title": "Limitations of Liability",
+          "content": "Innexar shall not be liable for any indirect, incidental, or consequential damages resulting from the use or inability to use our services."
+        },
+        "governingLaw": {
+          "title": "Governing Law",
+          "content": "These terms are governed by the laws of the State of Florida, United States, without regard to its conflict of law provisions."
+        }
+      },
+      "footerNote": "For any questions regarding these terms, please contact us at sales@innexar.app"
+    },
+    "privacy": {
+      "title": "Privacy Policy",
+      "lastUpdated": "Last updated: January 30, 2026",
+      "sections": {
+        "dataCollection": {
+          "title": "Data Collection",
+          "content": "We collect information you provide directly to us (name, email, business details) and automated usage data via cookies to improve our services."
+        },
+        "dataUsage": {
+          "title": "How We Use Your Data",
+          "content": "Your data is used to provide services, process payments, communicate project updates, and improve website performance."
+        },
+        "dataSharing": {
+          "title": "Data Sharing",
+          "content": "We do not sell your personal data. We only share information with trusted third-party service providers (like Stripe or Dynadot) necessary to fulfill our services."
+        },
+        "cookies": {
+          "title": "Cookies and Tracking",
+          "content": "We use cookies to personalize content, analyze traffic, and for marketing purposes. You can manage your preferences through our Cookie Consent banner."
+        },
+        "security": {
+          "title": "Data Security",
+          "content": "We implement industry-standard security measures to protect your information from unauthorized access, alteration, or disclosure."
+        },
+        "rights": {
+          "title": "Your Rights",
+          "content": "You have the right to access, correct, or delete your personal data. Contact us to exercise these rights."
+        }
+      },
+      "footerNote": "This privacy policy is subject to change. Please review it periodically."
     }
   }
 }

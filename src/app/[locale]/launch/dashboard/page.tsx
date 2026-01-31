@@ -117,8 +117,8 @@ function DashboardContent() {
                 } else {
                     const errorData = await response.json().catch(() => ({}))
                     // Extract error message safely
-                    const errorMsg = typeof errorData === 'string' 
-                        ? errorData 
+                    const errorMsg = typeof errorData === 'string'
+                        ? errorData
                         : errorData?.error || errorData?.detail || errorData?.message || 'Order not found. Please check your link or contact support.'
                     setError(errorMsg)
                 }
@@ -150,12 +150,10 @@ function DashboardContent() {
 
     if (error || !order) {
         // Ensure error is always a string
-        const errorMessage = typeof error === 'string' 
-            ? error 
-            : error && typeof error === 'object' 
-                ? (error.message || error.msg || JSON.stringify(error))
-                : 'Unable to load project'
-        
+        const errorMessage = typeof error === 'string'
+            ? error
+            : 'Unable to load project'
+
         return (
             <div className="min-h-screen flex items-center justify-center p-6">
                 <motion.div

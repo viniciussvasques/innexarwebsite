@@ -1,5 +1,5 @@
 import { generateMetadata as genMeta } from '@/lib/seo'
-import LaunchPageClient from '@/components/launch/LaunchPageClient'
+import PrivacyPolicyPageClient from '@/components/legal/PrivacyPolicyPageClient'
 
 type Props = {
     params: Promise<{ locale: string }>
@@ -7,9 +7,9 @@ type Props = {
 
 export async function generateMetadata({ params }: Props) {
     const { locale } = await params
-    return genMeta(locale, 'launch')
+    return genMeta(locale, 'privacy-policy')
 }
 
-export default function LaunchPage() {
-    return <LaunchPageClient />
+export default function PrivacyPolicyPage() {
+    return <PrivacyPolicyPageClient />
 }

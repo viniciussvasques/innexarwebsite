@@ -9,6 +9,11 @@ const pages = [
   'blockchain',
   'checklist',
   'contact',
+  'saas',
+  'launch',
+  'portfolio',
+  'privacy-policy',
+  'terms-of-service',
 ]
 
 export default function sitemap(): MetadataRoute.Sitemap {

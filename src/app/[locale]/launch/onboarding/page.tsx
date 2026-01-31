@@ -4,6 +4,7 @@ import { useState, useEffect, Suspense, useCallback, useRef } from 'react'
 import { motion } from 'framer-motion'
 import { useSearchParams } from 'next/navigation'
 import { useRouter } from '@/i18n/navigation'
+import { useLocale } from 'next-intl'
 import confetti from 'canvas-confetti'
 import {
     Building2, MapPin, Briefcase, Target, Palette, Clock, Star,
@@ -11,15 +12,16 @@ import {
     Plus, X, Facebook, Instagram, Linkedin, Youtube, MessageCircle,
     ArrowRight, Sparkles, Users, FileText, Image, HelpCircle, DollarSign,
     Utensils, Scale, Stethoscope, Home, Wrench, Zap, TreeDeciduous, Sparkle,
-    Send, Calendar, LayoutDashboard, PartyPopper, Loader2, AlertCircle, LogIn
+    Send, Calendar, LayoutDashboard, PartyPopper, Loader2, AlertCircle, LogIn, FileSignature
 } from 'lucide-react'
+import { CONTRACT_TEMPLATES } from '@/lib/contracts'
 import { Link } from '@/i18n/navigation'
 import { useTranslations } from 'next-intl'
 import { MetaPixel } from '@/lib/meta-pixel'
 import Header from '@/components/Header'
 
 // ============ CONFIGURATION ============
-const TOTAL_STEPS = 7
+const TOTAL_STEPS = 8
 
 // Steps, niches, pages etc. will be defined inside component to use translations
 
@@ -118,12 +120,20 @@ interface FormData {
     googleReviewsLink: string
     aboutOwner: string
     yearsInBusiness: string
+    desiredDomain: string
+    hasExistingDomain: boolean
+    existingDomain: string
+    domainToPurchase: string
+    domainPurchased: boolean
     password?: string
     confirmPassword?: string
+    orderId?: string
+    realDbId?: number // Added for internal API calls requiring integer ID
 }
 
 function OnboardingContent() {
     const t = useTranslations('launch')
+    const locale = useLocale()
     const searchParams = useSearchParams()
     const orderId = searchParams.get('order_id')
     const router = useRouter()
@@ -137,6 +147,7 @@ function OnboardingContent() {
         { id: 5, title: t('onboarding.steps.step5'), icon: Palette, description: t('onboarding.steps.step5Desc') },
         { id: 6, title: t('onboarding.steps.step6'), icon: Clock, description: t('onboarding.steps.step6Desc') },
         { id: 7, title: t('onboarding.steps.step7'), icon: Star, description: t('onboarding.steps.step7Desc') },
+        { id: 8, title: t('onboarding.steps.step8'), icon: FileSignature, description: t('onboarding.steps.step8Desc') },
     ]
 
     const objectives = [
@@ -195,6 +206,10 @@ function OnboardingContent() {
     const [serviceInput, setServiceInput] = useState('')
     const [referenceInput, setReferenceInput] = useState('')
     const [serviceAreaInput, setServiceAreaInput] = useState('')
+    const [isSigned, setIsSigned] = useState(false)
+    const [signatureName, setSignatureName] = useState('')
+    const [orderAddons, setOrderAddons] = useState<any[]>([])
+    const [allowedPages, setAllowedPages] = useState(5) // Default 5 pages
 
     const [formData, setFormData] = useState<FormData>({
         businessName: '',
@@ -238,8 +253,15 @@ function OnboardingContent() {
         googleReviewsLink: '',
         aboutOwner: '',
         yearsInBusiness: '',
+        desiredDomain: '',
+        hasExistingDomain: false,
+        existingDomain: '',
+        domainToPurchase: '',
+        domainPurchased: false,
         password: '',
         confirmPassword: '',
+        orderId: orderId || '',
+        realDbId: undefined,
     })
 
     const [newTestimonial, setNewTestimonial] = useState<Testimonial>({ name: '', text: '', role: '' })
@@ -248,6 +270,32 @@ function OnboardingContent() {
     const [isCheckingEmail, setIsCheckingEmail] = useState(false)
     const [emailExists, setEmailExists] = useState(false)
     const [showLoginModal, setShowLoginModal] = useState(false)
+
+    // Domain verification state
+    const [isCheckingDomain, setIsCheckingDomain] = useState(false)
+    const [isPurchasingDomain, setIsPurchasingDomain] = useState(false)
+    const [domainCheckAbortController, setDomainCheckAbortController] = useState<AbortController | null>(null)
+    const [domainCheckResult, setDomainCheckResult] = useState<{
+        available?: boolean
+        price?: number
+        is_free?: boolean
+        error?: string
+        suggestions?: Array<{
+            domain: string
+            price: number
+            is_free: boolean
+            available: boolean
+        }>
+    } | null>(null)
+
+    const cancelDomainCheck = () => {
+        if (domainCheckAbortController) {
+            domainCheckAbortController.abort()
+            setDomainCheckAbortController(null)
+        }
+        setIsCheckingDomain(false)
+        setDomainCheckResult(null)
+    }
 
     const hasTrackedLead = useRef(false)
     const hasLoadedFromStorage = useRef(false)
@@ -293,33 +341,57 @@ function OnboardingContent() {
         }
     }, [formData, currentStep, storageKey])
 
-    // Check if onboarding is already completed in the backend
     useEffect(() => {
-        if (!orderId) {
-            console.log('[Onboarding] No orderId, skipping check')
-            return
+        if (orderId && orderId !== formData.orderId) {
+            updateField('orderId', orderId)
         }
+    }, [orderId, formData.orderId])
 
-        const checkOnboardingStatus = async () => {
-            console.log(`[Onboarding] Checking status for order: ${orderId}`)
+    useEffect(() => {
+        const finalOrderId = orderId || formData.orderId
+        if (!finalOrderId) return
+
+        const fetchOrderDetails = async () => {
             try {
-                const response = await fetch(`/api/launch/onboarding?order_id=${orderId}`)
-                console.log(`[Onboarding] Status response: ${response.status}`)
-
+                const response = await fetch(`/api/launch/session-order?session_id=${finalOrderId}`)
                 if (response.ok) {
                     const data = await response.json()
-                    console.log(`[Onboarding] Status data:`, data)
-
-                    if (data.is_complete) {
-                        console.log('[Onboarding] Already complete! Redirecting...')
-                        // Clear localStorage since onboarding is done
-                        localStorage.removeItem(storageKey)
-                        // Redirect to dashboard
-                        const email = formData.businessEmail || ''
-                        router.push(`/launch/dashboard?order_id=${orderId}&email=${encodeURIComponent(email)}`)
+                    // Capture realDbId if available
+                    if (data.realDbId) {
+                        updateField('realDbId', data.realDbId)
                     }
-                } else {
-                    console.error(`[Onboarding] Failed to check status: ${response.statusText}`)
+                    if (data.addons) {
+                        setOrderAddons(data.addons)
+                        // Calculate limit: 5 base + 1 for each 'extra-page' addon
+                        const extraPages = data.addons.filter((a: any) =>
+                            (a.addon?.slug === 'extra-page' || a.slug === 'extra-page')
+                        ).length
+                        setAllowedPages(5 + extraPages)
+                    }
+                }
+            } catch (error) {
+                console.error('Error fetching order addons:', error)
+            }
+        }
+
+        fetchOrderDetails()
+    }, [orderId, formData.orderId])
+
+    // Check if onboarding is already completed in the backend
+    useEffect(() => {
+        const finalOrderId = orderId || formData.orderId
+        if (!finalOrderId) return
+
+        const checkOnboardingStatus = async () => {
+            try {
+                const response = await fetch(`/api/launch/onboarding?order_id=${finalOrderId}`)
+                if (response.ok) {
+                    const data = await response.json()
+                    if (data.is_complete) {
+                        localStorage.removeItem(storageKey)
+                        const email = formData.businessEmail || ''
+                        router.push(`/launch/dashboard?order_id=${finalOrderId}&email=${encodeURIComponent(email)}`)
+                    }
                 }
             } catch (error) {
                 console.error('[Onboarding] Error checking onboarding status:', error)
@@ -327,7 +399,34 @@ function OnboardingContent() {
         }
 
         checkOnboardingStatus()
-    }, [orderId, storageKey, router])
+    }, [orderId, formData.orderId, storageKey, router, formData.businessEmail])
+
+    // Check if contract is already signed
+    useEffect(() => {
+        // We need realDbId to check status correctly if the API expects DB ID
+        // Use realDbId if available, otherwise skip (we'll check after fetchOrderDetails populates it)
+        const checkId = formData.realDbId
+        if (!checkId) return
+
+        const checkContractStatus = async () => {
+            try {
+                const response = await fetch(`/api/launch/sign-contract?order_id=${checkId}`)
+                if (response.ok) {
+                    const data = await response.json()
+                    if (data.signed) {
+                        setIsSigned(true)
+                        if (data.signed_name) {
+                            setSignatureName(data.signed_name)
+                        }
+                    }
+                }
+            } catch (error) {
+                console.error('Error checking contract status:', error)
+            }
+        }
+
+        checkContractStatus()
+    }, [orderId, formData.orderId, formData.realDbId])
 
     // Track Lead event on page load
     useEffect(() => {
@@ -366,6 +465,170 @@ function OnboardingContent() {
             console.error('Error checking email:', error)
         } finally {
             setIsCheckingEmail(false)
+        }
+    }
+
+    const checkDomain = async () => {
+        if (!formData.domainToPurchase || !formData.domainToPurchase.trim()) {
+            setDomainCheckResult(null)
+            return
+        }
+
+        setIsCheckingDomain(true)
+        setDomainCheckResult(null)
+
+        // Create abort controller for cancellation (must be outside try to use in catch)
+        const controller = new AbortController()
+        setDomainCheckAbortController(controller)
+
+        let timeoutId: NodeJS.Timeout | null = null
+        let isTimeout = false
+
+        try {
+            // Set timeout to abort request if it takes too long
+            // Increased to 50s to match Next.js API route (45s) + margin
+            timeoutId = setTimeout(() => {
+                if (!controller.signal.aborted) {
+                    isTimeout = true
+                    controller.abort()
+                }
+            }, 50000) // 50 segundos timeout
+
+            const response = await fetch('/api/launch/check-domain', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ domain: formData.domainToPurchase.trim() }),
+                signal: controller.signal
+            })
+
+            if (timeoutId) {
+                clearTimeout(timeoutId)
+                timeoutId = null
+            }
+            // Only clear if this is still the current controller
+            if (domainCheckAbortController === controller) {
+                setDomainCheckAbortController(null)
+            }
+
+            // Parse response JSON
+            let data
+            try {
+                data = await response.json()
+            } catch (parseError) {
+                const errorText = await response.text()
+                setDomainCheckResult({ error: errorText || t('onboarding.form.domainCheckError') })
+                setIsCheckingDomain(false)
+                return
+            }
+
+            // Handle non-ok responses
+            if (!response.ok) {
+                const errorMsg = data.result?.error || data.error || data.details || t('onboarding.form.domainCheckError')
+                setDomainCheckResult({ error: errorMsg })
+                setIsCheckingDomain(false)
+                return
+            }
+
+            // Handle both success and error responses
+            // Check if there's an error first
+            if (data.success === false || data.error) {
+                const errorMsg = data.result?.error || data.error || data.details || t('onboarding.form.domainCheckError')
+                setDomainCheckResult({ error: errorMsg })
+            } else if (data.result) {
+                // Success case - check if result has error
+                if (data.result.error) {
+                    // Start of Change: Preserve suggestions even if there is an error
+                    setDomainCheckResult({
+                        error: data.result.error,
+                        suggestions: data.result.suggestions
+                    })
+                    // End of Change
+                } else {
+                    setDomainCheckResult(data.result)
+                }
+            } else {
+                // Unexpected format
+                setDomainCheckResult({ error: data.error || t('onboarding.form.domainCheckError') })
+            }
+        } catch (error: any) {
+            if (timeoutId) {
+                clearTimeout(timeoutId)
+                timeoutId = null
+            }
+
+            // Don't log AbortError to console (it's expected for timeouts/cancellations)
+            if (error.name !== 'AbortError') {
+                console.error('Error checking domain:', error)
+            }
+
+            // Handle abort/timeout errors
+            if (error.name === 'AbortError') {
+                if (isTimeout) {
+                    // Timeout - show user-friendly message
+                    setDomainCheckResult({ error: t('onboarding.form.domainCheckError') + ' (Timeout - verifique sua conexão)' })
+                } else {
+                    // User cancelled - don't show error
+                    setIsCheckingDomain(false)
+                    if (domainCheckAbortController === controller) {
+                        setDomainCheckAbortController(null)
+                    }
+                    return
+                }
+            } else {
+                // Other errors
+                let errorMessage = t('onboarding.form.domainCheckError')
+                if (error.message?.includes('timeout') || error.message?.includes('Timeout')) {
+                    errorMessage = t('onboarding.form.domainCheckError') + ' (Timeout - verifique sua conexão)'
+                } else if (error.message) {
+                    errorMessage = error.message
+                }
+                setDomainCheckResult({ error: errorMessage })
+            }
+        } finally {
+            // Always reset loading state, even if there was an error
+            setIsCheckingDomain(false)
+            // Only clear if this is still the current controller
+            if (domainCheckAbortController === controller) {
+                setDomainCheckAbortController(null)
+            }
+        }
+    }
+
+    const purchaseDomain = async () => {
+        if (!formData.domainToPurchase || !formData.domainToPurchase.trim() || !orderId) {
+            return
+        }
+
+        if (!domainCheckResult?.available) {
+            alert(t('onboarding.form.domainNotAvailable'))
+            return
+        }
+
+        setIsPurchasingDomain(true)
+        try {
+            const response = await fetch('/api/launch/purchase-domain', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    domain: formData.domainToPurchase.trim(),
+                    order_id: orderId,
+                    duration_years: 1
+                }),
+            })
+            const data = await response.json()
+
+            if (data.success) {
+                updateField('domainPurchased', true)
+                updateField('desiredDomain', formData.domainToPurchase.trim())
+                alert(t('onboarding.form.domainPurchased', { domain: formData.domainToPurchase.trim() }))
+            } else {
+                alert(data.error || t('onboarding.form.domainPurchaseError'))
+            }
+        } catch (error) {
+            console.error('Error purchasing domain:', error)
+            alert(t('onboarding.form.domainPurchaseError'))
+        } finally {
+            setIsPurchasingDomain(false)
         }
     }
 
@@ -430,6 +693,11 @@ function OnboardingContent() {
         if (formData.selectedPages.includes(pageId)) {
             updateField('selectedPages', formData.selectedPages.filter(p => p !== pageId))
         } else {
+            // Check limit
+            if (formData.selectedPages.length >= allowedPages) {
+                alert(`You have reached the limit of ${allowedPages} pages for your package. Delete a page or add "Extra Page" to your order.`)
+                return
+            }
             updateField('selectedPages', [...formData.selectedPages, pageId])
         }
     }
@@ -446,7 +714,75 @@ function OnboardingContent() {
             case 5: return formData.primaryColor
             case 6: return true
             case 7: return true
+            case 8: return isSigned
             default: return false
+        }
+    }
+
+    const getContractText = () => {
+        const template = CONTRACT_TEMPLATES[locale as keyof typeof CONTRACT_TEMPLATES] || CONTRACT_TEMPLATES.en
+        return template.replace('{{business_name}}', formData.businessName || 'Client')
+    }
+
+    const handleSignContract = async () => {
+        // Use realDbId if available, otherwise try to use orderId but it might be masked
+        const dbId = formData.realDbId
+        const finalOrderId = formData.orderId || orderId
+
+        if (!dbId) {
+            // Optimization: If we don't have dbId, try to fetch it again or alert
+            // But usually we should have it if fetchOrderDetails ran.
+            // If finalOrderId looks like an int (legacy), use it.
+            if (finalOrderId && !isNaN(parseInt(finalOrderId)) && !finalOrderId.startsWith('#')) {
+                // It's a legacy int ID
+            } else {
+                alert(t('onboarding.form.contract.orderIdError'))
+                return
+            }
+        }
+
+        const idToSend = dbId || (finalOrderId ? parseInt(finalOrderId, 10) : 0)
+
+        if (!idToSend) {
+            alert(t('onboarding.form.contract.orderIdError'))
+            return
+        }
+
+        if (!signatureName.trim()) {
+            alert(t('onboarding.form.contract.nameRequired'))
+            return
+        }
+
+        setIsSubmitting(true)
+        try {
+            const response = await fetch('/api/launch/sign-contract', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    order_id: idToSend,
+                    content: getContractText(),
+                    signed_name: signatureName,
+                    language: locale
+                })
+            })
+
+            const data = await response.json()
+
+            if (response.ok) {
+                setIsSigned(true)
+                confetti({
+                    particleCount: 50,
+                    spread: 60,
+                    origin: { y: 0.7 }
+                })
+            } else {
+                throw new Error(data.error || data.detail || 'Failed to sign contract')
+            }
+        } catch (error: any) {
+            console.error('Error signing contract:', error)
+            alert(`Error: ${error.message}`)
+        } finally {
+            setIsSubmitting(false)
         }
     }
 
@@ -489,18 +825,55 @@ function OnboardingContent() {
                 google_reviews_link: formData.googleReviewsLink,
                 about_owner: formData.aboutOwner,
                 years_in_business: formData.yearsInBusiness ? parseInt(formData.yearsInBusiness) : null,
+                desired_domain: formData.desiredDomain?.trim() || null,
+                has_existing_domain: formData.hasExistingDomain,
+                existing_domain: formData.hasExistingDomain ? formData.existingDomain?.trim() || null : null,
+                domain_to_purchase: !formData.hasExistingDomain && formData.domainPurchased ? formData.domainToPurchase?.trim() || null : null,
                 password: formData.password,
                 is_complete: true,
                 completed_steps: TOTAL_STEPS,
+                locale: locale, // Send browser locale to backend
             }
 
-            const response = await fetch(`/api/launch/onboarding?order_id=${orderId}`, {
+            const finalOrderId = formData.orderId || orderId
+            const response = await fetch(`/api/launch/onboarding?order_id=${finalOrderId}`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload),
             })
 
             if (response.ok) {
+                // Onboarding OK - auto login customer and send to portal dashboard
+                try {
+                    const loginResponse = await fetch('/api/launch/auth/login', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            email: formData.businessEmail,
+                            password: formData.password,
+                        }),
+                    })
+
+                    if (loginResponse.ok) {
+                        const loginData = await loginResponse.json()
+                        // Persist customer session for portal
+                        if (loginData.access_token) {
+                            localStorage.setItem('customer_token', loginData.access_token)
+                            localStorage.setItem('customer_email', formData.businessEmail)
+                            if (loginData.customer_id) {
+                                localStorage.setItem('customer_id', String(loginData.customer_id))
+                            }
+                        }
+                        // Redirect to client portal dashboard (locale-aware via i18n router)
+                        router.push('/portal')
+                    } else {
+                        // If auto-login fails, just keep completion state and let customer use manual login
+                        console.error('Auto-login after onboarding failed', await loginResponse.text())
+                    }
+                } catch (e) {
+                    console.error('Error during auto-login after onboarding:', e)
+                }
+
                 // Track CompleteRegistration
                 MetaPixel.completeRegistration({
                     content_name: 'Site Onboarding Complete',
@@ -512,10 +885,10 @@ function OnboardingContent() {
             } else {
                 const errorData = await response.json()
                 console.error('Onboarding error response:', errorData)
-                
+
                 // Extract error message from various error formats
                 let errorMessage = 'Failed to submit'
-                
+
                 if (errorData.error) {
                     if (typeof errorData.error === 'string') {
                         errorMessage = errorData.error
@@ -552,12 +925,12 @@ function OnboardingContent() {
                 } else if (errorData.message) {
                     errorMessage = errorData.message
                 }
-                
+
                 throw new Error(errorMessage)
             }
         } catch (error: any) {
             console.error('Error submitting onboarding:', error)
-            const displayMessage = error?.message || (typeof error === 'string' ? error : 'Something went wrong. Please try again.')
+            const displayMessage = typeof error === 'string' ? error : 'Something went wrong. Please try again.'
             alert(displayMessage)
         } finally {
             setIsSubmitting(false)
@@ -673,10 +1046,10 @@ function OnboardingContent() {
                     >
                         <div className="flex items-center gap-3 text-green-300">
                             <div className="w-5 h-5 border-2 border-green-400 border-t-transparent rounded-full animate-spin" />
-                            <span className="font-medium">IA iniciando construção do seu site...</span>
+                            <span className="font-medium">{t('onboarding.complete.loadingMessage')}</span>
                         </div>
                         <p className="text-sm text-green-200/70 mt-2">
-                            Você receberá atualizações por email e pode acompanhar o progresso no dashboard.
+                            {t('onboarding.complete.loadingDescription')}
                         </p>
                     </motion.div>
 
@@ -908,6 +1281,212 @@ function OnboardingContent() {
                                         className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-blue-500"
                                     />
                                 </div>
+                                {/* Domain Selection */}
+                                <div>
+                                    <label className="block text-sm font-medium text-slate-300 mb-3 flex items-center gap-2">
+                                        <Globe className="w-4 h-4 text-slate-400" />
+                                        {t('onboarding.form.domainQuestion')}
+                                    </label>
+
+                                    {/* Domain choice radio buttons */}
+                                    <div className="flex gap-4 mb-4">
+                                        <label className="flex items-center gap-2 cursor-pointer">
+                                            <input
+                                                type="radio"
+                                                name="hasDomain"
+                                                checked={formData.hasExistingDomain}
+                                                onChange={() => {
+                                                    updateField('hasExistingDomain', true)
+                                                    updateField('domainToPurchase', '')
+                                                    setDomainCheckResult(null)
+                                                }}
+                                                className="w-4 h-4 text-blue-500"
+                                            />
+                                            <span className="text-slate-300">{t('onboarding.form.hasDomain')}</span>
+                                        </label>
+                                        <label className="flex items-center gap-2 cursor-pointer">
+                                            <input
+                                                type="radio"
+                                                name="hasDomain"
+                                                checked={!formData.hasExistingDomain}
+                                                onChange={() => {
+                                                    updateField('hasExistingDomain', false)
+                                                    updateField('existingDomain', '')
+                                                }}
+                                                className="w-4 h-4 text-blue-500"
+                                            />
+                                            <span className="text-slate-300">{t('onboarding.form.noDomain')}</span>
+                                        </label>
+                                    </div>
+
+                                    {/* If has existing domain */}
+                                    {formData.hasExistingDomain && (
+                                        <div>
+                                            <label className="block text-sm font-medium text-slate-300 mb-2">{t('onboarding.form.existingDomain')}</label>
+                                            <input
+                                                type="text"
+                                                value={formData.existingDomain}
+                                                onChange={e => updateField('existingDomain', e.target.value)}
+                                                placeholder={t('onboarding.form.existingDomainPlaceholder')}
+                                                className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-blue-500"
+                                            />
+                                            <p className="text-xs text-slate-500 mt-1">
+                                                {t('onboarding.form.existingDomainHelp')}
+                                            </p>
+                                        </div>
+                                    )}
+
+                                    {/* If wants to purchase */}
+                                    {!formData.hasExistingDomain && (
+                                        <div>
+                                            <div className="flex gap-2 mb-2">
+                                                <input
+                                                    type="text"
+                                                    value={formData.domainToPurchase}
+                                                    onChange={e => {
+                                                        updateField('domainToPurchase', e.target.value)
+                                                        setDomainCheckResult(null)
+                                                    }}
+                                                    placeholder={t('onboarding.form.domainToPurchasePlaceholder')}
+                                                    className="flex-1 px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-blue-500"
+                                                />
+                                                <div className="flex gap-2">
+                                                    <button
+                                                        type="button"
+                                                        onClick={checkDomain}
+                                                        disabled={isCheckingDomain || !formData.domainToPurchase?.trim() || formData.domainPurchased}
+                                                        className="px-4 py-3 bg-blue-600 hover:bg-blue-700 disabled:bg-slate-700 disabled:cursor-not-allowed text-white rounded-xl transition-colors flex items-center gap-2 whitespace-nowrap"
+                                                    >
+                                                        {isCheckingDomain ? (
+                                                            <>
+                                                                <Loader2 className="w-4 h-4 animate-spin" />
+                                                                <span className="hidden sm:inline">{t('onboarding.form.checkingDomain')}</span>
+                                                            </>
+                                                        ) : (
+                                                            <>
+                                                                <Globe className="w-4 h-4" />
+                                                                <span className="hidden sm:inline">{t('onboarding.form.checkDomain')}</span>
+                                                            </>
+                                                        )}
+                                                    </button>
+                                                    {isCheckingDomain && (
+                                                        <button
+                                                            type="button"
+                                                            onClick={cancelDomainCheck}
+                                                            className="px-4 py-3 bg-red-600 hover:bg-red-700 text-white rounded-xl transition-colors flex items-center gap-2"
+                                                            title="Cancelar verificação"
+                                                        >
+                                                            <X className="w-4 h-4" />
+                                                        </button>
+                                                    )}
+                                                </div>
+                                            </div>
+
+                                            {/* Domain check result */}
+                                            {domainCheckResult && !domainCheckResult.error && domainCheckResult.available && (
+                                                <div className="mb-3">
+                                                    <div className={`p-3 rounded-lg border ${domainCheckResult.is_free
+                                                        ? 'bg-green-900/20 border-green-500/50'
+                                                        : 'bg-blue-900/20 border-blue-500/50'
+                                                        }`}>
+                                                        <div className="flex items-center gap-2 text-green-400 text-sm mb-2">
+                                                            <Check className="w-4 h-4" />
+                                                            <span>
+                                                                {domainCheckResult.is_free ? (
+                                                                    <>{t('onboarding.form.domainAvailableFree')}</>
+                                                                ) : (
+                                                                    <>{t('onboarding.form.domainAvailablePrice', { price: (domainCheckResult.price ?? 0).toFixed(2) })}</>
+                                                                )}
+                                                            </span>
+                                                        </div>
+                                                        {!formData.domainPurchased && (
+                                                            <button
+                                                                type="button"
+                                                                onClick={purchaseDomain}
+                                                                disabled={isPurchasingDomain}
+                                                                className="w-full mt-2 px-4 py-2 bg-green-600 hover:bg-green-700 disabled:bg-slate-700 disabled:cursor-not-allowed text-white rounded-lg transition-colors flex items-center justify-center gap-2"
+                                                            >
+                                                                {isPurchasingDomain ? (
+                                                                    <>
+                                                                        <Loader2 className="w-4 h-4 animate-spin" />
+                                                                        <span>{t('onboarding.form.purchasingDomain')}</span>
+                                                                    </>
+                                                                ) : (
+                                                                    <>
+                                                                        <DollarSign className="w-4 h-4" />
+                                                                        <span>{t('onboarding.form.purchaseDomain')}</span>
+                                                                    </>
+                                                                )}
+                                                            </button>
+                                                        )}
+                                                    </div>
+                                                </div>
+                                            )}
+
+                                            {domainCheckResult && domainCheckResult.error && (
+                                                <div className="mb-3 p-3 rounded-lg border bg-red-900/20 border-red-500/50">
+                                                    <div className="flex items-center gap-2 text-red-400 text-sm">
+                                                        <AlertCircle className="w-4 h-4" />
+                                                        <span>{domainCheckResult.error}</span>
+                                                    </div>
+                                                </div>
+                                            )}
+
+                                            {domainCheckResult && !domainCheckResult.error && !domainCheckResult.available && (
+                                                <div className="mb-3 p-3 rounded-lg border bg-yellow-900/20 border-yellow-500/50">
+                                                    <div className="flex items-center gap-2 text-yellow-400 text-sm">
+                                                        <AlertCircle className="w-4 h-4" />
+                                                        <span>{t('onboarding.form.domainNotAvailable')}</span>
+                                                    </div>
+                                                </div>
+                                            )}
+
+                                            {/* Suggestions List */}
+                                            {domainCheckResult && domainCheckResult.suggestions && domainCheckResult.suggestions.length > 0 && (
+                                                <div className="mb-4 animate-in fade-in slide-in-from-top-2 duration-300">
+                                                    <p className="text-sm text-slate-400 mb-2 font-medium flex items-center gap-2">
+                                                        <Sparkles className="w-3 h-3 text-amber-400" />
+                                                        Suggestion for you:
+                                                    </p>
+                                                    <div className="space-y-2">
+                                                        {domainCheckResult.suggestions.slice(0, 3).map((suggestion, idx) => (
+                                                            <div
+                                                                key={idx}
+                                                                className="flex items-center justify-between p-3 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-colors"
+                                                            >
+                                                                <div className="flex flex-col">
+                                                                    <span className="font-medium text-white">{suggestion.domain}</span>
+                                                                    <span className="text-xs text-green-400">
+                                                                        {suggestion.is_free ? 'Included (Free)' : `$${suggestion.price}`}
+                                                                    </span>
+                                                                </div>
+                                                                <button
+                                                                    type="button"
+                                                                    onClick={() => {
+                                                                        updateField('domainToPurchase', suggestion.domain)
+                                                                        setDomainCheckResult(suggestion)
+                                                                    }}
+                                                                    className="px-3 py-1.5 bg-blue-500/20 hover:bg-blue-500/40 text-blue-300 text-xs font-medium rounded-lg border border-blue-500/30 transition-colors"
+                                                                >
+                                                                    Select
+                                                                </button>
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                            )}
+
+                                            {formData.domainPurchased && (
+                                                <div className="mb-3 p-3 rounded-lg border bg-green-900/20 border-green-500/50">
+                                                    <div className="flex items-center gap-2 text-green-400 text-sm">
+                                                        <Check className="w-4 h-4" />
+                                                        <span>{t('onboarding.form.domainPurchased', { domain: formData.domainToPurchase })}</span>
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </div>
+                                    )}
+                                </div>
 
                                 {/* Account Creation Section */}
                                 <div className="pt-6 border-t border-white/10">
@@ -918,36 +1497,50 @@ function OnboardingContent() {
                                     <p className="text-sm text-slate-400 mb-6">
                                         {t('onboarding.form.passwordHelp')}
                                     </p>
-                                    <div className="grid md:grid-cols-2 gap-4">
-                                        <div>
-                                            <label className="block text-sm font-medium text-slate-300 mb-2">{t('onboarding.form.password')} *</label>
-                                            <input
-                                                type="password"
-                                                value={formData.password}
-                                                onChange={e => updateField('password', e.target.value)}
-                                                placeholder={t('onboarding.form.passwordPlaceholder')}
-                                                className={`w-full px-4 py-3 bg-white/10 border rounded-xl text-white placeholder-slate-500 focus:outline-none ${formData.password && formData.password.length < 8 ? 'border-red-500/50' : 'border-white/20 focus:border-blue-500'
-                                                    }`}
-                                            />
-                                            {formData.password && formData.password.length < 8 && (
-                                                <p className="text-xs text-red-400 mt-1">{t('onboarding.form.errors.minPassword')}</p>
-                                            )}
+                                    <form id="password-form" onSubmit={(e) => e.preventDefault()}>
+                                        {/* Hidden username field for accessibility */}
+                                        <input
+                                            type="text"
+                                            autoComplete="username"
+                                            value={formData.businessEmail || ''}
+                                            readOnly
+                                            tabIndex={-1}
+                                            aria-hidden="true"
+                                            style={{ position: 'absolute', left: '-9999px', width: '1px', height: '1px', opacity: 0 }}
+                                        />
+                                        <div className="grid md:grid-cols-2 gap-4">
+                                            <div>
+                                                <label className="block text-sm font-medium text-slate-300 mb-2">{t('onboarding.form.password')} *</label>
+                                                <input
+                                                    type="password"
+                                                    autoComplete="new-password"
+                                                    value={formData.password}
+                                                    onChange={e => updateField('password', e.target.value)}
+                                                    placeholder={t('onboarding.form.passwordPlaceholder')}
+                                                    className={`w-full px-4 py-3 bg-white/10 border rounded-xl text-white placeholder-slate-500 focus:outline-none ${formData.password && formData.password.length < 8 ? 'border-red-500/50' : 'border-white/20 focus:border-blue-500'
+                                                        }`}
+                                                />
+                                                {formData.password && formData.password.length < 8 && (
+                                                    <p className="text-xs text-red-400 mt-1">{t('onboarding.form.errors.minPassword')}</p>
+                                                )}
+                                            </div>
+                                            <div>
+                                                <label className="block text-sm font-medium text-slate-300 mb-2">{t('onboarding.form.confirmPassword')} *</label>
+                                                <input
+                                                    type="password"
+                                                    autoComplete="new-password"
+                                                    value={formData.confirmPassword}
+                                                    onChange={e => updateField('confirmPassword', e.target.value)}
+                                                    placeholder="••••••••"
+                                                    className={`w-full px-4 py-3 bg-white/10 border rounded-xl text-white placeholder-slate-500 focus:outline-none ${formData.confirmPassword && formData.password !== formData.confirmPassword ? 'border-red-500/50' : 'border-white/20 focus:border-blue-500'
+                                                        }`}
+                                                />
+                                                {formData.confirmPassword && formData.password !== formData.confirmPassword && (
+                                                    <p className="text-xs text-red-400 mt-1">{t('onboarding.form.errors.mismatch')}</p>
+                                                )}
+                                            </div>
                                         </div>
-                                        <div>
-                                            <label className="block text-sm font-medium text-slate-300 mb-2">{t('onboarding.form.confirmPassword')} *</label>
-                                            <input
-                                                type="password"
-                                                value={formData.confirmPassword}
-                                                onChange={e => updateField('confirmPassword', e.target.value)}
-                                                placeholder="••••••••"
-                                                className={`w-full px-4 py-3 bg-white/10 border rounded-xl text-white placeholder-slate-500 focus:outline-none ${formData.confirmPassword && formData.password !== formData.confirmPassword ? 'border-red-500/50' : 'border-white/20 focus:border-blue-500'
-                                                    }`}
-                                            />
-                                            {formData.confirmPassword && formData.password !== formData.confirmPassword && (
-                                                <p className="text-xs text-red-400 mt-1">{t('onboarding.form.errors.mismatch')}</p>
-                                            )}
-                                        </div>
-                                    </div>
+                                    </form>
                                 </div>
                             </div>
                         )}
@@ -1482,6 +2075,61 @@ function OnboardingContent() {
                                         className="w-32 px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-blue-500"
                                     />
                                 </div>
+                            </div>
+                        )}
+
+                        {/* ============ STEP 8: Contract & Signature ============ */}
+                        {currentStep === 8 && (
+                            <div className="space-y-6">
+                                <div className="bg-white/5 border border-white/10 rounded-xl p-6 max-h-[400px] overflow-y-auto text-sm text-slate-300 prose prose-invert prose-blue max-w-none">
+                                    <div className="whitespace-pre-line">
+                                        {getContractText()}
+                                    </div>
+                                </div>
+
+                                {!isSigned ? (
+                                    <div className="space-y-4 pt-4 border-t border-white/10">
+                                        <div>
+                                            <label className="block text-sm font-medium text-slate-300 mb-2">{t('onboarding.form.contract.signatureLabel')}</label>
+                                            <input
+                                                type="text"
+                                                value={signatureName}
+                                                onChange={e => setSignatureName(e.target.value)}
+                                                placeholder={t('onboarding.form.contract.signaturePlaceholder')}
+                                                className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-blue-500"
+                                            />
+                                        </div>
+                                        <button
+                                            onClick={handleSignContract}
+                                            disabled={isSubmitting || !signatureName.trim()}
+                                            className="w-full py-4 bg-blue-600 hover:bg-blue-700 disabled:bg-slate-700 disabled:cursor-not-allowed text-white rounded-xl font-bold flex items-center justify-center gap-2 transition-all shadow-lg shadow-blue-500/20"
+                                        >
+                                            {isSubmitting ? (
+                                                <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                                            ) : (
+                                                <FileSignature className="w-5 h-5" />
+                                            )}
+                                            {t('onboarding.form.contract.signButton')}
+                                        </button>
+                                        <p className="text-[10px] text-slate-500 text-center uppercase tracking-wider">
+                                            {t('onboarding.form.contract.signingDisclaimer')}
+                                        </p>
+                                    </div>
+                                ) : (
+                                    <div className="bg-green-500/10 border border-green-500/30 rounded-xl p-6 text-center animate-in zoom-in-95 duration-500">
+                                        <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                                            <Check className="w-10 h-10 text-white" />
+                                        </div>
+                                        <h3 className="text-xl font-bold text-white mb-1">{t('onboarding.form.contract.signedTitle')}</h3>
+                                        <p className="text-sm text-green-400">
+                                            {t('onboarding.form.contract.signedAs', {
+                                                name: signatureName,
+                                                date: new Date().toLocaleDateString()
+                                            })}
+                                        </p>
+                                        <p className="text-sm text-slate-400 mt-4">{t('onboarding.form.contract.proceedMessage')}</p>
+                                    </div>
+                                )}
                             </div>
                         )}
 

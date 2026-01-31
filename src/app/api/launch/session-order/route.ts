@@ -22,44 +22,71 @@ export async function GET(request: NextRequest) {
     try {
         console.log(`[Session API] Fetching session via CRM: ${sessionId}`)
 
-        // Call Backend Public API which acts as a proxy/lookup
-        // This endpoint was recently added to the backend to support session_id lookup without auth
-        const response = await fetch(`${CRM_API_URL}/site-orders/public/${sessionId}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                // Add any necessary headers
-            }
-        })
+        // Add timeout to prevent Cloudflare 524 errors
+        const controller = new AbortController()
+        const timeoutId = setTimeout(() => controller.abort(), 30000) // 30 seconds
 
-        if (!response.ok) {
-            const errorText = await response.text().catch(() => 'Unknown error')
-            console.error(`[Session API] CRM returned ${response.status}: ${errorText}`)
-            // If backend returns 404, we return 404
-            if (response.status === 404) {
+        try {
+            // Call Backend Public API which acts as a proxy/lookup
+            // This endpoint was recently added to the backend to support session_id lookup without auth
+            const response = await fetch(`${CRM_API_URL}/site-orders/public/${sessionId}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    // Add any necessary headers
+                },
+                signal: controller.signal
+            })
+
+            clearTimeout(timeoutId)
+
+            if (!response.ok) {
+                const errorText = await response.text().catch(() => 'Unknown error')
+                console.error(`[Session API] CRM returned ${response.status}: ${errorText}`)
+                // If backend returns 404, we return 404
+                if (response.status === 404) {
+                    return NextResponse.json(
+                        { error: 'Session not found in CRM', details: errorText },
+                        { status: 404 }
+                    )
+                }
+                // Other errors
                 return NextResponse.json(
-                    { error: 'Session not found in CRM', details: errorText },
-                    { status: 404 }
+                    { error: 'Error querying CRM', details: errorText },
+                    { status: response.status }
                 )
             }
-            // Other errors
-            return NextResponse.json(
-                { error: 'Error querying CRM', details: errorText },
-                { status: response.status }
-            )
+
+            const order = await response.json()
+            console.log(`[Session API] Order found: ${order.id}, Status: ${order.status}`)
+
+            // Mask the stripe session ID for security - show only last 8 chars
+            // NOTE: Do NOT use '#' prefix as it breaks URL query parameters (browser treats it as fragment)
+            const maskedOrderId = order.stripe_session_id
+                ? order.stripe_session_id.slice(-8).toUpperCase()
+                : String(order.id).padStart(6, '0')
+
+            // Return the format expected by the frontend
+            return NextResponse.json({
+                orderId: maskedOrderId,
+                realDbId: order.id, // Expose real DB ID for internal API calls (like signing)
+                customerEmail: order.customer_email || '',
+                total: order.total_price || 399,
+                status: order.status, // Use real status from CRM
+                crmStatus: order.status,
+                addons: order.addons || []
+            })
+        } catch (fetchError: any) {
+            clearTimeout(timeoutId)
+            if (fetchError.name === 'AbortError') {
+                console.error('[Session API] Request timeout')
+                return NextResponse.json(
+                    { error: 'Request timeout - please try again' },
+                    { status: 408 }
+                )
+            }
+            throw fetchError
         }
-
-        const order = await response.json()
-        console.log(`[Session API] Order found: ${order.id}, Status: ${order.status}`)
-
-        // Return the format expected by the frontend
-        return NextResponse.json({
-            orderId: order.stripe_session_id || order.id,
-            customerEmail: order.customer_email || '',
-            total: order.total_price || 399,
-            status: order.status, // Use real status from CRM
-            crmStatus: order.status
-        })
     } catch (error: any) {
         console.error('[Session API] Error fetching session:', error)
         console.error('[Session API] Error details:', error.message, error.stack)

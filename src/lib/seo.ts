@@ -14,13 +14,19 @@ export async function generateMetadata(
   const description = t(`${page}.description`, { defaultValue: t('default.description') })
   const keywords = t(`${page}.keywords`, { defaultValue: t('default.keywords') })
 
-  const url = `${SITE_URL}/${locale}${page !== 'home' ? `/${page}` : ''}`
+  const cleanPath = page === 'home' ? '' : `/${page}`
+  const url = `${SITE_URL}/${locale}${cleanPath}`
   const ogImage = `${SITE_URL}/og-image.jpg`
 
   return {
     title,
     description,
     keywords: keywords.split(',').map(k => k.trim()),
+    icons: {
+      icon: '/favicon.png',
+      shortcut: '/favicon.png',
+      apple: '/favicon.png', // Fallback to favicon if apple-touch-icon is missing
+    },
     authors: [{ name: 'Innexar' }],
     creator: 'Innexar',
     publisher: 'Innexar',
@@ -33,9 +39,9 @@ export async function generateMetadata(
     alternates: {
       canonical: url,
       languages: {
-        'pt': `${SITE_URL}/pt${page !== 'home' ? `/${page}` : ''}`,
-        'en': `${SITE_URL}/en${page !== 'home' ? `/${page}` : ''}`,
-        'es': `${SITE_URL}/es${page !== 'home' ? `/${page}` : ''}`,
+        'pt': `${SITE_URL}/pt${cleanPath}`,
+        'en': `${SITE_URL}/en${cleanPath}`,
+        'es': `${SITE_URL}/es${cleanPath}`,
       },
     },
     openGraph: {
@@ -90,18 +96,31 @@ export function generateStructuredData(
     '@type': 'Organization',
     name: 'Innexar',
     url: baseUrl,
-    logo: `${baseUrl}/logo-header.png`,
+    logo: {
+      '@type': 'ImageObject',
+      url: `${baseUrl}/favicon.png`,
+      width: '512',
+      height: '512'
+    },
+    image: `${baseUrl}/og-image.jpg`,
+    description: 'Elite Software Solutions & Digital Transformation Agency.',
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: 'Orlando',
+      addressRegion: 'FL',
+      addressCountry: 'US'
+    },
     contactPoint: {
       '@type': 'ContactPoint',
       telephone: '+1-407-473-6081',
-      contactType: 'customer service',
-      areaServed: ['BR', 'US', 'ES'],
+      contactType: 'sales',
+      areaServed: 'Worldwide',
       availableLanguage: ['Portuguese', 'English', 'Spanish'],
     },
     sameAs: [
-      // Adicione suas redes sociais aqui
-      // 'https://linkedin.com/company/innexar',
-      // 'https://twitter.com/innexar',
+      'https://www.linkedin.com/company/innexar',
+      'https://twitter.com/innexar',
+      'https://www.instagram.com/innexar.app',
     ],
   }
 

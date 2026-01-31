@@ -9,6 +9,7 @@ import {
     ArrowRight, TrendingUp, Calendar, Zap,
     ExternalLink, FileText, Sparkles
 } from 'lucide-react';
+import Modal from '@/components/portal/Modal';
 
 interface Project {
     id: number;
@@ -23,10 +24,12 @@ interface Project {
 const statusConfig: Record<string, { icon: React.ElementType; color: string; label: string; step: number }> = {
     pending_payment: { icon: Clock, color: 'yellow', label: 'Pending Payment', step: 0 },
     paid: { icon: CheckCircle2, color: 'blue', label: 'Payment Confirmed', step: 1 },
-    onboarding_pending: { icon: FileText, color: 'orange', label: 'Onboarding', step: 1 },
+    onboarding_pending: { icon: FileText, color: 'orange', label: 'Onboarding Form', step: 1 },
+    briefing: { icon: FileText, color: 'cyan', label: 'Briefing Received', step: 1 },
     building: { icon: Palette, color: 'purple', label: 'In Development', step: 2 },
-    review: { icon: Eye, color: 'cyan', label: 'Ready for Review', step: 3 },
-    delivered: { icon: Rocket, color: 'green', label: 'Delivered', step: 4 },
+    preview: { icon: Eye, color: 'purple', label: 'Preview Ready', step: 3 },
+    review: { icon: Eye, color: 'cyan', label: 'Changes Requested', step: 3 },
+    delivered: { icon: Rocket, color: 'green', label: 'Launched', step: 4 },
 };
 
 const pipelineSteps = [
@@ -41,6 +44,9 @@ export default function PortalDashboard() {
     const [projects, setProjects] = useState<Project[]>([]);
     const [loading, setLoading] = useState(true);
     const [customerName, setCustomerName] = useState('');
+    const [documents, setDocuments] = useState<Array<{ id: number; type: string; title: string; content?: string; created_at?: string; metadata?: any }>>([]);
+    const [selectedDocument, setSelectedDocument] = useState<{ id: number; type: string; title: string; content: string; metadata?: any } | null>(null);
+    const [showDocumentModal, setShowDocumentModal] = useState(false);
 
     useEffect(() => {
         const fetchProjects = async () => {
@@ -85,7 +91,9 @@ export default function PortalDashboard() {
             pending_payment: 0,
             paid: 25,
             onboarding_pending: 25,
+            briefing: 25,
             building: 50,
+            preview: 75,
             review: 75,
             delivered: 100,
         };
@@ -255,6 +263,42 @@ export default function PortalDashboard() {
                 </motion.div>
             )}
 
+            {/* Project Documents */}
+            {activeProject && documents.length > 0 && (
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.3 }}
+                    className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-6"
+                >
+                    <h2 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
+                        <FileText className="w-5 h-5 text-emerald-400" />
+                        Project Documents
+                    </h2>
+                    <p className="text-slate-400 text-sm mb-4">
+                        Review planning documents shared by our team, like sitemap proposals or copy drafts.
+                    </p>
+                    <div className="space-y-2">
+                        {documents.map((doc) => (
+                            <Link
+                                key={doc.id}
+                                href={`/${locale}/portal/projects/${activeProject.id}`}
+                            >
+                                <div className="flex items-center justify-between bg-slate-900/40 border border-white/10 rounded-lg px-3 py-2 text-sm hover:bg-slate-900/60 transition-colors cursor-pointer">
+                                    <div>
+                                        <p className="text-white font-medium">{doc.title}</p>
+                                        <p className="text-xs text-slate-400">
+                                            {doc.type} {doc.created_at ? `· ${new Date(doc.created_at).toLocaleDateString()}` : ''}
+                                        </p>
+                                    </div>
+                                    <ArrowRight className="w-4 h-4 text-slate-400" />
+                                </div>
+                            </Link>
+                        ))}
+                    </div>
+                </motion.div>
+            )}
+
             {/* Quick Actions */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {[
@@ -347,6 +391,37 @@ export default function PortalDashboard() {
                         </motion.button>
                     </Link>
                 </motion.div>
+            )}
+
+            {/* Document View Modal */}
+            {selectedDocument && (
+                <Modal
+                    isOpen={showDocumentModal}
+                    onClose={() => {
+                        setShowDocumentModal(false);
+                        setSelectedDocument(null);
+                    }}
+                    title={selectedDocument.title}
+                    size="lg"
+                >
+                    <div className="space-y-4">
+                        <div className="flex items-center gap-2 text-sm text-slate-400">
+                            <FileText className="w-4 h-4" />
+                            <span>{selectedDocument.type}</span>
+                            {selectedDocument.id && (
+                                <>
+                                    <span>·</span>
+                                    <span>ID: {selectedDocument.id}</span>
+                                </>
+                            )}
+                        </div>
+                        <div className="prose prose-invert max-w-none">
+                            <pre className="whitespace-pre-wrap text-slate-300 font-mono text-sm bg-slate-800/50 p-4 rounded-lg border border-white/10 overflow-x-auto">
+                                {selectedDocument.content}
+                            </pre>
+                        </div>
+                    </div>
+                </Modal>
             )}
         </div>
     );

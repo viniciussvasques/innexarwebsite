@@ -107,6 +107,23 @@ const Footer = () => {
               ))}
             </ul>
           </div>
+
+          {/* Legal Links */}
+          <div>
+            <h4 className="text-lg font-semibold text-white mb-4">{t('legal') || 'Legal'}</h4>
+            <ul className="space-y-2">
+              <li>
+                <Link href="/terms-of-service" className="text-gray-300 hover:text-white transition-colors">
+                  {t('termsOfService')}
+                </Link>
+              </li>
+              <li>
+                <Link href="/privacy-policy" className="text-gray-300 hover:text-white transition-colors">
+                  {t('privacyPolicy')}
+                </Link>
+              </li>
+            </ul>
+          </div>
         </div>
 
         {/* Bottom Bar */}

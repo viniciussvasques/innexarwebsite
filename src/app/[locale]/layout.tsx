@@ -7,6 +7,7 @@ import { generateMetadata as genMeta } from '@/lib/seo'
 import GoogleAnalytics from '@/components/GoogleAnalytics'
 import StructuredData from '@/components/StructuredData'
 import AIChat from '@/components/ai-chat/AIChat'
+import CookieConsent from '@/components/CookieConsent'
 import MetaPixelProvider from '@/components/providers/MetaPixelProvider'
 import '../globals.css'
 
@@ -21,7 +22,7 @@ type Props = {
 
 export async function generateMetadata({ params }: Props) {
   const { locale } = await params
-  return genMeta(locale, 'home')
+  return genMeta(locale, 'default')
 }
 
 export default async function RootLayout({
@@ -37,6 +38,7 @@ export default async function RootLayout({
 
   const messages = await getMessages({ locale })
   const { generateStructuredData } = await import('@/lib/seo')
+  // No layout level we use default/organization data
   const structuredData = generateStructuredData(locale, 'home')
 
   return (
@@ -53,6 +55,7 @@ export default async function RootLayout({
           <NextIntlClientProvider messages={messages} locale={locale}>
             {children}
             <AIChat />
+            <CookieConsent />
           </NextIntlClientProvider>
         </MetaPixelProvider>
       </body>

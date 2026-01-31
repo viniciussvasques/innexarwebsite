@@ -116,7 +116,7 @@ jobs:
               -l "traefik.enable=true" \
               -l "traefik.http.routers.innexar.rule=Host(\`innexar.app\`) || Host(\`www.innexar.app\`)" \
               -l "traefik.http.routers.innexar.entrypoints=websecure" \
-              -l "traefik.http.routers.innexar.tls.certresolver=letsencrypt" \
+              -l "traefik.http.routers.innexar.tls.certresolver=cloudflare" \
               -l "traefik.http.services.innexar-service.loadbalancer.server.port=3000" \
               -l "traefik.http.routers.innexar.service=innexar-service" \
               ghcr.io/${{ github.repository }}:latest

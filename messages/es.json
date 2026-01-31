@@ -9,13 +9,77 @@
     "save": "Guardar",
     "cancel": "Cancelar"
   },
+  "seo": {
+    "default": {
+      "title": "Innexar | Desarrollo de Software Premium y Soluciones Digitales",
+      "description": "Innexar ofrece soluciones tecnológicas de alto nivel, desde desarrollo de software a medida até infraestrutura en la nube e IA. Transformamos su visión en realidad premium.",
+      "keywords": "desarrollo de software, soluciones premium, IA para negocios, cloud computing, transformación digital, Innexar tecnología"
+    },
+    "home": {
+      "title": "Innexar | Soluciones de Software de Élite & Consultoría Digital",
+      "description": "Eleve su negocio con software a medida y estrategias digitales de alto rendimiento. Expertos en desarrollo premium y escalabilidad global.",
+      "keywords": "consultoría de software, desarrollo premium, apps móviles, sistemas web, empresa de tecnología"
+    },
+    "about": {
+      "title": "Nuestra Historia | Innexar - Excelencia en Ingeniería de Software",
+      "description": "Conozca a Innexar, una empresa especializada en soluciones tecnológicas innovadoras. Nuestra misión es transformar ideas en realidad digital.",
+      "keywords": "sobre Innexar, empresa de tecnología, misión, valores, historia"
+    },
+    "services": {
+      "title": "Servicios Premium | Desarrollo a Medida, Nube e IA",
+      "description": "Soluciones tecnológicas completas para empresas visionarias. Desde el desarrollo de apps hasta la integración de IA de vanguardia.",
+      "keywords": "desarrollo personalizado, arquitectura en la nube, IA, machine learning, outsourcing de software"
+    },
+    "portfolio": {
+      "title": "Casos de Éxito | Explore Nuestras Soluciones Digitales Premium",
+      "description": "Conozca nuestros proyectos y soluciones desarrollados para clientes de diversos sectores. Casos de éxito en desarrollo de software.",
+      "keywords": "portafolio, proyectos, casos de éxito, desarrollo de software, soluciones tecnológicas"
+    },
+    "contact": {
+      "title": "Contáctenos | Inicie su Proyecto Premium con Innexar",
+      "description": "Listo para transformar su negocio? Nuestro equipo está a su disposición para crear su próxima solución digital de éxito.",
+      "keywords": "contacto tecnología, orçamento software, suporte innexar"
+    },
+    "saas": {
+      "title": "SaaS - Plataformas de Software como Servicio",
+      "description": "Conozca nuestras plataformas SaaS: Innexar ERP y StructurOne. Soluciones empresariales completas y escalables.",
+      "keywords": "SaaS, software como servicio, ERP, gestión empresarial, plataformas SaaS"
+    },
+    "blockchain": {
+      "title": "Blockchain - Soluciones Descentralizadas y Smart Contracts",
+      "description": "Soluciones avanzadas de blockchain, contratos inteligentes personalizados y arquitecturas descentralizadas para su negocio.",
+      "keywords": "blockchain, smart contracts, web3, dapps, soluciones descentralizadas"
+    },
+    "checklist": {
+      "title": "Checklist de Sitio Web - Planifique su Proyecto Digital",
+      "description": "Utilice nuestra checklist para planificar su próximo sitio web o producto digital. Una guía completa para comenzar su proyecto con Innexar.",
+      "keywords": "checklist sitio web, planificación de proyecto, guía de desarrollo web, producto digital"
+    },
+    "launch": {
+      "title": "Launch Pack - Sitio Web Profesional en 5 Días",
+      "description": "Ponga su negocio en línea rápidamente con nuestro Launch Pack. Un sitio web de alta calidad entregado en solo 5 días hábiles.",
+      "keywords": "entrega rápida de sitio web, landing page, sitio web para pequeñas empresas, launch pack"
+    },
+    "privacy-policy": {
+      "title": "Política de Privacidade - Innexar",
+      "description": "Lea nuestra política de privacidad para entender cómo recopilamos, usamos y protegemos sus datos personales.",
+      "keywords": "política de privacidad, protección de datos, GDPR, privacidad"
+    },
+    "terms-of-service": {
+      "title": "Términos de Servicio - Innexar",
+      "description": "Lea nuestros términos de servicio para entender las reglas y regulaciones para el uso de los servicios de Innexar.",
+      "keywords": "términos de servicio, legal, acuerdo"
+    }
+  },
   "nav": {
     "home": "Inicio",
     "about": "Nosotros",
     "services": "Servicios",
     "portfolio": "Portafolio",
     "contact": "Contacto",
-    "startProject": "Iniciar Proyecto"
+    "startProject": "Iniciar Proyecto",
+    "termsOfService": "Términos de Servicio",
+    "privacyPolicy": "Política de Privacidad"
   },
   "hero": {
     "badge": "Agencia de Desarrollo Web Premium",
@@ -99,7 +163,10 @@
   "footer": {
     "rights": "Todos los derechos reservados",
     "privacy": "Privacidad",
-    "terms": "Términos"
+    "terms": "Términos",
+    "legal": "Legal",
+    "termsOfService": "Términos de Servicio",
+    "privacyPolicy": "Política de Privacidad"
   },
   "launch": {
     "onboarding": {
@@ -117,7 +184,9 @@
         "step6": "Horarios y Social",
         "step6Desc": "Cómo encontrarte",
         "step7": "Contenido Extra",
-        "step7Desc": "Testimonios e historia"
+        "step7Desc": "Testimonios e historia",
+        "step8": "Contrato",
+        "step8Desc": "Firma del contrato de servicio"
       },
       "form": {
         "businessName": "Nombre de la Empresa",
@@ -129,6 +198,27 @@
         "hasWhatsApp": "Este número tiene WhatsApp",
         "address": "Dirección Comercial (Opcional)",
         "addressPlaceholder": "Calle, Ciudad, Estado",
+        "desiredDomain": "Dominio deseado (opcional)",
+        "desiredDomainHelp": "ej: misitio.com — Te guiaremos para apuntarlo después.",
+        "domainQuestion": "¿Ya tienes un dominio?",
+        "hasDomain": "Sí, ya tengo uno",
+        "noDomain": "No, quiero comprar uno",
+        "existingDomain": "Dominio existente",
+        "existingDomainPlaceholder": "misitio.com",
+        "existingDomainHelp": "Enviaremos instrucciones por correo electrónico para apuntar tu dominio a nuestro servidor cuando el sitio esté listo.",
+        "domainToPurchase": "Dominio para comprar",
+        "domainToPurchasePlaceholder": "misitio.com",
+        "checkDomain": "Verificar",
+        "checkingDomain": "Verificando...",
+        "purchaseDomain": "Comprar Dominio",
+        "purchasingDomain": "Comprando...",
+        "domainAvailable": "Dominio disponible",
+        "domainAvailableFree": "¡Dominio disponible y GRATIS!",
+        "domainAvailablePrice": "Dominio disponible por {price}/año",
+        "domainNotAvailable": "Dominio no disponible. Prueba con otro nombre.",
+        "domainPurchased": "¡Dominio {domain} comprado con éxito!",
+        "domainCheckError": "Error al verificar dominio",
+        "domainPurchaseError": "Error al comprar dominio",
         "password": "Crea tu contraseña",
         "passwordHelp": "Define una contraseña para acceder a tu panel de cliente y seguir el desarrollo.",
         "passwordPlaceholder": "Mínimo 8 caracteres",
@@ -226,9 +316,34 @@
           "generic": "Algo salió mal. Por favor, intente de nuevo.",
           "submit": "Error al enviar. Por favor, intente de nuevo."
         },
+        "contract": {
+          "signatureLabel": "Nombre Completo para Firma Digital *",
+          "signaturePlaceholder": "Ingrese su nombre legal",
+          "signButton": "Firmar Contrato",
+          "signingDisclaimer": "Al firmar, acepta los términos de servicio y el alcance del proyecto.",
+          "signedTitle": "¡Contrato Firmado!",
+          "signedAs": "Firmado como: {name} el {date}",
+          "proceedMessage": "Ahora puede proceder a finalizar su proyecto.",
+          "orderIdError": "ID de pedido no encontrado. Intente regresar al paso anterior o actualizar la página.",
+          "nameRequired": "Por favor ingrese su nombre completo para firmar"
+        },
         "backHome": "Volver al Inicio"
       },
       "complete": {
+        "title": "¡Todo Listo!",
+        "subtitle": "Tu onboarding está completo",
+        "message": "Nuestro equipo comenzará a trabajar en tu sitio web de inmediato. Recibirás actualizaciones por correo electrónico.",
+        "loadingMessage": "IA iniciando construcción de tu sitio...",
+        "loadingDescription": "Recibirás actualizaciones por correo electrónico y puedes seguir el progreso en el panel.",
+        "dashboardButton": "Ver Panel del Proyecto",
+        "timeline": "Tiempo Estimado: 5 días hábiles",
+        "nextSteps": "¿Qué sucede ahora?",
+        "step1": "Nuestro equipo de diseño revisa tus requisitos",
+        "step2": "Creamos un mockup personalizado para tu aprobación",
+        "step3": "El desarrollo comienza después de tu aprobación",
+        "step4": "Revisión final y entrega del sitio"
+      },
+      "completeOld": {
         "title": "¡Casi listo!",
         "subtitle": "Tus datos han sido recibidos con éxito.",
         "message": "Nuestra inteligencia artificial y equipo de diseño comenzarán a trabajar en tu proyecto ahora mismo.",
@@ -346,6 +461,85 @@
         "subtitle": "Su cuenta ahora está activa. Puede acceder a su portal.",
         "cta": "Ir al portal"
       }
+    }
+  },
+  "cookies": {
+    "title": "🍪 Usamos Cookies",
+    "description": "Utilizamos cookies para mejorar su experiencia, analizar tráfico y personalizar contenido. Puede gestionar sus preferencias abajo.",
+    "essential": "Cookies Esenciales",
+    "essentialDesc": "Necesarias para funcionamiento básico del sitio",
+    "analytics": "Cookies de Analytics",
+    "analyticsDesc": "Google Analytics para entender cómo usa el sitio",
+    "marketing": "Cookies de Marketing",
+    "marketingDesc": "Meta Pixel y Google Ads para publicidad personalizada",
+    "required": "Obligatorio",
+    "settings": "Configuración",
+    "rejectAll": "Rechazar Todos",
+    "acceptAll": "Aceptar Todos",
+    "savePreferences": "Guardar Preferencias"
+  },
+  "legal": {
+    "terms": {
+      "title": "Términos de Servicio",
+      "lastUpdated": "Última actualización: 30 de enero de 2026",
+      "sections": {
+        "acceptance": {
+          "title": "Aceptación de los Términos",
+          "content": "Al acceder y utilizar los servicios de Innexar, usted acepta cumplir con estos Términos de Servicio y todas las leyes y regulaciones aplicables."
+        },
+        "services": {
+          "title": "Servicios Prestados",
+          "content": "Innexar ofrece servicios de desarrollo web, SaaS y consultoría digital. Cada proyecto está sujeto a su contrato específico y a los requisitos de registro."
+        },
+        "hosting": {
+          "title": "Alojamiento y Soporte",
+          "content": "Los servicios de alojamiento se proporcionan según lo especificado en el plan de servicio. Las tarifas de alojamiento y mantenimiento son recurrentes después del período de prueba inicial, como se detalla en el contrato del proyecto."
+        },
+        "intellectualProperty": {
+          "title": "Propiedad Intelectual",
+          "content": "El contenido del sitio web y el software desarrollado para el cliente están sujetos a los términos de propiedad definidos en el contrato de servicio específico firmado durante el registro."
+        },
+        "limitations": {
+          "title": "Limitaciones de Responsabilidad",
+          "content": "Innexar no será responsable de ningún daño indirecto, incidental o consecuente que resulte del uso o la imposibilidad de usar nuestros servicios."
+        },
+        "governingLaw": {
+          "title": "Ley Aplicable",
+          "content": "Estos términos se rigen por las leyes del Estado de Florida, Estados Unidos, sin tener en cuenta sus conflictos de disposiciones legales."
+        }
+      },
+      "footerNote": "Para cualquier pregunta sobre estos términos, contáctenos en sales@innexar.app"
+    },
+    "privacy": {
+      "title": "Política de Privacidad",
+      "lastUpdated": "Última actualización: 30 de enero de 2026",
+      "sections": {
+        "dataCollection": {
+          "title": "Recopilación de Datos",
+          "content": "Recopilamos información que nos proporciona directamente (nombre, correo electrónico, detalles comerciales) y datos de uso automatizados a través de cookies para mejorar nuestros servicios."
+        },
+        "dataUsage": {
+          "title": "Cómo Usamos sus Datos",
+          "content": "Sus datos se utilizan para proporcionar servicios, procesar pagos, comunicar actualizaciones de proyectos y mejorar el rendimiento del sitio web."
+        },
+        "dataSharing": {
+          "title": "Compartir Datos",
+          "content": "No vendemos sus datos personales. Solo compartimos información con proveedores de servicios de terceros confiables (como Stripe o Dynadot) necesarios para cumplir con nuestros servicios."
+        },
+        "cookies": {
+          "title": "Cookies y Seguimiento",
+          "content": "Utilizamos cookies para personalizar el contenido, analizar el tráfico y con fines de marketing. Puede gestionar sus preferencias a través de nuestro banner de Consentimiento de Cookies."
+        },
+        "security": {
+          "title": "Seguridad de Datos",
+          "content": "Implementamos medidas de seguridad estándar de la industria para proteger su información contra el acceso no autorizado, la alteración o la divulgación."
+        },
+        "rights": {
+          "title": "Sus Derechos",
+          "content": "Usted tiene derecho a acceder, corregir o eliminar sus datos personales. Contáctenos para ejercer estos derechos."
+        }
+      },
+      "footerNote": "Esta política de Privacidad está sujeta a cambios. Por favor, revísela periódicamente."
     }
   }
 }
