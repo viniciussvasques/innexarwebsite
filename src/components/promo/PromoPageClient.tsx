@@ -209,21 +209,29 @@ export default function PromoPageClient() {
 
     // Track page view
     useEffect(() => {
-        MetaPixel.viewContent({
-            content_name: 'Promo Landing Page - $399 Website',
-            content_category: 'Website Services',
-            content_type: 'product',
-            value: 399,
-            currency: 'USD',
-        })
+        try {
+            MetaPixel.viewContent({
+                content_name: 'Promo Landing Page - $399 Website',
+                content_category: 'Website Services',
+                content_type: 'product',
+                value: 399,
+                currency: 'USD',
+            })
+        } catch (e) {
+            console.warn('Meta Pixel tracking failed:', e)
+        }
 
         // Google Analytics
-        if (typeof window !== 'undefined' && (window as any).gtag) {
-            (window as any).gtag('event', 'page_view', {
-                page_title: 'Promo Landing Page',
-                page_location: window.location.href,
-                page_path: window.location.pathname,
-            })
+        try {
+            if (typeof window !== 'undefined' && (window as any).gtag) {
+                (window as any).gtag('event', 'page_view', {
+                    page_title: 'Promo Landing Page',
+                    page_location: window.location.href,
+                    page_path: window.location.pathname,
+                })
+            }
+        } catch (e) {
+            console.warn('Google Analytics tracking failed:', e)
         }
     }, [])
 
@@ -234,10 +242,14 @@ export default function PromoPageClient() {
                 setShowExitPopup(true)
                 setHasShownExitPopup(true)
 
-                MetaPixel.trackCustom('ExitIntentTriggered', {
-                    value: totalPrice,
-                    currency: 'USD'
-                })
+                try {
+                    MetaPixel.trackCustom('ExitIntentTriggered', {
+                        value: totalPrice,
+                        currency: 'USD'
+                    })
+                } catch (e) {
+                    console.warn('Meta Pixel tracking failed:', e)
+                }
             }
         }
 
@@ -261,7 +273,11 @@ export default function PromoPageClient() {
         const addon = ADDONS.find(a => a.id === id)
         if (addon) {
             if (!selectedAddons.includes(id)) {
-                MetaPixel.selectAddon(`addon-${id}`, addon.price)
+                try {
+                    MetaPixel.selectAddon(`addon-${id}`, addon.price)
+                } catch (e) {
+                    console.warn('Meta Pixel tracking failed:', e)
+                }
             }
         }
         setSelectedAddons(prev =>
@@ -272,26 +288,35 @@ export default function PromoPageClient() {
     const handleCheckout = async () => {
         setIsCheckingOut(true)
 
-        MetaPixel.initiateCheckout({
-            value: totalPrice,
-            currency: 'USD',
-            content_ids: ['professional-website-promo', ...selectedAddons],
-            content_type: 'product',
-            num_items: 1 + selectedAddons.length,
-        })
-
-        // Google Analytics
-        if (typeof window !== 'undefined' && (window as any).gtag) {
-            (window as any).gtag('event', 'begin_checkout', {
+        // Track checkout initiation (safe call)
+        try {
+            MetaPixel.initiateCheckout({
                 value: totalPrice,
                 currency: 'USD',
-                items: [{
-                    item_id: 'professional-website-promo',
-                    item_name: 'Professional Website - Promo',
-                    price: basePrice,
-                    quantity: 1
-                }]
+                content_ids: ['professional-website-promo', ...selectedAddons],
+                content_type: 'product',
+                num_items: 1 + selectedAddons.length,
             })
+        } catch (e) {
+            console.warn('Meta Pixel tracking failed:', e)
+        }
+
+        // Google Analytics (safe call)
+        try {
+            if (typeof window !== 'undefined' && (window as any).gtag) {
+                (window as any).gtag('event', 'begin_checkout', {
+                    value: totalPrice,
+                    currency: 'USD',
+                    items: [{
+                        item_id: 'professional-website-promo',
+                        item_name: 'Professional Website - Promo',
+                        price: basePrice,
+                        quantity: 1
+                    }]
+                })
+            }
+        } catch (e) {
+            console.warn('Google Analytics tracking failed:', e)
         }
 
         try {
@@ -303,21 +328,33 @@ export default function PromoPageClient() {
                     source: 'promo-page'
                 }),
             })
+
+            if (!response.ok) {
+                throw new Error(`Checkout failed: ${response.status}`)
+            }
+
             const data = await response.json()
             if (data.url) {
                 window.location.href = data.url
+            } else {
+                throw new Error('No checkout URL received')
             }
         } catch (error) {
             console.error('Checkout error:', error)
+            alert('Checkout error. Please try again or contact support.')
             setIsCheckingOut(false)
         }
     }
 
     const handleExitPopupClaim = () => {
-        MetaPixel.trackCustom('ExitPopupClaimed', {
-            value: 349,
-            currency: 'USD'
-        })
+        try {
+            MetaPixel.trackCustom('ExitPopupClaimed', {
+                value: 349,
+                currency: 'USD'
+            })
+        } catch (e) {
+            console.warn('Meta Pixel tracking failed:', e)
+        }
         setShowExitPopup(false)
         handleCheckout()
     }
