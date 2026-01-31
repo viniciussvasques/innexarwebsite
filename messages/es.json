@@ -356,6 +356,212 @@
       }
     }
   },
+"promo": {
+    "hero": {
+        "badge": "🔥 OFERTA FLASH - Termina Pronto",
+        "title": "Tu Negocio Merece un Sitio Web Profesional",
+        "subtitle": "Estar en Línea en 5 Días",
+        "description": "Únete a más de 200 negocios locales que transformaron su presencia online con un sitio web profesional que realmente convierte visitantes en clientes.",
+        "price": "$399",
+        "originalPrice": "$899",
+        "savings": "Ahorra $500",
+        "urgency": "Solo 3 cupos disponibles esta semana",
+        "cta": "Quiero Mi Sitio Ahora",
+        "guarantee": "Garantía de 30 Días",
+        "secure": "🔒 Pago Seguro SSL"
+    },
+    "trust": {
+        "title": "Confiado por Más de 200 Negocios",
+        "stat1": "200+",
+        "stat1Label": "Sitios Creados",
+        "stat2": "4.9/5",
+        "stat2Label": "Calificación",
+        "stat3": "5 Días",
+        "stat3Label": "Entrega Rápida",
+        "stat4": "100%",
+        "stat4Label": "Satisfacción"
+    },
+    "benefits": {
+        "title": "Por Qué Elegir Nuestro Paquete de $399",
+        "subtitle": "Todo lo que tu negocio necesita para tener éxito online",
+        "benefit1": {
+            "title": "Sitio Personalizado de 5 Páginas",
+            "desc": "Inicio, Nosotros, Servicios, Testimonios y Contacto"
+        },
+        "benefit2": {
+            "title": "Logo Profesional GRATIS",
+            "desc": "Logo simple y moderno incluido (valor $150)"
+        },
+        "benefit3": {
+            "title": "Diseño Responsivo para Móvil",
+            "desc": "Perfecto en móviles, tablets y computadoras"
+        },
+        "benefit4": {
+            "title": "Optimizado para SEO",
+            "desc": "Sé encontrado en Google con SEO integrado"
+        },
+        "benefit5": {
+            "title": "Formularios de Contacto",
+            "desc": "Captura leads con formularios integrados"
+        },
+        "benefit6": {
+            "title": "3 Meses de Hosting GRATIS",
+            "desc": "Nos ocupamos de la configuración + primeros 3 meses (valor $99)"
+        },
+        "benefit7": {
+            "title": "Super Rápido",
+            "desc": "Menos de 2s de carga para más conversiones"
+        },
+        "benefit8": {
+            "title": "2 Rondas de Revisión",
+            "desc": "Refinamos hasta que te encante"
+        },
+        "benefit9": {
+            "title": "Soporte por 30 Días",
+            "desc": "Ayuda post-lanzamiento incluida"
+        },
+        "totalValue": "Valor Total: $899",
+        "yourPrice": "Tu Precio Hoy: $399"
+    },
+    "social": {
+        "title": "Resultados Reales de Negocios Reales",
+        "review1": {
+            "text": "Recibí 3x más llamadas en la primera semana. ¡Mejor inversión de $399!",
+            "author": "Michael R.",
+            "business": "Rodriguez Plomería",
+            "location": "Orlando, FL",
+            "rating": 5
+        },
+        "review2": {
+            "text": "Sitio profesional entregado en 4 días. ¡Mis clientes quedaron impresionados!",
+            "author": "Sarah J.",
+            "business": "Johnson Abogados",
+            "location": "Dallas, TX",
+            "rating": 5
+        },
+        "review3": {
+            "text": "¡Finalmente un sitio que realmente convierte. Recibiendo leads todos los días!",
+            "author": "David C.",
+            "business": "Chen Odontología",
+            "location": "Seattle, WA",
+            "rating": 5
+        },
+        "review4": {
+            "text": "El registro fue muy fácil. ¡Crearon exactamente lo que imaginé!",
+            "author": "Maria G.",
+            "business": "Garcia Jardinería",
+            "location": "Phoenix, AZ",
+            "rating": 5
+        }
+    },
+    "comparison": {
+        "title": "Por Qué Somos Diferentes",
+        "subtitle": "Ve cómo nos comparamos con otras opciones",
+        "us": "Innexar",
+        "diy": "Creadores DIY",
+        "freelancer": "Freelancers",
+        "agency": "Agencias",
+        "feature1": "Diseño Profesional",
+        "feature2": "Entrega en 5 Días",
+        "feature3": "Logo Gratis Incluido",
+        "feature4": "Optimizado para SEO",
+        "feature5": "3 Meses Hosting Gratis",
+        "feature6": "Propiedad del Código",
+        "feature7": "Soporte Incluido",
+        "feature8": "Precio Fijo",
+        "yes": "✓",
+        "no": "✗",
+        "sometimes": "A veces",
+        "slow": "2-4 semanas",
+        "extra": "Costo extra",
+        "veryExpensive": "$2.000+"
+    },
+    "addons": {
+        "title": "Potencia Tu Paquete (Opcional)",
+        "subtitle": "Agrega estas funciones para potenciar tu sitio web",
+        "logo": {
+            "name": "Diseño de Logo Premium",
+            "desc": "3 conceptos + guía de marca",
+            "price": "$99"
+        },
+        "seo": {
+            "name": "SEO Local Pro",
+            "desc": "Optimización local avanzada",
+            "price": "$149"
+        },
+        "page": {
+            "name": "Página Extra",
+            "desc": "Blog, Galería, FAQ, etc.",
+            "price": "$79"
+        },
+        "whatsapp": {
+            "name": "Widget WhatsApp",
+            "desc": "Integración de chat directo",
+            "price": "$49"
+        },
+        "gmb": {
+            "name": "Configuración Google Mi Negocio",
+            "desc": "Optimización completa de GMB",
+            "price": "$49"
+        }
+    },
+    "urgency": {
+        "title": "⏰ Oferta Por Tiempo Limitado",
+        "subtitle": "Este precio especial termina en:",
+        "hours": "Horas",
+        "minutes": "Minutos",
+        "seconds": "Segundos",
+        "warning": "Después del timer, precio vuelve a $899",
+        "spots": "Solo {count} cupos disponibles esta semana"
+    },
+    "faq": {
+        "title": "Preguntas Frecuentes",
+        "q1": "¿Cuál es el truco? ¿Por qué tan barato?",
+        "a1": "¡Sin trucos! Usamos un proceso eficiente que nos permite entregar sitios de calidad a este precio. Además, el 50% de los proyectos los hacemos con nuestra plataforma asistida por IA.",
+        "q2": "¿Me quedo con el sitio para siempre?",
+        "a2": "¡SÍ! Eres dueño del código fuente y dominio. Después de 3 meses de hosting gratis, puedes auto-hospedar o continuar con nosotros por solo $9.99/mes.",
+        "q3": "¿Y si no me gusta?",
+        "a3": "Ofrecemos 2 rondas de revisión y garantía de 30 días. Si no quedas satisfecho, te devolvemos tu dinero.",
+        "q4": "¿Cuánto tiempo realmente toma?",
+        "a4": "La mayoría de los sitios se entregan en 5 días hábiles después de que completes el formulario de registro (toma 10 minutos).",
+        "q5": "¿Ayudan con el dominio?",
+        "a5": "¡Sí! Podemos ayudarte a comprar un dominio o conectar tu dominio existente sin costo adicional."
+    },
+    "cta": {
+        "final": {
+            "title": "¿Listo Para Crecer Tu Negocio Online?",
+            "subtitle": "Únete a más de 200 empresarios satisfechos que eligieron Innexar",
+            "price": "$399",
+            "originalPrice": "$899",
+            "button": "Comenzar Ahora - Pago Seguro",
+            "guarantee": "Garantía de 30 Días",
+            "secure": "Pago seguro con Stripe",
+            "benefits": [
+                "✓ Sitio personalizado de 5 páginas",
+                "✓ Logo profesional gratis",
+                "✓ 3 meses hosting gratis",
+                "✓ Optimizado para SEO",
+                "✓ Diseño responsivo",
+                "✓ Soporte por 30 días"
+            ]
+        }
+    },
+    "sticky": {
+        "price": "$399",
+        "was": "era $899",
+        "cta": "Comenzar Ahora"
+    },
+    "exitIntent": {
+        "title": "¡Espera! No Pierdas Esta Oportunidad",
+        "subtitle": "Obtén $50 EXTRA de Descuento",
+        "newPrice": "$349",
+        "originalPrice": "$899",
+        "code": "Usa el código: SAVE50",
+        "expires": "Esta oferta expira en 10 minutos",
+        "cta": "Reclamar Mi Descuento",
+        "close": "No, gracias. Pagaré el precio completo"
+    }
+},
   "dashboard": {
     "header": {
       "logout": "Cerrar sesión"

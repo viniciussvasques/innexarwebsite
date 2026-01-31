@@ -283,6 +283,8 @@ export const MetaPixel = {
     selectAddon: trackSelectAddon,
     onboardingStep: trackOnboardingStep,
     viewDashboard: trackViewDashboard,
+    trackCustom: trackCustomEvent, // Add custom event tracking
 }
 
 export default MetaPixel
+

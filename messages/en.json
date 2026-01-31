@@ -2054,6 +2054,212 @@
       }
     }
   },
+  "promo": {
+    "hero": {
+      "badge": "🔥 FLASH SALE - Ending Soon!",
+      "title": "Your Business Deserves a Professional Website",
+      "subtitle": "Get Online in 5 Days",
+      "description": "Join 200+ local businesses who transformed their online presence with a stunning website that actually converts visitors into customers.",
+      "price": "$399",
+      "originalPrice": "$899",
+      "savings": "Save $500",
+      "urgency": "Only 3 spots left this week",
+      "cta": "Get My Website Now",
+      "guarantee": "30-Day Money-Back Guarantee",
+      "secure": "🔒 Secure SSL Payment"
+    },
+    "trust": {
+      "title": "Trusted by 200+ Businesses",
+      "stat1": "200+",
+      "stat1Label": "Websites Built",
+      "stat2": "4.9/5",
+      "stat2Label": "Client Rating",
+      "stat3": "5 Days",
+      "stat3Label": "Fast Delivery",
+      "stat4": "100%",
+      "stat4Label": "Satisfaction"
+    },
+    "benefits": {
+      "title": "Why Choose Our $399 Package",
+      "subtitle": "Everything your business needs to succeed online",
+      "benefit1": {
+        "title": "5-Page Custom Website",
+        "desc": "Home, About, Services, Testimonials & Contact"
+      },
+      "benefit2": {
+        "title": "FREE Professional Logo",
+        "desc": "Simple, modern logo included ($150 value)"
+      },
+      "benefit3": {
+        "title": "Mobile-Responsive Design",
+        "desc": "Looks perfect on phones, tablets & computers"
+      },
+      "benefit4": {
+        "title": "SEO Optimized",
+        "desc": "Get found on Google with built-in SEO"
+      },
+      "benefit5": {
+        "title": "Contact Forms",
+        "desc": "Capture leads with integrated contact forms"
+      },
+      "benefit6": {
+        "title": "3 Months FREE Hosting",
+        "desc": "We handle setup + cover first 3 months ($99 value)"
+      },
+      "benefit7": {
+        "title": "Lightning Fast",
+        "desc": "Under 2s load time for better conversions"
+      },
+      "benefit8": {
+        "title": "2 Revision Rounds",
+        "desc": "We'll refine until you love it"
+      },
+      "benefit9": {
+        "title": "30-Day Support",
+        "desc": "Post-launch help included"
+      },
+      "totalValue": "Total Value: $899",
+      "yourPrice": "Your Price Today: $399"
+    },
+    "social": {
+      "title": "Real Results from Real Businesses",
+      "review1": {
+        "text": "Got 3x more calls within the first week. Best $399 I ever spent!",
+        "author": "Michael R.",
+        "business": "Rodriguez Plumbing",
+        "location": "Orlando, FL",
+        "rating": 5
+      },
+      "review2": {
+        "text": "Professional site delivered in 4 days. My clients are impressed!",
+        "author": "Sarah J.",
+        "business": "Johnson Law Firm",
+        "location": "Dallas, TX",
+        "rating": 5
+      },
+      "review3": {
+        "text": "Finally a website that actually converts. Getting leads every day now!",
+        "author": "David C.",
+        "business": "Chen Dental",
+        "location": "Seattle, WA",
+        "rating": 5
+      },
+      "review4": {
+        "text": "The onboarding was so easy. They created exactly what I envisioned!",
+        "author": "Maria G.",
+        "business": "Garcia Landscaping",
+        "location": "Phoenix, AZ",
+        "rating": 5
+      }
+    },
+    "comparison": {
+      "title": "Why We're Different",
+      "subtitle": "See how we stack up against other options",
+      "us": "Innexar",
+      "diy": "DIY Builders",
+      "freelancer": "Freelancers",
+      "agency": "Agencies",
+      "feature1": "Professional Design",
+      "feature2": "5-Day Delivery",
+      "feature3": "Free Logo Included",
+      "feature4": "SEO Optimized",
+      "feature5": "Free 3mo Hosting",
+      "feature6": "Source Code Ownership",
+      "feature7": "Support Included",
+      "feature8": "Fixed Price",
+      "yes": "✓",
+      "no": "✗",
+      "sometimes": "Sometimes",
+      "slow": "2-4 weeks",
+      "extra": "Extra cost",
+      "veryExpensive": "$2,000+"
+    },
+    "addons": {
+      "title": "Boost Your Package (Optional)",
+      "subtitle": "Add these features to supercharge your website",
+      "logo": {
+        "name": "Premium Logo Design",
+        "desc": "3 concepts + brand guidelines",
+        "price": "$99"
+      },
+      "seo": {
+        "name": "Local SEO Pro",
+        "desc": "Advanced local optimization",
+        "price": "$149"
+      },
+      "page": {
+        "name": "Extra Page",
+        "desc": "Blog, Gallery, FAQ, etc.",
+        "price": "$79"
+      },
+      "whatsapp": {
+        "name": "WhatsApp Widget",
+        "desc": "Direct chat integration",
+        "price": "$49"
+      },
+      "gmb": {
+        "name": "Google Business Setup",
+        "desc": "Complete GMB optimization",
+        "price": "$49"
+      }
+    },
+    "urgency": {
+      "title": "⏰ Limited Time Offer",
+      "subtitle": "This special pricing ends in:",
+      "hours": "Hours",
+      "minutes": "Minutes",
+      "seconds": "Seconds",
+      "warning": "After timer ends, price returns to $899",
+      "spots": "Only {count} spots left this week"
+    },
+    "faq": {
+      "title": "Common Questions",
+      "q1": "What's the catch? Why so cheap?",
+      "a1": "No catch! We use an efficient process that lets us deliver quality websites at this price. Plus, we handle 50% of projects through our AI-assisted workflow.",
+      "q2": "Do I keep my website forever?",
+      "a2": "YES! You own the source code and domain. After 3 months of free hosting, you can self-host or continue with us at just $9.99/month.",
+      "q3": "What if I don't like it?",
+      "a3": "We offer 2 revision rounds and a 30-day money-back guarantee. If you're not happy, you get a full refund.",
+      "q4": "How long does it really take?",
+      "a4": "Most sites are delivered in 5 business days after you complete the simple onboarding form (takes 10 minutes).",
+      "q5": "Can you help with my domain?",
+      "a5": "Yes! We can help you purchase a domain or connect your existing one at no extra charge."
+    },
+    "cta": {
+      "final": {
+        "title": "Ready to Grow Your Business Online?",
+        "subtitle": "Join 200+ satisfied business owners who chose Innexar",
+        "price": "$399",
+        "originalPrice": "$899",
+        "button": "Get Started - Pay Securely",
+        "guarantee": "30-Day Money-Back Guarantee",
+        "secure": "Secure payment with Stripe",
+        "benefits": [
+          "✓ 5-page custom website",
+          "✓ Free professional logo",
+          "✓ 3 months free hosting",
+          "✓ SEO optimized",
+          "✓ Mobile responsive",
+          "✓ 30-day support"
+        ]
+      }
+    },
+    "sticky": {
+      "price": "$399",
+      "was": "was $899",
+      "cta": "Get Started Now"
+    },
+    "exitIntent": {
+      "title": "Wait! Don't Miss Out",
+      "subtitle": "Get an Extra $50 OFF",
+      "newPrice": "$349",
+      "originalPrice": "$899",
+      "code": "Use code: SAVE50",
+      "expires": "This offer expires in 10 minutes",
+      "cta": "Claim My Discount",
+      "close": "No thanks, I'll pay full price"
+    }
+  },
   "dashboard": {
     "header": {
       "logout": "Sign Out"
