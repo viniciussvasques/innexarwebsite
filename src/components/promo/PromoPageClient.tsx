@@ -199,6 +199,7 @@ export default function PromoPageClient() {
     const [showExitPopup, setShowExitPopup] = useState(false)
     const [hasShownExitPopup, setHasShownExitPopup] = useState(false)
     const [showStickyCTA, setShowStickyCTA] = useState(false)
+    const [appliedCoupon, setAppliedCoupon] = useState<string | null>(null)
 
     const basePrice = 399
     const addonsTotal = selectedAddons.reduce((sum, id) => {
@@ -285,7 +286,7 @@ export default function PromoPageClient() {
         )
     }, [selectedAddons])
 
-    const handleCheckout = async () => {
+    const handleCheckout = async (couponCode?: string) => {
         setIsCheckingOut(true)
 
         // Track checkout initiation (safe call)
@@ -320,13 +321,21 @@ export default function PromoPageClient() {
         }
 
         try {
+            const requestBody: any = {
+                addons: selectedAddons,
+                source: 'promo-page',
+                locale,
+            }
+
+            // Add coupon if provided
+            if (couponCode) {
+                requestBody.couponCode = couponCode
+            }
+
             const response = await fetch(`/api/launch/checkout`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    addons: selectedAddons,
-                    source: 'promo-page'
-                }),
+                body: JSON.stringify(requestBody),
             })
 
             if (!response.ok) {
@@ -356,7 +365,8 @@ export default function PromoPageClient() {
             console.warn('Meta Pixel tracking failed:', e)
         }
         setShowExitPopup(false)
-        handleCheckout()
+        setAppliedCoupon('SAVE50')
+        handleCheckout('SAVE50')
     }
 
     return (
@@ -424,7 +434,7 @@ export default function PromoPageClient() {
                         <motion.button
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.98 }}
-                            onClick={handleCheckout}
+                            onClick={() => handleCheckout()}
                             disabled={isCheckingOut}
                             className="bg-white hover:bg-slate-100 text-slate-900 font-bold text-xl px-12 py-5 rounded-xl flex items-center gap-3 mx-auto shadow-2xl shadow-white/20 transition-all disabled:opacity-50"
                         >
@@ -512,7 +522,7 @@ export default function PromoPageClient() {
                         <div className="text-2xl text-slate-400 line-through mb-2">{t('benefits.totalValue')}</div>
                         <div className="text-4xl font-bold text-white mb-4">{t('benefits.yourPrice')}</div>
                         <button
-                            onClick={handleCheckout}
+                            onClick={() => handleCheckout()}
                             className="bg-white hover:bg-slate-100 text-slate-900 font-bold px-8 py-4 rounded-xl transition-all"
                         >
                             {t('hero.cta')}
@@ -608,7 +618,7 @@ export default function PromoPageClient() {
                             </ul>
 
                             <button
-                                onClick={handleCheckout}
+                                onClick={() => handleCheckout()}
                                 disabled={isCheckingOut}
                                 className="w-full bg-white hover:bg-slate-100 text-slate-900 font-bold py-4 rounded-xl text-lg transition-all shadow-lg disabled:opacity-50"
                             >
@@ -652,7 +662,7 @@ export default function PromoPageClient() {
             {/* Sticky CTA */}
             <StickyCTA
                 price={basePrice}
-                onCheckout={handleCheckout}
+                onCheckout={() => handleCheckout()}
                 isVisible={showStickyCTA}
             />
         </div>

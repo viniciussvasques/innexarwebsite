@@ -29,7 +29,7 @@ async function getStripe() {
 export async function POST(request: NextRequest) {
     try {
         const body = await request.json()
-        const { addons = [], customerEmail } = body
+        const { addons = [], customerEmail, couponCode } = body
 
         // Build line items
         const lineItems: Array<{
@@ -73,8 +73,8 @@ export async function POST(request: NextRequest) {
 
         const stripe = await getStripe()
 
-        // Create Stripe Checkout Session
-        const session = await stripe.checkout.sessions.create({
+        // Prepare session config
+        const sessionConfig: any = {
             payment_method_types: ['card'],
             line_items: lineItems,
             mode: 'payment',
@@ -84,6 +84,7 @@ export async function POST(request: NextRequest) {
             metadata: {
                 addons: addons.join(','),
                 product: 'launch_site',
+                coupon_code: couponCode || '',
             },
             // Collect billing address
             billing_address_collection: 'required',
@@ -91,7 +92,21 @@ export async function POST(request: NextRequest) {
             phone_number_collection: {
                 enabled: true,
             },
-        })
+        }
+
+        // Apply coupon if provided
+        if (couponCode) {
+            try {
+                // Try to retrieve the coupon first
+                await stripe.coupons.retrieve(couponCode)
+                sessionConfig.discounts = [{ coupon: couponCode }]
+            } catch (couponError) {
+                console.warn(`Coupon ${couponCode} not found, proceeding without discount`)
+            }
+        }
+
+        // Create Stripe Checkout Session
+        const session = await stripe.checkout.sessions.create(sessionConfig)
 
         return NextResponse.json({
             sessionId: session.id,
