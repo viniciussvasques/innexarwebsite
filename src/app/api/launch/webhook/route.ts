@@ -39,7 +39,7 @@ export async function POST(request: NextRequest) {
                 const session = event.data.object
                 console.log('Checkout session completed:', session.id)
                 console.log('Forwarding to backend webhook for order creation...')
-                
+
                 // Forward the event to backend webhook
                 try {
                     const backendResponse = await fetch(`${CRM_API_URL}/site-orders/webhook`, {
@@ -49,9 +49,49 @@ export async function POST(request: NextRequest) {
                         },
                         body: body, // Send raw body as received from Stripe
                     })
-                    
+
                     if (backendResponse.ok) {
                         console.log('Backend webhook processed successfully')
+
+                        // Send confirmation email to customer
+                        try {
+                            const { sendEmail } = await import('@/lib/email')
+                            const { getPaymentConfirmationTemplate } = await import('@/lib/email-payment-confirmation')
+
+                            const customerEmail = session.customer_details?.email || session.customer_email
+                            const customerName = session.customer_details?.name || 'Customer'
+
+                            if (customerEmail) {
+                                const emailTemplate = getPaymentConfirmationTemplate({
+                                    orderId: session.id,
+                                    customerName: customerName,
+                                    customerEmail: customerEmail,
+                                    amount: session.amount_total || 0,
+                                    currency: (session.currency || 'USD').toUpperCase(),
+                                    nextSteps: [
+                                        'Complete the onboarding form with your business details',
+                                        'Our team will start working on your website immediately',
+                                        'You\'ll receive your first draft within 48 hours',
+                                        'Request any revisions (2 included)',
+                                        'Get your final website delivered!'
+                                    ]
+                                })
+
+                                await sendEmail({
+                                    to: customerEmail,
+                                    subject: emailTemplate.subject,
+                                    html: emailTemplate.html,
+                                    text: emailTemplate.text,
+                                })
+
+                                console.log('Confirmation email sent to:', customerEmail)
+                            } else {
+                                console.warn('No customer email found in session')
+                            }
+                        } catch (emailError) {
+                            console.error('Error sending confirmation email:', emailError)
+                            // Don't fail the webhook if email fails
+                        }
                     } else {
                         const errorText = await backendResponse.text()
                         console.error('Backend webhook error:', backendResponse.status, errorText)

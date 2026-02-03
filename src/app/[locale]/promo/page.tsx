@@ -10,15 +10,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const { locale } = await params
 
     const titles = {
-        en: 'Professional Website $399 - Flash Sale | Innexar',
-        pt: 'Site Profissional $399 - Promoção Flash | Innexar',
-        es: 'Sitio Profesional $399 - Oferta Flash | Innexar'
+        en: 'Professional Website in 48 Hours - $199 | Innexar',
+        pt: 'Site Profissional em 48 Horas - $199 | Innexar',
+        es: 'Sitio Profesional en 48 Horas - $199 | Innexar'
     }
 
     const descriptions = {
-        en: 'Get a stunning, conversion-optimized website for only $399 (save $500). 5-day delivery, free logo, 3 months free hosting. Limited spots available!',
-        pt: 'Tenha um site profissional otimizado para conversão por apenas $399 (economize $500). Entrega em 5 dias, logo grátis, 3 meses de hospedagem grátis. Vagas limitadas!',
-        es: 'Obtén un sitio web profesional optimizado para conversión por solo $399 (ahorra $500). Entrega en 5 días, logo gratis, 3 meses de hosting gratis. ¡Cupos limitados!'
+        en: '3-page website built for your business. Mobile-friendly, hosting included, delivered in 48 hours. No monthly fees.',
+        pt: 'Site de 3 páginas criado para seu negócio. Design responsivo, hospedagem incluída, entregue em 48 horas. Sem mensalidades.',
+        es: 'Sitio de 3 páginas creado para tu negocio. Diseño responsive, hosting incluido, entregado en 48 horas. Sin cuotas mensuales.'
     }
 
     return {

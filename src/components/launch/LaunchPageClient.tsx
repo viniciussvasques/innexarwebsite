@@ -117,6 +117,7 @@ export default function LaunchPageClient() {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     addons: selectedAddons,
+                    basePrice: 39900, // $399 in cents for launch page
                 }),
             })
             const data = await response.json()

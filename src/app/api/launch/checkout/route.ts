@@ -1,12 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getStripeSecretKey } from '@/lib/system-config'
 
-// Base product
-const BASE_PRODUCT = {
-    name: 'Innexar Launch Site',
-    description: 'Professional website delivered in 5 days',
-    price: 39900, // $399 in cents
-}
+// Base product pricing
+const DEFAULT_BASE_PRICE = 19900 // $199 (promo page)
+const LAUNCH_BASE_PRICE = 39900 // $399 (launch page with addons)
+
 
 // Add-ons
 const ADDONS: Record<string, { name: string; price: number; description: string }> = {
@@ -29,7 +27,8 @@ async function getStripe() {
 export async function POST(request: NextRequest) {
     try {
         const body = await request.json()
-        const { addons = [], customerEmail, couponCode } = body
+        const { addons = [], customerEmail, couponCode, basePrice } = body
+
 
         // Build line items
         const lineItems: Array<{
@@ -44,10 +43,10 @@ export async function POST(request: NextRequest) {
                     price_data: {
                         currency: 'usd',
                         product_data: {
-                            name: BASE_PRODUCT.name,
-                            description: BASE_PRODUCT.description,
+                            name: 'Professional Website',
+                            description: 'Professional website delivered in 48 hours',
                         },
-                        unit_amount: BASE_PRODUCT.price,
+                        unit_amount: basePrice || DEFAULT_BASE_PRICE,
                     },
                     quantity: 1,
                 },
@@ -123,7 +122,7 @@ export async function POST(request: NextRequest) {
 
 export async function GET() {
     return NextResponse.json({
-        basePrice: BASE_PRODUCT.price / 100,
+        basePrice: DEFAULT_BASE_PRICE / 100,
         addons: Object.entries(ADDONS).map(([id, addon]) => ({
             id,
             name: addon.name,

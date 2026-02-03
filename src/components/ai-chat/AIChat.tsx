@@ -24,7 +24,10 @@ const AIChat = () => {
     if (typeof window !== 'undefined') {
       let storedSessionId = localStorage.getItem('helena_session_id')
       if (!storedSessionId) {
-        storedSessionId = crypto.randomUUID()
+        // Use crypto.randomUUID with fallback for compatibility
+        storedSessionId = typeof crypto !== 'undefined' && crypto.randomUUID
+          ? crypto.randomUUID()
+          : `${Date.now()}-${Math.random().toString(36).substring(2, 15)}`
         localStorage.setItem('helena_session_id', storedSessionId)
       }
       setSessionId(storedSessionId)

@@ -9,8 +9,19 @@ export interface StripeConfig {
     stripe_webhook_secret?: string
 }
 
+export interface SMTPConfig {
+    smtp_host?: string
+    smtp_port?: string
+    smtp_secure?: string
+    smtp_user?: string
+    smtp_password?: string
+    smtp_from_email?: string
+}
+
 let cachedConfig: StripeConfig | null = null
 let cacheTimestamp: number = 0
+let cachedSMTPConfig: SMTPConfig | null = null
+let smtpCacheTimestamp: number = 0
 const CACHE_TTL = 5 * 60 * 1000 // 5 minutes
 
 async function fetchStripeConfig(): Promise<StripeConfig> {
@@ -46,6 +57,38 @@ async function fetchStripeConfig(): Promise<StripeConfig> {
     }
 }
 
+async function fetchSMTPConfig(): Promise<SMTPConfig> {
+    const now = Date.now()
+
+    // Return cached config if still valid
+    if (cachedSMTPConfig && (now - smtpCacheTimestamp) < CACHE_TTL) {
+        return cachedSMTPConfig
+    }
+
+    try {
+        const response = await fetch(`${CRM_API_URL}/public-config/smtp/config`, {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' },
+            cache: 'no-store',
+        })
+
+        if (!response.ok) {
+            console.error('Failed to fetch SMTP config:', response.status)
+            return {}
+        }
+
+        const config = await response.json()
+        cachedSMTPConfig = config
+        smtpCacheTimestamp = now
+        console.log('Loaded SMTP config from CRM')
+
+        return config
+    } catch (error) {
+        console.error('Error fetching SMTP config from CRM:', error)
+        return {}
+    }
+}
+
 export async function getStripeSecretKey(): Promise<string> {
     const config = await fetchStripeConfig()
     const key = config.stripe_secret_key || process.env.STRIPE_SECRET_KEY
@@ -65,4 +108,18 @@ export async function getStripeWebhookSecret(): Promise<string> {
 export async function getStripePublishableKey(): Promise<string> {
     const config = await fetchStripeConfig()
     return config.stripe_publishable_key || process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || ''
+}
+
+export async function getSMTPConfig(): Promise<SMTPConfig> {
+    const config = await fetchSMTPConfig()
+
+    // Fallback to environment variables
+    return {
+        smtp_host: config.smtp_host || process.env.SMTP_HOST,
+        smtp_port: config.smtp_port || process.env.SMTP_PORT,
+        smtp_secure: config.smtp_secure || process.env.SMTP_SECURE,
+        smtp_user: config.smtp_user || process.env.SMTP_USER,
+        smtp_password: config.smtp_password || process.env.SMTP_PASSWORD,
+        smtp_from_email: config.smtp_from_email || process.env.SMTP_FROM_EMAIL,
+    }
 }

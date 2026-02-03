@@ -1,16 +1,20 @@
 import nodemailer from 'nodemailer'
+import { getSMTPConfig } from './system-config'
 
 // Configuração do transporter SMTP
-export function createTransporter() {
+export async function createTransporter() {
+  // Fetch SMTP config from CRM database
+  const config = await getSMTPConfig()
+
   // Remover espaços da senha (caso tenha)
-  const password = (process.env.SMTP_PASSWORD || '').replace(/\s/g, '')
-  
+  const password = (config.smtp_password || '').replace(/\s/g, '')
+
   const smtpConfig = {
-    host: process.env.SMTP_HOST || 'smtp.gmail.com',
-    port: parseInt(process.env.SMTP_PORT || '587'),
-    secure: process.env.SMTP_SECURE === 'true', // true para 465, false para outras portas
+    host: config.smtp_host || 'smtp.gmail.com',
+    port: parseInt(config.smtp_port || '587'),
+    secure: config.smtp_secure === 'true', // true para 465, false para outras portas
     auth: {
-      user: process.env.SMTP_USER || '',
+      user: config.smtp_user || '',
       pass: password, // App Password do Google Workspace (sem espaços)
     },
     // Timeout aumentado para evitar erros de conexão
@@ -24,7 +28,7 @@ export function createTransporter() {
   }
 
   if (!smtpConfig.auth.user || !smtpConfig.auth.pass) {
-    throw new Error('SMTP credentials not configured. Please set SMTP_USER and SMTP_PASSWORD environment variables.')
+    throw new Error('SMTP credentials not configured in CRM Settings. Please configure SMTP in the admin panel.')
   }
 
   // Validar que a senha não está vazia (removida validação de 16 caracteres para suportar Mailcow)
@@ -201,8 +205,9 @@ export async function sendEmail(options: {
   text: string
   replyTo?: string
 }) {
-  const transporter = createTransporter()
-  const fromEmail = process.env.SMTP_FROM_EMAIL || process.env.SMTP_USER || ''
+  const transporter = await createTransporter()
+  const smtpConfig = await getSMTPConfig()
+  const fromEmail = smtpConfig.smtp_from_email || smtpConfig.smtp_user || ''
 
   const mailOptions = {
     from: `"Innexar" <${fromEmail}>`,

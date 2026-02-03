@@ -32,12 +32,12 @@ function SuccessContent() {
             const fetchOrderDetails = async (retryCount = 0) => {
                 const MAX_RETRIES = 5
                 const RETRY_DELAY = 2000 // 2 seconds
-                
+
                 try {
                     console.log(`[Success Page] Fetching order details for session: ${sessionId} (attempt ${retryCount + 1}/${MAX_RETRIES + 1})`)
                     const response = await fetch(`/api/launch/session-order?session_id=${sessionId}`)
                     console.log(`[Success Page] Response status: ${response.status}`)
-                    
+
                     if (response.ok) {
                         const data = await response.json()
                         console.log(`[Success Page] Order details received:`, data)
@@ -47,7 +47,7 @@ function SuccessContent() {
                         if (!hasFiredPurchase.current) {
                             hasFiredPurchase.current = true
                             MetaPixel.purchase({
-                                value: data.total || 399,
+                                value: data.total || 199,
                                 currency: 'USD',
                                 content_ids: ['professional-website'],
                                 content_type: 'product',

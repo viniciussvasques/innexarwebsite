@@ -2076,212 +2076,39 @@
       }
     }
   },
-"promo": {
+  "promo": {
     "hero": {
-        "badge": "🔥 PROMOÇÃO FLASH - Terminando em Breve",
-        "title": "Seu Negócio Merece um Site Profissional",
-        "subtitle": "Fique Online em 5 Dias",
-        "description": "Junte-se a mais de 200 empresas locais que transformaram sua presença online com um site profissional que realmente converte visitantes em clientes.",
-        "price": "$399",
-        "originalPrice": "$899",
-        "savings": "Economize $500",
-        "urgency": "Apenas 3 vagas restantes esta semana",
-        "cta": "Quero Meu Site Agora",
-        "guarantee": "Garantia de 30 Dias",
-        "secure": "🔒 Pagamento Seguro SSL"
+      "headline": "Site profissional pronto em 48 horas — $199",
+      "subheadline": "Site de 3 páginas criado para seu negócio. Sem mensalidades.",
+      "cta": "Quero meu site agora",
+      "trust": "Checkout seguro • Sem taxas ocultas"
     },
-    "trust": {
-        "title": "Confiado por Mais de 200 Empresas",
-        "stat1": "200+",
-        "stat1Label": "Sites Criados",
-        "stat2": "4.9/5",
-        "stat2Label": "Avaliação",
-        "stat3": "5 Dias",
-        "stat3Label": "Entrega Rápida",
-        "stat4": "100%",
-        "stat4Label": "Satisfação"
+    "included": {
+      "title": "O que está incluído",
+      "item1": "3 páginas (Início, Sobre, Contato)",
+      "item2": "Design responsivo para mobile",
+      "item3": "Hospedagem incluída (3 meses)",
+      "item4": "Domínio incluído (até $15)",
+      "item5": "2 revisões incluídas",
+      "item6": "Entregue em 48 horas*",
+      "note": "* Entrega inicia após envio do formulário."
     },
-    "benefits": {
-        "title": "Por Que Escolher Nosso Pacote de $399",
-        "subtitle": "Tudo que seu negócio precisa para ter sucesso online",
-        "benefit1": {
-            "title": "Site Personalizado de 5 Páginas",
-            "desc": "Início, Sobre, Serviços, Depoimentos e Contato"
-        },
-        "benefit2": {
-            "title": "Logo Profissional GRÁTIS",
-            "desc": "Logo simples e moderno incluso (valor $150)"
-        },
-        "benefit3": {
-            "title": "Design Responsivo para Mobile",
-            "desc": "Perfeito em celulares, tablets e computadores"
-        },
-        "benefit4": {
-            "title": "Otimizado para SEO",
-            "desc": "Seja encontrado no Google com SEO integrado"
-        },
-        "benefit5": {
-            "title": "Formulários de Contato",
-            "desc": "Capture leads com formulários integrados"
-        },
-        "benefit6": {
-            "title": "3 Meses de Hospedagem GRÁTIS",
-            "desc": "Cuidamos da configuração + primeiros 3 meses (valor $99)"
-        },
-        "benefit7": {
-            "title": "Super Rápido",
-            "desc": "Menos de 2s de carregamento para mais conversões"
-        },
-        "benefit8": {
-            "title": "2 Rodadas de Revisão",
-            "desc": "Refinamos até você adorar"
-        },
-        "benefit9": {
-            "title": "Suporte por 30 Dias",
-            "desc": "Ajuda pós-lançamento incluída"
-        },
-        "totalValue": "Valor Total: $899",
-        "yourPrice": "Seu Preço Hoje: $399"
+    "howItWorks": {
+      "title": "Como funciona",
+      "step1": "Pague online com segurança",
+      "step2": "Preencha um formulário rápido",
+      "step3": "Receba seu site em 48 horas",
+      "subtitle": "Sem ligações. Sem reuniões. Sem complicação."
     },
-    "social": {
-        "title": "Resultados Reais de Empresas Reais",
-        "review1": {
-            "text": "Recebi 3x mais ligações na primeira semana. Melhor investimento de $399!",
-            "author": "Michael R.",
-            "business": "Rodriguez Encanamento",
-            "location": "Orlando, FL",
-            "rating": 5
-        },
-        "review2": {
-            "text": "Site profissional entregue em 4 dias. Meus clientes ficaram impressionados!",
-            "author": "Sarah J.",
-            "business": "Johnson Advocacia",
-            "location": "Dallas, TX",
-            "rating": 5
-        },
-        "review3": {
-            "text": "Finalmente um site que realmente converte. Recebendo leads todo dia agora!",
-            "author": "David C.",
-            "business": "Chen Odontologia",
-            "location": "Seattle, WA",
-            "rating": 5
-        },
-        "review4": {
-            "text": "O cadastro foi muito fácil. Criaram exatamente o que eu imaginei!",
-            "author": "Maria G.",
-            "business": "Garcia Paisagismo",
-            "location": "Phoenix, AZ",
-            "rating": 5
-        }
+    "guarantee": {
+      "title": "Não gostou da primeira versão?",
+      "subtitle": "Vamos revisar — ou devolvemos seu dinheiro."
     },
-    "comparison": {
-        "title": "Por Que Somos Diferentes",
-        "subtitle": "Veja como nos comparamos com outras opções",
-        "us": "Innexar",
-        "diy": "Criadores DIY",
-        "freelancer": "Freelancers",
-        "agency": "Agências",
-        "feature1": "Design Profissional",
-        "feature2": "Entrega em 5 Dias",
-        "feature3": "Logo Grátis Incluso",
-        "feature4": "Otimizado para SEO",
-        "feature5": "3 Meses Hospedagem Grátis",
-        "feature6": "Propriedade do Código",
-        "feature7": "Suporte Incluído",
-        "feature8": "Preço Fixo",
-        "yes": "✓",
-        "no": "✗",
-        "sometimes": "Às vezes",
-        "slow": "2-4 semanas",
-        "extra": "Custo extra",
-        "veryExpensive": "$2.000+"
-    },
-    "addons": {
-        "title": "Turbine Seu Pacote (Opcional)",
-        "subtitle": "Adicione estes recursos para potencializar seu site",
-        "logo": {
-            "name": "Design de Logo Premium",
-            "desc": "3 conceitos + guia de marca",
-            "price": "$99"
-        },
-        "seo": {
-            "name": "SEO Local Pro",
-            "desc": "Otimização local avançada",
-            "price": "$149"
-        },
-        "page": {
-            "name": "Página Extra",
-            "desc": "Blog, Galeria, FAQ, etc.",
-            "price": "$79"
-        },
-        "whatsapp": {
-            "name": "Widget WhatsApp",
-            "desc": "Integração de chat direto",
-            "price": "$49"
-        },
-        "gmb": {
-            "name": "Configuração Google Meu Negócio",
-            "desc": "Otimização completa do GMB",
-            "price": "$49"
-        }
-    },
-    "urgency": {
-        "title": "⏰ Oferta Por Tempo Limitado",
-        "subtitle": "Este preço especial termina em:",
-        "hours": "Horas",
-        "minutes": "Minutos",
-        "seconds": "Segundos",
-        "warning": "Após o timer, preço volta para $899",
-        "spots": "Apenas {count} vagas restantes esta semana"
-    },
-    "faq": {
-        "title": "Perguntas Frequentes",
-        "q1": "Qual é o truque? Por que tão barato?",
-        "a1": "Sem truques! Usamos um processo eficiente que nos permite entregar sites de qualidade a este preço. Além disso, 50% dos projetos são feitos com nossa plataforma assistida por IA.",
-        "q2": "Eu fico com o site para sempre?",
-        "a2": "SIM! Você é dono do código fonte e domínio. Após 3 meses de hospedagem grátis, você pode hospedar por conta própria ou continuar conosco por apenas $9.99/mês.",
-        "q3": "E se eu não gostar?",
-        "a3": "Oferecemos 2 rodadas de revisão e garantia de 30 dias. Se não ficar satisfeito, devolvemos seu dinheiro.",
-        "q4": "Quanto tempo realmente leva?",
-        "a4": "A maioria dos sites é entregue em 5 dias úteis após você completar o formulário de cadastro (leva 10 minutos).",
-        "q5": "Vocês ajudam com o domínio?",
-        "a5": "Sim! Podemos ajudar a comprar um domínio ou conectar seu domínio existente sem custo adicional."
-    },
-    "cta": {
-        "final": {
-            "title": "Pronto Para Crescer Seu Negócio Online?",
-            "subtitle": "Junte-se a mais de 200 empresários satisfeitos que escolheram a Innexar",
-            "price": "$399",
-            "originalPrice": "$899",
-            "button": "Começar Agora - Pagamento Seguro",
-            "guarantee": "Garantia de 30 Dias",
-            "secure": "Pagamento seguro com Stripe",
-            "benefits": [
-                "✓ Site personalizado de 5 páginas",
-                "✓ Logo profissional grátis",
-                "✓ 3 meses hospedagem grátis",
-                "✓ Otimizado para SEO",
-                "✓ Design responsivo",
-                "✓ Suporte por 30 dias"
-            ]
-        }
-    },
-    "sticky": {
-        "price": "$399",
-        "was": "era $899",
-        "cta": "Começar Agora"
-    },
-    "exitIntent": {
-        "title": "Espere! Não Perca Esta Chance",
-        "subtitle": "Ganhe MAIS $50 de Desconto",
-        "newPrice": "$349",
-        "originalPrice": "$899",
-        "code": "Use o código: SAVE50",
-        "expires": "Esta oferta expira em 10 minutos",
-        "cta": "Garantir Meu Desconto",
-        "close": "Não, obrigado. Vou pagar o preço cheio"
+    "finalCta": {
+      "button": "Quero meu site agora — $199",
+      "subtitle": "Oferta limitada de lançamento"
     }
-},
+  },
   "dashboard": {
     "header": {
       "logout": "Sair"
